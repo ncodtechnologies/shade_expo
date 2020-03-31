@@ -20,7 +20,7 @@ class App extends Component {
               <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/first"} className="nav-link">First</Link>
+              <Link to={"/"} className="nav-link">First</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/second"} className="nav-link">Second</Link>

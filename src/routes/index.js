@@ -4,7 +4,7 @@ import First from '../pages/first';
 import Second from '../pages/second';
 import Table from '../pages/table';
 import Form from '../pages/form';
-import Consign from '../pages/consign';
+import RoughInvoiceCreate from '../pages/roughInvCreate';
 
 export default function Routes() {
   return (
@@ -13,7 +13,7 @@ export default function Routes() {
       <Route path="/second" component={Second} />
       <Route path="/table" component={Table} />
       <Route path="/form" component={Form} />
-      <Route path="/consign" component={Consign} />
+      <Route path="/roughInvoiceCreate" component={RoughInvoiceCreate} />
     </Switch>
   );
 }

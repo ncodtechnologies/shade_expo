@@ -25,6 +25,15 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/second"} className="nav-link">Second</Link>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/table"} className="nav-link">Table</Link>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/table"} className="nav-link">Form</Link>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/consign"} className="nav-link">Consign</Link>
+            </li>
           </ul>
       
         </nav>
@@ -64,6 +73,30 @@ class App extends Component {
                     </p>
                   </NavLink>
                 </li>
+                <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/table"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                      Table
+                    </p>
+                  </NavLink>
+                </li> <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/form"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                      Form
+                    </p>
+                  </NavLink>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/consign"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                      Consign
+                    </p>
+                  </NavLink>
+                </li>
+              
               </ul>
             </nav>
           </div>

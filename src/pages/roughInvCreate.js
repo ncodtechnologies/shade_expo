@@ -5,19 +5,20 @@ import DatePicker from 'react-date-picker';
 class App extends Component {
 
   state = {
-    data: [],
-    kg:'',
-    box:'',
-    total:'',
     title: 'Table',
     date: new Date(),
     arrItems: [
       { Id_item:1, Items: 'Item 1' },
       { Id_item:2, Items: 'Item 2' },
       { Id_item:3, Items: 'Item 3' },
+    ],
+    
+    invItems: [
+      { id_item:1, kg : 10, box: 100 },
+      { id_item:2, kg : 10, box: 100 },
+      { id_item:3, kg : 10, box: 100 },
     ]
   }
-
 
   onChange = date => this.setState({ date })
 
@@ -47,7 +48,7 @@ handleChangeBox = async function(e) {
   }
 
   calcGrandTotal(){
-    //for(var i=0; i<)
+    
   }
 
   componentDidMount() {
@@ -57,8 +58,24 @@ handleChangeBox = async function(e) {
   componentWillMount() {
 
   }
-
+  
   render() {
+
+    const tableRows = this.state.invItems.map((invItem) =>
+      <tableRow items={invItem} />
+    );
+    
+    const tableRow = (props) => (
+      <tr>
+        <td>
+          
+        </td>
+            
+        <td><input type="text" class="form-control" value={this.state.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
+        <td><input type="text" class="form-control"  value={this.state.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
+        <td>{this.state.total}</td>
+      </tr>
+    );
 
     return (
       <div class="wrapper" >
@@ -154,27 +171,9 @@ handleChangeBox = async function(e) {
                           </tr>
                         </thead>
                         <tbody>
-
-                          <tr>
-                            <td><select class="form-control">
-                               {this.state.arrItems.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
-                                </select>
-                            </td>
-                                
-                            <td><input type="text" class="form-control" value={this.state.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
-                            <td><input type="text" class="form-control"  value={this.state.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
-                            <td>{this.state.total}</td>
-                          </tr>
-                          <tr>
-                            <td><select class="form-control">
-                               {this.state.arrItems.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
-                                </select>
-                            </td>
-                                
-                            <td><input type="text" class="form-control" value={this.state.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
-                            <td><input type="text" class="form-control"  value={this.state.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
-                            <td>{this.state.total}</td>
-                          </tr>
+                          {
+                            tableRows
+                          }
                         </tbody>
                         <tfoot>
                           <td></td>

@@ -20,7 +20,7 @@ class App extends Component {
               <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/first"} className="nav-link">First</Link>
+              <Link to={"/"} className="nav-link">First</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/second"} className="nav-link">Second</Link>
@@ -32,7 +32,7 @@ class App extends Component {
               <Link to={"/table"} className="nav-link">Form</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/consign"} className="nav-link">Consign</Link>
+              <Link to={"/roughInvoiceCreate"} className="nav-link">Create Rough Invoice</Link>
             </li>
           </ul>
       
@@ -89,10 +89,10 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/consign"} activeClassName="active" className="nav-link">
+                  <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
-                      Consign
+                     Create Rough Invoice
                     </p>
                   </NavLink>
                 </li>

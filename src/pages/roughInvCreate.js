@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
+import TableRow from "@material-ui/core/TableRow";
 
 class App extends Component {
 
@@ -62,10 +63,10 @@ handleChangeBox = async function(e) {
   render() {
 
     const tableRows = this.state.invItems.map((invItem) =>
-      <tableRow items={invItem} />
+      <TableRow items={invItem} />
     );
     
-    const tableRow = (props) => (
+    const TableRow = (props) => (
       <tr>
         <td>
           
@@ -171,16 +172,8 @@ handleChangeBox = async function(e) {
                           </tr>
                         </thead>
                         <tbody>
-                          {
-                            tableRows
-                          }
+                          {tableRows}
                         </tbody>
-                        <tfoot>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td>Hi</td>
-                        </tfoot>
                       </table>
 
                     </div>

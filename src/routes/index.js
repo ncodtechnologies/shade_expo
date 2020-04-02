@@ -5,6 +5,7 @@ import Second from '../pages/second';
 import Table from '../pages/table';
 import Form from '../pages/form';
 import RoughInvoiceCreate from '../pages/roughInvCreate';
+import Invoice from '../pages/invoice';
 
 export default function Routes() {
   return (
@@ -14,6 +15,7 @@ export default function Routes() {
       <Route path="/table" component={Table} />
       <Route path="/form" component={Form} />
       <Route path="/roughInvoiceCreate" component={RoughInvoiceCreate} />
+      <Route path="/invoice" component={Invoice} />
     </Switch>
   );
 }

@@ -34,6 +34,9 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/roughInvoiceCreate"} className="nav-link">Create Rough Invoice</Link>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/invoice"} className="nav-link">Invoice</Link>
+            </li>
           </ul>
       
         </nav>
@@ -93,6 +96,14 @@ class App extends Component {
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                      Create Rough Invoice
+                    </p>
+                  </NavLink>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/invoice"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                     Invoice
                     </p>
                   </NavLink>
                 </li>

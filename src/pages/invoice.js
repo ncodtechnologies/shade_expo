@@ -322,39 +322,6 @@ class App extends Component {
 
             </div>
           </div>
-          <section class="content">
-            <div class="container-fluid">
-              <div class="card card-default">
-
-                <div class="card-body">
-                  <div class="row">
-
-
-                  </div>
-
-                  <h6>TOTAL AMOUNT IN RUPEES - FORTEEN THOUSAND REPEES ONLY</h6>
-                  <div class="row">
-                    <div class="col-12 col-sm-6">
-
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="form-group">
-
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="card-footer">
-
-                </div>
-              </div>
-            </div>
-          </section>
 
         </div>
 

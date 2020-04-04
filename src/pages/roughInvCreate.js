@@ -17,10 +17,6 @@ class App extends Component {
         { Id_item:3, Items: 'Item 3' },
       ],
       invItems: [
-        { id_item:1, kg : 10, box: 100 },
-        { id_item:2, kg : 20, box: 200 },
-        { id_item:3, kg : 30, box: 300 },
-        { id_item:0, kg : "", box: "" },
       ]
     }
   }
@@ -60,6 +56,19 @@ class App extends Component {
   delRow = (rowIndex) =>  {
     let _invItems = this.state.invItems;
     _invItems.splice(rowIndex, 1);
+    this.setState({
+      invItems: _invItems
+    })
+  }
+
+  addRow = (e) =>  {
+    let _invItems = this.state.invItems;
+    let row = {
+      id_item : e.target.value,
+      kg : "",
+      box : ""
+    }
+    _invItems.push(row);
     this.setState({
       invItems: _invItems
     })
@@ -178,6 +187,7 @@ class App extends Component {
                         </thead>
                         <tbody>
                           { tableRows }
+                          <EmptyRow products={this.state.products} addRow={this.addRow} />
                         </tbody>
                         <tfoot>
                           <td></td>
@@ -201,7 +211,7 @@ class App extends Component {
   }
 }
 
-class TableRow extends React.Component {
+class TableRow extends Component {
 
 	handleChangeKg = (e) => {
     this.props.handleChangeKg(e, this.props.rowIndex);
@@ -235,6 +245,29 @@ class TableRow extends React.Component {
         <td>
             <button type="button"  onClick={this.delRow}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
+      </tr>
+    );
+	}
+}
+
+class EmptyRow extends Component {
+
+	addRow = (e) => {
+    this.props.addRow(e);
+  }
+  
+	render() {
+		return (
+      <tr>
+        <td>
+          <select class="form-control"  onChange={(e) => this.addRow(e)} value={0} >
+            {this.props.products.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
+          </select>
+        </td>
+        <td><input type="text" class="form-control" /></td>
+        <td><input type="text" class="form-control" /></td>
+        <td align="right" ></td>
+        <td></td>
       </tr>
     );
 	}

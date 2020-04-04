@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
-class App extends Component {
+class Invoice extends Component {
 
   constructor(props) {
     super(props);
@@ -88,19 +88,8 @@ class App extends Component {
     const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
 
     return (
-      <div class="wrapper" >
-        <Nav />
-        <div class="content-wrapper">
+        <div >
 
-          <section class="content-header">
-            <div class="container-fluid">
-              <div class="row mb-2">
-                <div class="col-sm-12">
-                  <h1>Invoice</h1>
-                </div>
-              </div>
-            </div>
-          </section>
           <section class="content">
             <div class="container-fluid">
 
@@ -114,10 +103,17 @@ class App extends Component {
 
                     <div class="card-body">
                       <form role="form">
+                      
                         <div class="row">
-                          <div class="col-sm-12">
+                          <div class="col-sm-6">
                             <div class="form-group">
-                              <label>Date</label>
+                              <label>Invoice No</label>
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label>Invoice Date</label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
@@ -129,10 +125,6 @@ class App extends Component {
                                   format={"dd/MM/yyyy"}
                                 />
                               </div>
-                            </div>
-                            <div class="form-group">
-                              <label>Invoice No</label>
-                              <input type="text" class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -187,6 +179,10 @@ class App extends Component {
                             <div class="form-group">
                               <label>Terms of delivery and payment</label>
                               <textarea type="text" class="form-control" rows={2.8} />
+                            </div>
+                            <div class="form-group">
+                              <label>AWB No.</label>
+                              <input type="text" class="form-control" />
                             </div>
 
                           </div>
@@ -275,8 +271,6 @@ class App extends Component {
                           </div>
                         </div>
                       </div>
-
-
                     </form>
                   </div>
 
@@ -290,16 +284,13 @@ class App extends Component {
               <div class="row">
                 <div class="col-lg-12">
                   <div class="card card-info">
-                    <div class="card-header">
-                      <h3 class="card-title">Invoice</h3>
-                    </div>
                     <div class="card-body p-0">
                       <table class="table">
                         <thead>
                           <tr>
                             <th>Description of goods</th>
-                            <th style={{ width: '10%' }}>Quantity</th>
-                            <th style={{ width: '10%' }}>Box</th>
+                            <th style={{ width: '10%' }}>Kg</th>
+                            <th style={{ width: '10%' }}>Amount</th>
                             <th style={{ width: '10%' }}>Total</th>
                             <th style={{ width: '10%' }}></th>
                           </tr>
@@ -308,11 +299,11 @@ class App extends Component {
                           {tableRows}
                         </tbody>
                         <tfoot>
-                          <td>Total</td>
-                          <td>{kgTotal}</td>
-                          <td>{boxTotal}</td>
-                          <td align="right" >{grandTotal}</td>
-                          <td></td>
+                          <th>Total</th>
+                          <th>{kgTotal}</th>
+                          <th>{boxTotal}</th>
+                          <th align="right" >{grandTotal}</th>
+                          <th></th>
                         </tfoot>
                       </table>
                     </div>
@@ -322,48 +313,13 @@ class App extends Component {
 
             </div>
           </div>
-          <section class="content">
-            <div class="container-fluid">
-              <div class="card card-default">
-
-                <div class="card-body">
-                  <div class="row">
-
-
-                  </div>
-
-                  <h6>TOTAL AMOUNT IN RUPEES - FORTEEN THOUSAND REPEES ONLY</h6>
-                  <div class="row">
-                    <div class="col-12 col-sm-6">
-
-                    </div>
-                    <div class="col-12 col-sm-6">
-                      <div class="form-group">
-
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="card-footer">
-
-                </div>
-              </div>
-            </div>
-          </section>
 
         </div>
-
-      </div>
     );
   }
 }
 
-class TableRow extends React.Component {
+class TableRow extends Component {
 
   handleChangeKg = (e) => {
     this.props.handleChangeKg(e, this.props.rowIndex);
@@ -398,6 +354,93 @@ class TableRow extends React.Component {
           <button type="button" onClick={this.delRow} class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
+    );
+  }
+}
+
+class App extends Component {
+  
+	render() {
+		return (
+      <div class="wrapper" >
+        <Nav />
+        <div class="content-wrapper">
+
+      <div class="col-md-12">
+            <div class="card card-primary card-outline card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                  <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                     <Invoice />
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                     <Documents />
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                     <Expenses />
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
+                     <NetReport />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+    );
+  }
+}
+
+class Documents extends Component {
+
+	render() {
+		return (
+      <div >
+      <section class="content">
+        <div class="container-fluid">
+         Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
+        </div>
+      </section>
+      </div>
+    );
+  }
+}
+
+class Expenses extends Component {
+
+	render() {
+		return (
+      <div >
+         Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
+      </div>
+    );
+  }
+}
+
+class NetReport extends Component {
+
+	render() {
+		return (
+      <div >
+         Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
+      </div>
     );
   }
 }

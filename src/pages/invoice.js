@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
+import Expenses from './expense'
 
 class Invoice extends Component {
 
@@ -408,22 +409,8 @@ class App extends Component {
   }
 }
 
+
 class Documents extends Component {
-
-	render() {
-		return (
-      <div >
-      <section class="content">
-        <div class="container-fluid">
-         Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
-        </div>
-      </section>
-      </div>
-    );
-  }
-}
-
-class Expenses extends Component {
 
 	render() {
 		return (

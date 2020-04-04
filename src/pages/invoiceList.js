@@ -19,18 +19,7 @@ class App extends Component {
     }
   }
 
-  onDateChange = date => this.setState({ date })
-
- 
-
-  delRow = (rowIndex) => {
-    let _invItems = this.state.invItems;
-    _invItems.splice(rowIndex, 1);
-    this.setState({
-      invItems: _invItems
-    })
-  }
-
+  
   render() {
     const tableRows = this.state.invItems.map((invItem, index) =>
       <TableRow      
@@ -39,10 +28,6 @@ class App extends Component {
        
       />
     );
-
-    const grandTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg * b.box), 0);
-    const boxTotal = this.state.invItems.reduce((a, b) => +a + +(b.box), 0);
-    const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
 
     return (
       <div class="wrapper" >
@@ -62,18 +47,25 @@ class App extends Component {
             <div class="container-fluid">
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="card card-info">
-                    <div class="card-header">
-                      <h3 class="card-title">Invoice</h3>
+                  <div class="card card-default">
+                  <div class="card-header border-0">
+                    <h3 class="card-title">Invoice</h3>
+                    <div class="card-tools">
+                      <a href="./invoice" class="btn btn-tool btn-sm">
+                      <button type="submit" class="btn btn-primary">Create</button>
+                      
+                      </a>
                     </div>
+                  </div>
+                   
                     <div class="card-body p-0">
                       <table class="table">
                         <thead>
                           <tr>
-                            <th style={{ width: '20%' }}>No</th>
-                            <th style={{ width: '30%' }}>Date</th>
-                            <th>Consignee</th>
-                            <th></th>
+                            <th style={{ width: '10%' }}>No</th>
+                            <th style={{ width: '25%' }}>Date</th>
+                            <th style={{ width: '55%' }}>Consignee</th>
+                            <th style={{ width: '15%' }}></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -116,7 +108,11 @@ class TableRow extends React.Component {
         <td>{invItem.Date}</td>
         <td>{invItem.Consignee}</td>
         <td>
-          <button type="button" onClick={this.editRow} class="btn btn-success"><i class="fas fa-edit"></i></button>
+          <a href="./invoice" class="btn btn-tool btn-sm">
+            <button type="button" onClick={this.editRow} class="btn btn-success">
+               <i class="fas fa-edit"></i>
+            </button>
+          </a>
         </td>
       </tr>
     );

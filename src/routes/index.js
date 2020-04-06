@@ -5,7 +5,7 @@ import Second from '../pages/second';
 import Table from '../pages/table';
 import Form from '../pages/form';
 import RoughInvoiceCreate from '../pages/roughInvCreate';
-import Invoice from '../pages/invoice';
+import Invoice from '../pages/invoice/';
 import InvoiceList from '../pages/invoiceList';
 
 export default function Routes() {

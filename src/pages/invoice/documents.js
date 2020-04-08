@@ -29,6 +29,15 @@ class Documents extends Component{
         this.setState({remark:event.target.value})
     }
 
+    delRow = (rowIndex) => {
+      let _arrTable = this.state.arrTable;
+      _arrTable.splice(rowIndex, 1);
+      this.setState({
+        arrTable: _arrTable
+      })
+    }
+  
+
     onAddClick(e){
         e.preventDefault();
         let data_=this.state.arrTable;
@@ -47,7 +56,7 @@ class Documents extends Component{
  
     render(){
        
-        const tableRows =this.state.arrTable.map((tbl) => 
+        const tableRows =this.state.arrTable.map((tbl, index) => 
          <TableRow 
          tbl={tbl}
          arrDocs={this.state.arrDocs}

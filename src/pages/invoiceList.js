@@ -95,6 +95,10 @@ class App extends Component {
 }
 
 class TableRow extends React.Component {
+  
+  delRow = () => {
+    this.props.delRow(this.props.rowIndex);
+  }
 
 
   editRow = () => {

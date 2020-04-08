@@ -88,17 +88,17 @@ class Documents extends Component{
                               </button>                     
                           </th>
                           <th>
-                            <button type="button"  class="btn btn-success" onClick={(e) => this.onAddClick(e)}>
+                            <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={(e) => this.onAddClick(e)}>
                               <i class="fas fa-plus"></i>
                             </button>
 
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '25%' }}>Documents</th>
+                          <th style={{ width: '30%' }}>Documents</th>
                           <th style={{ width: '15%' }}>Remarks</th>
                           <th></th>
-                          <th></th>
+                          <th style={{ width: '10%' }} ></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -136,15 +136,12 @@ class TableRow extends Component{
             <tr>
                 <td>{doc(tbl.id_doc)} </td>
                 <td>{tbl.remark}</td>
+                <td></td>
                 <td>
-                    <button type="button" onClick={this.delRow} class="btn btn-success">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </td>
-                <td>
-                    <button type="button" onClick={this.delRow} class="btn btn-success">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-success"><i class="fas fa-download"></i></button>
+                        <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+                      </div>
                 </td>
 
             </tr>

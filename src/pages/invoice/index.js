@@ -354,7 +354,7 @@ class TableRow extends Component {
         <td><input type="text" class="form-control" value={invItem.box} onChange={(e) => this.handleChangeBox(e)} /></td>
         <td align="right" >{total}</td>
         <td>
-          <button type="button" onClick={this.delRow} class="btn btn-success"><i class="fas fa-trash"></i></button>
+          <button type="button" onClick={this.delRow} class="btn btn-block btn-outline-danger btn-flat"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     );

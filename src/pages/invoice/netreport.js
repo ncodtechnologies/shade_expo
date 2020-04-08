@@ -13,49 +13,41 @@ class NetReport extends Component {
           <div class="container-fluid">
             <div class="row">
             <div class="col-6">
-                  <p class="lead">Amount Due 2/22/2014</p>
+                  <p class="lead">Sales</p>
 
                   <div class="table-responsive">
                     <table class="table">
                       <tbody><tr>
-                        <th style={{width:"50%"}} >Subtotal:</th>
-                        <td>$250.30</td>
+                        <th style={{width:"50%"}} >Sales Total:</th>
+                        <td>$250</td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Total</th>
+                        <td>$250</td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
-                      </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>$265.24</td>
+                        <th>Total (In Rupees):</th>
+                        <td>Rs.17,500</td>
                       </tr>
                     </tbody></table>
                   </div>
                 </div>
             <div class="col-6">
-                  <p class="lead">Amount Due 2/22/2014</p>
+                  <p class="lead">Expenses</p>
 
                   <div class="table-responsive">
                     <table class="table">
                       <tbody><tr>
-                        <th style={{width:"50%"}} >Subtotal:</th>
-                        <td>$250.30</td>
+                        <th style={{width:"50%"}} >Freight Expenses:</th>
+                        <td>Rs.5,000</td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Other Expenses</th>
+                        <td>Rs.3,000</td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
-                      </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>$265.24</td>
+                        <th>Total</th>
+                        <td>Rs.10,000</td>
                       </tr>
                     </tbody></table>
                   </div>

@@ -99,8 +99,8 @@ class Expense extends Component {
                             <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
                           </th>
                           <th>
-                            <button type="button" onClick={(e) => this.onAddClick(e)} class="btn btn-success">
-                              <i class="fas fa-del"></i>
+                            <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={(e) => this.onAddClick(e)}>
+                              <i class="fas fa-plus"></i>
                             </button>
 
                           </th>
@@ -145,20 +145,22 @@ class TableRow extends React.Component {
 
   render() {
     let arrExpense = this.props.arrExpense;
+    
     let ledger = (id_account_head) => {
       return this.props.arrLedger.filter(function (el) {
         return el.id_account_head == id_account_head;
       })[0].account_head;
     }
+
     return (
       <tr>
         <td>{arrExpense.date}</td>
         <td>{ledger(arrExpense.id_account_head)}</td>
         <td>{arrExpense.amount}</td>
         <td>
-          <button type="button" onClick={this.delRow} class="btn btn-success">
-            <i class="fas fa-trash"></i>
-          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+          </div>
         </td>
       </tr>
     );

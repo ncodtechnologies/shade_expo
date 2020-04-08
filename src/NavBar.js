@@ -20,28 +20,12 @@ class App extends Component {
               <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/"} className="nav-link">First</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/second"} className="nav-link">Second</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/table"} className="nav-link">Table</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/table"} className="nav-link">Form</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/roughInvoiceCreate"} className="nav-link">Create Rough Invoice</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/invoice"} className="nav-link">Invoice</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/invoiceList"} className="nav-link">InvoiceList</Link>
+              <Link to={"/invoiceList"} className="nav-link">Invoices</Link>
             </li>
           </ul>
-      
         </nav>
       
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -64,57 +48,18 @@ class App extends Component {
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/first"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                      First
-                    </p>
-                  </NavLink>
-                </li>
-                <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/second"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                      Second
-                    </p>
-                  </NavLink>
-                </li>
-                <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/table"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                      Table
-                    </p>
-                  </NavLink>
-                </li> <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/form"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                      Form
-                    </p>
-                  </NavLink>
-                </li>
-                <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="nav-icon fas fa-receipt"></i>
                     <p>
                      Create Rough Invoice
                     </p>
                   </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/invoice"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                     Invoice
-                    </p>
-                  </NavLink>
-                </li>
-                <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/invoiceList"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
-                     InvoiceList
+                     Invoices
                     </p>
                   </NavLink>
                 </li>

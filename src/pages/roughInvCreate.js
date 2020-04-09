@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
+const API = 'http://ncod.in/shade_expo/users/';
+const DEFAULT_QUERY = 'redux';
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     
     this.state = {
+      data:null,
+      hits: [],
       title: 'Table',
       date: new Date(),
       products: [
@@ -19,6 +24,12 @@ class App extends Component {
       invItems: [
       ]
     }
+  }
+  componentDidMount() {
+    fetch(API)
+    .then(response => response.json())
+    .then(data => this.setState({ hits: data }));
+    console.log()
   }
 
   onDateChange = date => this.setState({ date })
@@ -75,6 +86,7 @@ class App extends Component {
   }
 
   render() {
+    const { hits } = this.state;
     const tableRows = this.state.invItems.map((invItem,index) =>
       <TableRow 
         handleChangeKg={this.handleChangeKg}
@@ -116,6 +128,13 @@ class App extends Component {
                     </div>
                     <div class="card-body">
                       <form >
+                      <ul>
+        {hits.map(hit =>
+          <li key={hit.id_product}>
+            <a href={hit.id_product}>{hit.name}</a>
+          </li>
+        )}
+      </ul>
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
@@ -178,7 +197,7 @@ class App extends Component {
                       <table class="table">
                         <thead>
                           <tr>
-                            <th>Item</th>
+                            <th>Product</th>
                             <th style={{ width: '10%' }}>Kg</th>
                             <th style={{ width: '10%' }}>Box</th>
                             <th style={{ width: '10%' }}>Total</th>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
-const API = '/users/invoiceList';
+const API = '/users/invoice';
 
 class App extends Component {
 
@@ -136,9 +136,9 @@ class TableRow extends React.Component {
     let invItem = this.props.invItem;
     return (
       <tr>
-        <td>{invItem.invoice_no}</td>
-        <td>{invItem.date}</td>
-        <td>{invItem.consignee}</td>
+        <td>{invItem.No}</td>
+        <td>{invItem.Date}</td>
+        <td>{invItem.Consignee}</td>
         <td>{this.getStatus(invItem.status)}</td>
         <td>
           <div class="btn-group">

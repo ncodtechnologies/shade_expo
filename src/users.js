@@ -3,23 +3,12 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
 
-  db.query('select narration, sale from tbldevice_sale limit 10', function (err, rows, fields) {
+  db.query('select * from product', function (err, rows, fields) {
     if (err) throw err
 
-    return res.send(rows); 
+     res.send(rows); 
   })
 
 });
-
-router.get('/narration', function(req, res, next) {
-
-  db.query('select narration from tbldevice_sale limit 10', function (err, rows, fields) {
-    if (err) throw err
-
-    return res.send(rows); 
-  })
-
-});
-
 
 module.exports = router;

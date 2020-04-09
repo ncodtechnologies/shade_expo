@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 
+const API = '/users/account_head';
+
 class Expense extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data:null,
       date: new Date(),
       amount: '',
       ledger: '',
-      arrLedger: [
-        { account_head: '--Sekect--', id_account_head: '0' },
-        { account_head: 'ACC1', id_account_head: '1' },
-        { account_head: 'ACC2', id_account_head: '2' },
-        { account_head: 'ACC3', id_account_head: '3' },
-      ],
+      arrLedger: [],
       arrExpenses: [
       ]
     }
+
+    
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onAddClick = this.onAddClick.bind(this);
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onLedgerConDateChangehange = this.onDateChange.bind(this);
   }
+
+  
+  componentDidMount() {
+    fetch(API)
+    .then(response => response.json())
+    .then(data => this.setState({ arrLedger: data }));
+    //console.log(data)
+  }
+
 
   onDateChange = date => this.setState({ date })
 

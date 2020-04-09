@@ -5,6 +5,9 @@ import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
 
+const API = '/users/';
+const DEFAULT_QUERY = 'redux';
+
 class Invoice extends Component {
 
   constructor(props) {
@@ -12,18 +15,14 @@ class Invoice extends Component {
 
     this.state = {
       title: 'Table',
+      data:null,
       date: new Date(),
-      products: [
-        { Id_item: 0, Items: '--Select--' },
-        { Id_item: 1, Items: 'Item 1' },
-        { Id_item: 2, Items: 'Item 2' },
-        { Id_item: 3, Items: 'Item 3' },
-      ],
+      products: [],
       invItems: [
-        { id_item: 1, kg: 10, box: 100 },
-        { id_item: 2, kg: 20, box: 200 },
-        { id_item: 3, kg: 30, box: 300 },
-        { id_item: 0, kg: "", box: "" },
+        { id_product: 1, kg: 10, box: 100 },
+        { id_product: 2, kg: 20, box: 200 },
+        { id_product: 3, kg: 30, box: 300 },
+        { id_product: 0, kg: "", box: "" },
       ],
       places: [
         { Id_place: 0, Place: '--Select--' },
@@ -32,6 +31,13 @@ class Invoice extends Component {
         { Id_place: 3, Place: 'US' },
       ],
     }
+  }
+  
+  componentDidMount() {
+    fetch(API)
+    .then(response => response.json())
+    .then(data => this.setState({ products: data }));
+    //console.log(data)
   }
 
   onDateChange = date => this.setState({ date })
@@ -59,7 +65,7 @@ class Invoice extends Component {
   handleChangeProduct = (e, rowIndex) => {
     let _invItems = this.state.invItems;
     let _row = _invItems[rowIndex];
-    _row.id_item = e.target.value;
+    _row.id_product = e.target.value;
     _invItems[rowIndex] = _row;
     this.setState({
       invItems: _invItems
@@ -343,11 +349,12 @@ class TableRow extends Component {
   render() {
     let invItem = this.props.invItem;
     let total = invItem.kg * invItem.box;
+    let products=this.props.products;
     return (
       <tr>
         <td>
-          <select class="form-control" onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_item} >
-            {this.props.products.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
+          <select class="form-control" onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_product} >
+            {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
           </select>
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>

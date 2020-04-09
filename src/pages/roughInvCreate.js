@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
-const API = 'http://ncod.in/shade_expo/users/';
+const API = '/users/';
 const DEFAULT_QUERY = 'redux';
 
 class App extends Component {
@@ -12,15 +12,9 @@ class App extends Component {
     
     this.state = {
       data:null,
-      hits: [],
       title: 'Table',
       date: new Date(),
-      products: [
-        { Id_item:0, Items: '--Select--' },
-        { Id_item:1, Items: 'Item 1' },
-        { Id_item:2, Items: 'Item 2' },
-        { Id_item:3, Items: 'Item 3' },
-      ],
+      products: [],
       invItems: [
       ]
     }
@@ -28,8 +22,8 @@ class App extends Component {
   componentDidMount() {
     fetch(API)
     .then(response => response.json())
-    .then(data => this.setState({ hits: data }));
-    console.log()
+    .then(data => this.setState({ products: data }));
+    //console.log(data)
   }
 
   onDateChange = date => this.setState({ date })
@@ -57,7 +51,7 @@ class App extends Component {
   handleChangeProduct = (e, rowIndex) =>  {
     let _invItems = this.state.invItems;
     let _row = _invItems[rowIndex];
-    _row.id_item = e.target.value;
+    _row.id_product = e.target.value;
     _invItems[rowIndex] = _row;
     this.setState({
       invItems: _invItems
@@ -86,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const { hits } = this.state;
+    const { products } = this.state;
     const tableRows = this.state.invItems.map((invItem,index) =>
       <TableRow 
         handleChangeKg={this.handleChangeKg}
@@ -94,7 +88,8 @@ class App extends Component {
         handleChangeProduct={this.handleChangeProduct} 
         delRow={this.delRow} 
         invItem={invItem} rowIndex={index} 
-        products={this.state.products}
+        products={products}
+       
         />
   );
 
@@ -128,13 +123,6 @@ class App extends Component {
                     </div>
                     <div class="card-body">
                       <form >
-                      <ul>
-        {hits.map(hit =>
-          <li key={hit.id_product}>
-            <a href={hit.id_product}>{hit.name}</a>
-          </li>
-        )}
-      </ul>
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
@@ -158,7 +146,7 @@ class App extends Component {
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <label>Part of loading</label>
+                              <label>Port of loading</label>
                               <select class="form-control">
                                 <option>Cochin</option>
                                 <option>Calicut</option>
@@ -225,6 +213,7 @@ class App extends Component {
           </div>
         </div>
 
+       
       </div>
     );
   }
@@ -251,12 +240,14 @@ class TableRow extends Component {
 	render() {
     let invItem = this.props.invItem;
     let total = invItem.kg * invItem.box;
+    let products=this.props.products;
 		return (
       <tr>
         <td>
-          <select class="form-control"  onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_item} >
-            {this.props.products.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
+          <select class="form-control"  onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_product} >
+            {products.map((column) => <option value={column.id_product}>{column.name}</option>)}
           </select>
+                    
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
         <td><input type="text" class="form-control"  value={invItem.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
@@ -280,13 +271,13 @@ class EmptyRow extends Component {
       <tr>
         <td>
           <select class="form-control"  onChange={(e) => this.addRow(e)} value={0} >
-            {this.props.products.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
+            {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
           </select>
         </td>
         <td><input type="text" class="form-control" /></td>
         <td><input type="text" class="form-control" /></td>
         <td align="right" ></td>
-        <td></td>
+        <td> </td>
       </tr>
     );
 	}

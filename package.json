@@ -1,7 +1,9 @@
 {
   "name": "react",
   "version": "1.0.0",
-  "private": true,
+  "private": true,  
+  "proxy" :"http://localhost:8080",
+  
   "dependencies": {
     "history": "^4.10.1",
     "jquery": "^3.4.1",
@@ -29,4 +31,5 @@
     "not ie <= 11",
     "not op_mini all"
   ]
+
 }

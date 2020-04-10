@@ -4,9 +4,9 @@ import DatePicker from 'react-date-picker';
 import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
+import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
 
 const API = '/users/';
-const APIInvoice = '/users/invoice/1';
 
 class Invoice extends Component {
 
@@ -55,11 +55,18 @@ class Invoice extends Component {
   }
   
   componentDidMount() {
+    this.loadProducts();
+    this.loadInvoiceDt();
+  }
+
+  loadProducts = () => {
     fetch(API)
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
-    //console.log(data)
-    fetch(APIInvoice)
+  }
+  
+  loadInvoiceDt = () => {
+    fetch(URL_INVOICE_DT + "/1")
     .then(response => response.json())
     .then(data => this.setState(
               { invoice_no       : data[0].invoice_no ,
@@ -85,6 +92,21 @@ class Invoice extends Component {
               }
     ));
   }
+
+
+  saveInvoice = () => {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+                  invoice_no : this.state.invoice_no,
+                  order_no   : this.state.order_no 
+                })
+    };
+    fetch(URL_INVOICE_SAVE, requestOptions)
+        .then(response => response.json());
+  }
+  
   //onDateChange = date => this.setState({ date })
   //form onChangeFunctions
   handleChangeInvoiceNo (e){
@@ -212,235 +234,234 @@ class Invoice extends Component {
     const boxTotal = this.state.invItems.reduce((a, b) => +a + +(b.box), 0);
     const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
 
-    return ( 
-        <div >
-
-          <section class="content">
-            <div class="container-fluid">
-
-
-              <div class="row">
-
-
-                <div class="col-md-6">
-
-                  <div class="card card-warning">
-
-                    <div class="card-body">
-                      <form role="form">
-                      
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Invoice No</label>
-                              <input type="text" value={this.state.invoice_no}  onChange={(e) => this.handleChangeInvoiceNo(e)}  class="form-control" />
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Invoice Date</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                </div>
-                                <DatePicker
-                                  className={"form-control"}
-                                  value={this.state.date}
-                                  format={"dd/MM/yyyy"}
-                                  onChange={(e) => this.handleChangeDate(e)}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Buyer's Order No</label>
-                              <input type="text" onChange={(e) => this.handleChangeOrderNo(e)} value={this.state.order_no} class="form-control" />
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Buyer's Date</label>
-                              <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                </div>
-                                <DatePicker
-                                  className={"form-control"}
-                                  onChange={this.onDateChange}
-                                  value={this.state.buyer_date}
-                                  format={"dd/MM/yyyy"}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <label>Other reference(s)</label>
-                              <input type="text" onChange={(e) => this.handleChangeOther(e)} class="form-control" value={this.state.other}/>
-                            </div>
-                            <div class="form-group">
-                              <label>Buyer (If other than consignee)</label>
-                              <textarea type="text" onChange={(e) => this.handleChangeBuyer(e)} class="form-control"  value={this.state.buyer} />
-                            </div>
-                          </div>
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <label>Country of origin of goods</label>
-                              <select class="form-control" onChange={(e) => this.handleChangeCountryOrigin(e)} value={this.state.country_origin}>
-                                {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label>Country of final destination</label>
-                              <select class="form-control" onChange={(e) => this.handleChangeCountryFinal(e)}  value={this.state.final_destination}>
-                                {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label>Terms of delivery and payment</label>
-                              <textarea type="text"  onChange={(e) => this.handleChangeTerms(e)} class="form-control" onChange={(e) => this.handleChangeTerms(e)} value={this.state.terms} rows={2.8} />
-                            </div>
-                            <div class="form-group">
-                              <label>AWB No.</label>
-                              <input type="text" class="form-control"  onChange={(e) => this.handleChangeAwbNo(e)} value={this.state.awb_no}/>
-                            </div>
-
-                          </div>
-                        </div>
-
-                      </form>
-                    </div>
-
-                  </div>
-
-
-                </div>
-
-                <div class="col-md-6">
-
-                  <div class="card card-primary">
-
+    return <div>
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card card-warning">
+                  <div class="card-body">
                     <form role="form">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <label>Exporter</label>
-                              <textarea type="text" onChange={(e) => this.handleChangeExporter(e)} value={this.state.exporter}  class="form-control" rows={4} />
-                            </div>
-                            <div class="form-group">
-                              <label>Consignee</label>
-                              <textarea type="text" onChange={(e) => this.handleChangeConsignee(e)} value={this.state.consignee} class="form-control" rows={4} />
-                            </div>
-                            <div class="form-group">
-                              <label>Pre-Carriage by</label>
-                              <input type="text" onChange={(e) => this.handleChangePreCarriage(e)} value={this.state.pre_carriage} class="form-control" />
-                            </div>
-                            <div class="form-group">
-                              <label>Place of receipt by Pre-Carrier</label>
-                              <input type="text" onChange={(e) => this.handleChangeReceiptPlace(e)} value={this.state.receipt_place} class="form-control" />
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Invoice No</label>
+                            <input type="text" value={this.state.invoice_no} onChange={e => this.handleChangeInvoiceNo(e)} class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Invoice Date</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="far fa-calendar-alt" />
+                                </span>
+                              </div>
+                              <DatePicker className={"form-control"} value={this.state.date} format={"dd/MM/yyyy"} onChange={e => this.handleChangeDate(e)} />
                             </div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Vessel/Flight No</label>
-                              <input type="text" onChange={(e) => this.handleChangeVesselNo(e)} value={this.state.vessel_no} class="form-control" />
-                            </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Buyer's Order No</label>
+                            <input type="text" onChange={e => this.handleChangeOrderNo(e)} value={this.state.order_no} class="form-control" />
                           </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Port of loading</label>
-                              <select class="form-control" onChange={(e) => this.handleChangePortLoad(e)} value={this.state.port_load}>
-                                {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
-                              </select>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Buyer's Date</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="far fa-calendar-alt" />
+                                </span>
+                              </div>
+                              <DatePicker className={"form-control"} onChange={this.onDateChange} value={this.state.buyer_date} format={"dd/MM/yyyy"} />
                             </div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Port of discharge</label>
-                              <select class="form-control" onChange={(e) => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
-                                {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
-                              </select>
-                            </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label>Other reference(s)</label>
+                            <input type="text" onChange={e => this.handleChangeOther(e)} class="form-control" value={this.state.other} />
                           </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Final destination</label>
-                              <select class="form-control" onChange={(e) => this.handleChangeExporter(e)} value={this.state.final_destination}>
-                                {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
-                              </select>
-                            </div>
+                          <div class="form-group">
+                            <label>Buyer (If other than consignee)</label>
+                            <textarea type="text" onChange={e => this.handleChangeBuyer(e)} class="form-control" value={this.state.buyer} />
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Marks & No.s</label>
-                              <input type="text" onChange={(e) => this.handleChangeMarks(e)} value={this.state.marks} class="form-control" />
-                            </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label>Country of origin of goods</label>
+                            <select class="form-control" onChange={e => this.handleChangeCountryOrigin(e)} value={this.state.country_origin}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
                           </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label>Container No</label>
-                              <input type="text" onChange={(e) => this.handleChangeContainerNo(e)} value={this.state.container_no} class="form-control" />
-                            </div>
+                          <div class="form-group">
+                            <label>Country of final destination</label>
+                            <select class="form-control" onChange={e => this.handleChangeCountryFinal(e)} value={this.state.final_destination}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label>Terms of delivery and payment</label>
+                            <textarea type="text" onChange={e => this.handleChangeTerms(e)} class="form-control" onChange={e => this.handleChangeTerms(e)} value={this.state.terms} rows={2.8} />
+                          </div>
+                          <div class="form-group">
+                            <label>AWB No.</label>
+                            <input type="text" class="form-control" onChange={e => this.handleChangeAwbNo(e)} value={this.state.awb_no} />
                           </div>
                         </div>
                       </div>
                     </form>
                   </div>
-
                 </div>
+              </div>
 
+              <div class="col-md-6">
+                <div class="card card-primary">
+                  <form role="form">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label>Exporter</label>
+                            <textarea type="text" onChange={e => this.handleChangeExporter(e)} value={this.state.exporter} class="form-control" rows={4} />
+                          </div>
+                          <div class="form-group">
+                            <label>Consignee</label>
+                            <textarea type="text" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee} class="form-control" rows={4} />
+                          </div>
+                          <div class="form-group">
+                            <label>Pre-Carriage by</label>
+                            <input type="text" onChange={e => this.handleChangePreCarriage(e)} value={this.state.pre_carriage} class="form-control" />
+                          </div>
+                          <div class="form-group">
+                            <label>Place of receipt by Pre-Carrier</label>
+                            <input type="text" onChange={e => this.handleChangeReceiptPlace(e)} value={this.state.receipt_place} class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Vessel/Flight No</label>
+                            <input type="text" onChange={e => this.handleChangeVesselNo(e)} value={this.state.vessel_no} class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Port of loading</label>
+                            <select class="form-control" onChange={e => this.handleChangePortLoad(e)} value={this.state.port_load}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Port of discharge</label>
+                            <select class="form-control" onChange={e => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Final destination</label>
+                            <select class="form-control" onChange={e => this.handleChangeExporter(e)} value={this.state.final_destination}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Marks & No.s</label>
+                            <input type="text" onChange={e => this.handleChangeMarks(e)} value={this.state.marks} class="form-control" />
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Container No</label>
+                            <input type="text" onChange={e => this.handleChangeContainerNo(e)} value={this.state.container_no} class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-          </section>
-          <div class="content">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="card card-info">
-                    <div class="card-body p-0">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Description of goods</th>
-                            <th style={{ width: '10%' }}>Kg</th>
-                            <th style={{ width: '10%' }}>Amount</th>
-                            <th style={{ width: '10%' }}>Total</th>
-                            <th style={{ width: '10%' }}></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {tableRows}
-                        </tbody>
-                        <tfoot>
-                          <th>Total</th>
-                          <th>{kgTotal}</th>
-                          <th>{boxTotal}</th>
-                          <th align="right" >{grandTotal}</th>
-                          <th></th>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card card-info">
+                <div class="card-body p-0">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Description of goods</th>
+                        <th style={{ width: "10%" }}>Kg</th>
+                        <th style={{ width: "10%" }}>Amount</th>
+                        <th style={{ width: "10%" }}>Total</th>
+                        <th style={{ width: "10%" }} />
+                      </tr>
+                    </thead>
+                    <tbody>{tableRows}</tbody>
+                    <tfoot>
+                      <th>Total</th>
+                      <th>{kgTotal}</th>
+                      <th>{boxTotal}</th>
+                      <th align="right">{grandTotal}</th>
+                      <th />
+                    </tfoot>
+                  </table>
                 </div>
               </div>
-
             </div>
           </div>
 
-        </div>
-    );
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card card-info">
+                <div class="card-footer">
+                  <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>;
   }
 }
 

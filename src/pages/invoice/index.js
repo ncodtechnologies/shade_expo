@@ -6,7 +6,7 @@ import NetReport from './netreport'
 import Documents from './documents'
 
 const API = '/users/';
-const DEFAULT_QUERY = 'redux';
+const APIInvoice = '/users/invoice/1';
 
 class Invoice extends Component {
 
@@ -18,6 +18,27 @@ class Invoice extends Component {
       data:null,
       date: new Date(),
       products: [],
+      invoice:[],
+      invoice_no:'',
+      date:'',
+      order_no:'',
+      buyer_date:'',
+      exporter:'',
+      consignee:'',
+      other:'',
+      buyer:'',
+      country_origin:'',
+      country_final:'',
+      pre_carriage:'',
+      receipt_place:'',
+      vessel_no:'',
+      port_load:'',
+      port_discharge:'',
+      final_destination:'',
+      marks:'',
+      container_no:'',
+      awb_no:'',
+      terms:'',
       invItems: [
         { id_product: 1, kg: 10, box: 100 },
         { id_product: 2, kg: 20, box: 200 },
@@ -38,9 +59,104 @@ class Invoice extends Component {
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
     //console.log(data)
+    fetch(APIInvoice)
+    .then(response => response.json())
+    .then(data => this.setState(
+              { invoice_no       : data[0].invoice_no ,
+                date             : data[0].date , 
+                order_no         : data[0].order_no , 
+                buyer_date       : data[0].buyer_date ,
+                exporter         : data[0].exporter ,
+                consignee        : data[0].consignee ,
+                other            : data[0].other ,
+                buyer            : data[0].buyer ,
+                country_origin   : data[0].country_origin ,
+                country_final    : data[0].country_final ,
+                pre_carriage     : data[0].pre_carriage ,
+                receipt_place    : data[0].receipt_place ,
+                vessel_no        : data[0].vessel_no ,
+                port_load        : data[0].port_load ,
+                port_discharge   : data[0].port_discharge ,
+                final_destination: data[0].final_destination ,
+                marks            : data[0].marks ,
+                container_no     : data[0].container_no ,
+                awb_no           : data[0].awb_no ,
+                terms            : data[0].terms ,
+              }
+    ));
+  }
+  //onDateChange = date => this.setState({ date })
+  //form onChangeFunctions
+  handleChangeInvoiceNo (e){
+    this.setState({ invoice_no:e.target.value})
   }
 
-  onDateChange = date => this.setState({ date })
+  handleChangeDate (e){
+    this.setState({ date:e.target.value})
+  }
+
+  handleChangeOrderNo (e){
+    this.setState({ invoice_no:e.target.value})
+  }
+
+  handleChangeOrderNo (e){
+    this.setState({ order_no:e.target.value})
+  }
+
+  handleChangeConsignee (e){
+    this.setState({ consignee:e.target.value})
+  }
+
+  handleChangeExporter (e){
+    this.setState({ exporter:e.target.value})
+  }
+
+  handleChangeOther (e){
+    this.setState({ other:e.target.value})
+  }
+  handleChangeBuyer (e){
+    this.setState({ buyer:e.target.value})
+  }
+
+  handleChangeCountryOrigin (e){
+    this.setState({ country_origin:e.target.value})
+  }
+  handleChangeCountryFinal (e){
+    this.setState({ country_final:e.target.value})
+  }
+
+  handleChangePreCarriage (e){
+    this.setState({ pre_carriage:e.target.value})
+  }
+  handleChangeReceiptPlace (e){
+    this.setState({ receipt_place:e.target.value})
+  }
+  handleChangeVesselNo (e){
+    this.setState({ vessel_no:e.target.value})
+  }
+  handleChangePortLoad (e){
+    this.setState({ port_load:e.target.value})
+  }
+  handleChangePortDischarge (e){
+    this.setState({ port_discharge:e.target.value})
+  }
+  handleChangeFinalDest (e){
+    this.setState({ final_destination:e.target.value})
+  }
+  handleChangeMarks (e){
+    this.setState({ marks:e.target.value})
+  }
+  handleChangeContainerNo (e){
+    this.setState({ container_no:e.target.value})
+  }
+  handleChangeAwbNo (e){
+    this.setState({ awb_no:e.target.value})
+  }
+  handleChangeTerms (e){
+    this.setState({ terms:e.target.value})
+  }
+
+  //table onChangeFunctions
 
   handleChangeKg = (e, rowIndex) => {
     let _invItems = this.state.invItems;
@@ -117,7 +233,7 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Invoice No</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" value={this.state.invoice_no}  onChange={(e) => this.handleChangeInvoiceNo(e)}  class="form-control" />
                             </div>
                           </div>
                           <div class="col-sm-6">
@@ -129,9 +245,9 @@ class Invoice extends Component {
                                 </div>
                                 <DatePicker
                                   className={"form-control"}
-                                  onChange={this.onDateChange}
                                   value={this.state.date}
                                   format={"dd/MM/yyyy"}
+                                  onChange={(e) => this.handleChangeDate(e)}
                                 />
                               </div>
                             </div>
@@ -141,7 +257,7 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Buyer's Order No</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeOrderNo(e)} value={this.state.order_no} class="form-control" />
                             </div>
                           </div>
                           <div class="col-sm-6">
@@ -154,7 +270,7 @@ class Invoice extends Component {
                                 <DatePicker
                                   className={"form-control"}
                                   onChange={this.onDateChange}
-                                  value={this.state.date}
+                                  value={this.state.buyer_date}
                                   format={"dd/MM/yyyy"}
                                 />
                               </div>
@@ -165,33 +281,33 @@ class Invoice extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Other reference(s)</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeOther(e)} class="form-control" value={this.state.other}/>
                             </div>
                             <div class="form-group">
                               <label>Buyer (If other than consignee)</label>
-                              <textarea type="text" class="form-control" />
+                              <textarea type="text" onChange={(e) => this.handleChangeBuyer(e)} class="form-control"  value={this.state.buyer} />
                             </div>
                           </div>
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Country of origin of goods</label>
-                              <select class="form-control">
+                              <select class="form-control" onChange={(e) => this.handleChangeCountryOrigin(e)} value={this.state.country_origin}>
                                 {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
                               </select>
                             </div>
                             <div class="form-group">
                               <label>Country of final destination</label>
-                              <select class="form-control">
+                              <select class="form-control" onChange={(e) => this.handleChangeCountryFinal(e)}  value={this.state.final_destination}>
                                 {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
                               </select>
                             </div>
                             <div class="form-group">
                               <label>Terms of delivery and payment</label>
-                              <textarea type="text" class="form-control" rows={2.8} />
+                              <textarea type="text"  onChange={(e) => this.handleChangeTerms(e)} class="form-control" onChange={(e) => this.handleChangeTerms(e)} value={this.state.terms} rows={2.8} />
                             </div>
                             <div class="form-group">
                               <label>AWB No.</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" class="form-control"  onChange={(e) => this.handleChangeAwbNo(e)} value={this.state.awb_no}/>
                             </div>
 
                           </div>
@@ -215,19 +331,19 @@ class Invoice extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Exporter</label>
-                              <textarea type="text" class="form-control" rows={4} />
+                              <textarea type="text" onChange={(e) => this.handleChangeExporter(e)} value={this.state.exporter}  class="form-control" rows={4} />
                             </div>
                             <div class="form-group">
                               <label>Consignee</label>
-                              <textarea type="text" class="form-control" rows={4} />
+                              <textarea type="text" onChange={(e) => this.handleChangeConsignee(e)} value={this.state.consignee} class="form-control" rows={4} />
                             </div>
                             <div class="form-group">
                               <label>Pre-Carriage by</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangePreCarriage(e)} value={this.state.pre_carriage} class="form-control" />
                             </div>
                             <div class="form-group">
                               <label>Place of receipt by Pre-Carrier</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeReceiptPlace(e)} value={this.state.receipt_place} class="form-control" />
                             </div>
                           </div>
                         </div>
@@ -235,13 +351,13 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Vessel/Flight No</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeVesselNo(e)} value={this.state.vessel_no} class="form-control" />
                             </div>
                           </div>
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Port of loading</label>
-                              <select class="form-control">
+                              <select class="form-control" onChange={(e) => this.handleChangePortLoad(e)} value={this.state.port_load}>
                                 {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
                               </select>
                             </div>
@@ -251,7 +367,7 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Port of discharge</label>
-                              <select class="form-control">
+                              <select class="form-control" onChange={(e) => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
                                 {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
                               </select>
                             </div>
@@ -259,7 +375,7 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Final destination</label>
-                              <select class="form-control">
+                              <select class="form-control" onChange={(e) => this.handleChangeExporter(e)} value={this.state.final_destination}>
                                 {this.state.places.map((column) => <option value={column.Id_place}>{column.Place}</option>)}
                               </select>
                             </div>
@@ -269,13 +385,13 @@ class Invoice extends Component {
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Marks & No.s</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeMarks(e)} value={this.state.marks} class="form-control" />
                             </div>
                           </div>
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label>Container No</label>
-                              <input type="text" class="form-control" />
+                              <input type="text" onChange={(e) => this.handleChangeContainerNo(e)} value={this.state.container_no} class="form-control" />
                             </div>
                           </div>
                         </div>

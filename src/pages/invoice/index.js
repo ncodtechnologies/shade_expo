@@ -99,8 +99,26 @@ class Invoice extends Component {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-                  invoice_no : this.state.invoice_no,
-                  order_no   : this.state.order_no 
+                  invoice_no        : this.state.invoice_no,
+                  order_no          : this.state.order_no ,
+                  date              : this.state.date ,
+                  buyer_date        : this.state.buyer_date ,
+                  exporter          : this.state.exporter ,
+                  consignee         : this.state.consignee ,
+                  other             : this.state.other ,
+                  buyer             : this.state.buyer ,
+                  country_origin    : this.state.country_origin ,
+                  country_final     : this.state.country_final ,
+                  pre_carriage      : this.state.pre_carriage ,
+                  receipt_place     : this.state.receipt_place ,
+                  vessel_no         : this.state.vessel_no ,
+                  port_load         : this.state.port_load ,
+                  port_discharge    : this.state.port_discharge ,
+                  final_destination : this.state.final_destination ,
+                  marks             : this.state.marks ,
+                  container_no      : this.state.container_no ,
+                  awb_no            : this.state.awb_no ,
+                  terms             : this.state.terms ,
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
@@ -308,7 +326,7 @@ class Invoice extends Component {
                           </div>
                           <div class="form-group">
                             <label>Country of final destination</label>
-                            <select class="form-control" onChange={e => this.handleChangeCountryFinal(e)} value={this.state.final_destination}>
+                            <select class="form-control" onChange={e => this.handleChangeCountryFinal(e)} value={this.state.country_final}>
                               {this.state.places.map(column => (
                                 <option value={column.Id_place}>
                                   {column.Place}
@@ -391,7 +409,7 @@ class Invoice extends Component {
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label>Final destination</label>
-                            <select class="form-control" onChange={e => this.handleChangeExporter(e)} value={this.state.final_destination}>
+                            <select class="form-control" onChange={e => this.handleChangeFinalDest(e)} value={this.state.final_destination}>
                               {this.state.places.map(column => (
                                 <option value={column.Id_place}>
                                   {column.Place}

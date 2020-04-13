@@ -3,7 +3,6 @@ import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
 const API = '/users/';
-const DEFAULT_QUERY = 'redux';
 
 class App extends Component {
 

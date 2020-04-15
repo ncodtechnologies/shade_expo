@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,  
   "proxy" :"http://localhost:8080",
+  "secure": false,
   
   "dependencies": {
     "history": "^4.10.1",

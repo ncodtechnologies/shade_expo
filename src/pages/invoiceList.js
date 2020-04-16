@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
+import { Link } from 'react-router-dom';
+import Invoice from './invoice';
 
 const API = '/users/invoiceList';
+
 
 class App extends Component {
 
@@ -134,6 +137,7 @@ class TableRow extends React.Component {
 
   render() {
     let invItem = this.props.invItem;
+    let id =this.props.invItem.id_invoice;
     return (
       <tr>
         <td>{invItem.invoice_no}</td>
@@ -141,8 +145,8 @@ class TableRow extends React.Component {
         <td>{invItem.consignee}</td>
         <td>{this.getStatus(invItem.status)}</td>
         <td>
-          <div class="btn-group">
-              <a href="./invoice" class="btn btn-outline-success"><i class="fas fa-edit"></i></a>
+          <div class="btn-group">            
+          <Link to={'./invoice/'+ invItem.id_invoice} render={(props) => <Invoice {...props}/>} ><i class="fas fa-edit"></i> </Link> 
               {this.getDelBtn(invItem.status)}
          </div>
         </td>

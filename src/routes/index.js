@@ -8,7 +8,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/roughInvoiceCreate" component={RoughInvoiceCreate} />
-      <Route path="/invoice" component={Invoice} />
+      <Route path="/invoice/:id" component={Invoice} />
       <Route path="/invoiceList" component={InvoiceList} />
       <Route path="/" exact component={InvoiceList} />
     </Switch>

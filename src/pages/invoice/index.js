@@ -5,8 +5,8 @@ import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
 import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
-
 const API = '/users/';
+
 
 class Invoice extends Component {
 
@@ -14,6 +14,7 @@ class Invoice extends Component {
     super(props);
 
     this.state = {
+      id:null,
       title: 'Table',
       data:null,
       date: new Date(),
@@ -55,6 +56,9 @@ class Invoice extends Component {
   }
   
   componentDidMount() {
+    
+    const id = this.props.match.params.id
+  
     this.loadProducts();
     this.loadInvoiceDt();
   }
@@ -237,6 +241,8 @@ class Invoice extends Component {
   }
 
   render() {
+    
+    console.log(JSON.stringify(this.props))
     const tableRows = this.state.invItems.map((invItem, index) =>
       <TableRow
         handleChangeKg={this.handleChangeKg}

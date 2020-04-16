@@ -56,11 +56,11 @@ class Invoice extends Component {
   }
   
   componentDidMount() {
-    
-    const id = this.props.match.params.id
-  
+    const id_invoice = this.props.id_invoice;
+
     this.loadProducts();
-    this.loadInvoiceDt();
+    if(id_invoice>0)
+      this.loadInvoiceDt(id_invoice);
   }
 
   loadProducts = () => {
@@ -69,10 +69,14 @@ class Invoice extends Component {
     .then(data => this.setState({ products: data }));
   }
   
-  loadInvoiceDt = () => {
-    fetch(URL_INVOICE_DT + "/1")
+  loadInvoiceDt = (id_invoice) => {
+
+    fetch(URL_INVOICE_DT + `/${id_invoice}`)
     .then(response => response.json())
-    .then(data => this.setState(
+    .then(data => 
+      {
+        if(data.length>0)
+        this.setState(
               { invoice_no       : data[0].invoice_no ,
                 date             : data[0].date , 
                 order_no         : data[0].order_no , 
@@ -94,7 +98,9 @@ class Invoice extends Component {
                 awb_no           : data[0].awb_no ,
                 terms            : data[0].terms ,
               }
-    ));
+    )
+            }
+    );
   }
 
 
@@ -242,7 +248,6 @@ class Invoice extends Component {
 
   render() {
     
-    console.log(JSON.stringify(this.props))
     const tableRows = this.state.invItems.map((invItem, index) =>
       <TableRow
         handleChangeKg={this.handleChangeKg}
@@ -558,7 +563,7 @@ class App extends Component {
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
                   <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                     <Invoice />
+                     <Invoice id_invoice={this.props.match.params.id} />
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
                      <Documents />

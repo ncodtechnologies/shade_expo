@@ -20,7 +20,7 @@ class Expense extends Component {
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onAddClick = this.onAddClick.bind(this);
     this.onLedgerChange = this.onLedgerChange.bind(this);
-    this.onLedgerConDateChangehange = this.onDateChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
   }
 
   

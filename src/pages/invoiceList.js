@@ -137,7 +137,6 @@ class TableRow extends React.Component {
 
   render() {
     let invItem = this.props.invItem;
-    let id =this.props.invItem.id_invoice;
     return (
       <tr>
         <td>{invItem.invoice_no}</td>

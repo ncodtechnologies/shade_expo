@@ -4,6 +4,7 @@ import DatePicker from 'react-date-picker';
 import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
+import Packing from './packing'
 import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
 const API = '/users/';
 
@@ -21,9 +22,8 @@ class Invoice extends Component {
       products: [],
       invoice:[],
       invoice_no:'',
-      date:'',
       order_no:'',
-      buyer_date:'',
+      buyer_date:new Date(),
       exporter:'',
       consignee:'',
       other:'',
@@ -53,6 +53,8 @@ class Invoice extends Component {
         { Id_place: 3, Place: 'US' },
       ],
     }
+    this.handleChangeDate=this.handleChangeDate.bind(this);
+    this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
   }
   
   componentDidMount() {
@@ -136,19 +138,16 @@ class Invoice extends Component {
   }
   
   //onDateChange = date => this.setState({ date })
+  
   //form onChangeFunctions
   handleChangeInvoiceNo (e){
     this.setState({ invoice_no:e.target.value})
   }
 
-  handleChangeDate (e){
-    this.setState({ date:e.target.value})
-  }
 
-  handleChangeOrderNo (e){
-    this.setState({ invoice_no:e.target.value})
-  }
-
+  handleChangeDate = date => this.setState({ date })
+  handleChangeBuyerDate = buyer_date => this.setState({ buyer_date })
+ 
   handleChangeOrderNo (e){
     this.setState({ order_no:e.target.value})
   }
@@ -287,7 +286,12 @@ class Invoice extends Component {
                                   <i class="far fa-calendar-alt" />
                                 </span>
                               </div>
-                              <DatePicker className={"form-control"} value={this.state.date} format={"dd/MM/yyyy"} onChange={e => this.handleChangeDate(e)} />
+                              <DatePicker
+                               className={"form-control"}
+                               value={this.state.date} 
+                               format={"dd/MM/yyyy"} 
+                               onChange={this.handleChangeDate}
+                                />
                             </div>
                           </div>
                         </div>
@@ -308,7 +312,11 @@ class Invoice extends Component {
                                   <i class="far fa-calendar-alt" />
                                 </span>
                               </div>
-                              <DatePicker className={"form-control"} onChange={this.onDateChange} value={this.state.buyer_date} format={"dd/MM/yyyy"} />
+                              <DatePicker 
+                              className={"form-control"} 
+                              onChange={this.handleChangeBuyerDate}
+                               value={this.state.buyer_date}
+                                format={"dd/MM/yyyy"} />
                             </div>
                           </div>
                         </div>
@@ -558,6 +566,9 @@ class App extends Component {
                   <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
+                  </li>
                 </ul>
               </div>
               <div class="card-body">
@@ -573,6 +584,9 @@ class App extends Component {
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                      <NetReport />
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
+                     <Packing />
                   </div>
                 </div>
               </div>

@@ -8,7 +8,6 @@ import Packing from './packing'
 import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
 const API = '/users/';
 
-
 class Invoice extends Component {
 
   constructor(props) {
@@ -105,7 +104,6 @@ class Invoice extends Component {
     );
   }
 
-
   saveInvoice = () => {
       const requestOptions = {
         method: 'POST',
@@ -113,8 +111,8 @@ class Invoice extends Component {
         body: JSON.stringify({ 
                   invoice_no        : this.state.invoice_no,
                   order_no          : this.state.order_no ,
-                  date              : this.state.date ,
-                  buyer_date        : this.state.buyer_date ,
+                  date              : new Date().toISOString().slice(0, 10),
+                  buyer_date        : new Date().toISOString().slice(0, 10),
                   exporter          : this.state.exporter ,
                   consignee         : this.state.consignee ,
                   other             : this.state.other ,
@@ -131,6 +129,7 @@ class Invoice extends Component {
                   container_no      : this.state.container_no ,
                   awb_no            : this.state.awb_no ,
                   terms             : this.state.terms ,
+                  items             : this.state.invItems
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)

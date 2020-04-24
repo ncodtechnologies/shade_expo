@@ -90,28 +90,63 @@ class Expense extends Component {
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>
-                            <DatePicker
-                              className={"form-control"}
-                              onChange={this.onDateChange}
-                              value={this.state.date}
-                              format={"dd/MM/yyyy"}
-                            />
-                          </th>
-                          <th style={{ width: '55%' }}>
-                            <select class="form-control" onChange={this.onLedgerChange}>
-                              {this.state.arrLedger.map((ledger) =>
-                                <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
-                            </select>
-                          </th>
-                          <th style={{ width: '55%' }}>
-                            <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
-                          </th>
-                          <th>
-                            <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={(e) => this.onAddClick(e)}>
-                              <i class="fas fa-plus"></i>
-                            </button>
-
+                          <th colspan={4} >
+                            <div class="row" >
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <DatePicker
+                                      className={"form-control"}
+                                      onChange={this.onDateChange}
+                                      value={this.state.date}
+                                      format={"dd/MM/yyyy"}
+                                    />
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <select class="form-control" onChange={this.onLedgerChange}>
+                                      {this.state.arrLedger.map((ledger) =>
+                                        <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <select class="form-control" onChange={this.onLedgerChange}>
+                                      {this.state.arrLedger.map((ledger) =>
+                                        <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
+                                    </select>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Description</label>
+                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Rate</label>
+                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>Amount</label>
+                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                  </div>
+                              </div>
+                                
+                              
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={(e) => this.onAddClick(e)}>
+                                   Save
+                                </button>
+                            </div>
                           </th>
                         </tr>
                         <tr>

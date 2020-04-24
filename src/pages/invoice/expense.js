@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
-import { URL_EXPENSE_SAVE,URL_INVOICE_DT } from '../constants';
+//import { ,URL_INVOICE_DT } from '../constants';
 
 const API = '/users/account_head';
+const URL_EXPENSE_SAVE = '/users/invoice/expense';
 
 class Expense extends Component {
   constructor(props) {
@@ -10,9 +11,9 @@ class Expense extends Component {
     this.state = {
       data:null,
       date: new Date(),
-      from:'',
-      to:'',
-      desc:'',
+      id_ledger_from:'',
+      id_ledger_to:'',
+      Description:'',
       rate:'',
       amount: '',
       type:'Payment',
@@ -23,7 +24,6 @@ class Expense extends Component {
       arrExpenses: [
       ]
     }
-
     
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onRateChange = this.onRateChange.bind(this);
@@ -46,10 +46,10 @@ class Expense extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-                date      : new Date().toISOString().slice(0, 10),
-                from      : this.state.from ,
-                to        : this.state.to ,
-                desc      : this.state.desc ,
+                id_ledger_date: new Date().toISOString().slice(0, 10),
+                id_ledger_from: this.state.id_ledger_from ,
+                id_ledger_to  : this.state.id_ledger_to ,
+                description   : this.state.description ,
                 rate      : this.state.rate ,
                 amount    : this.state.amount ,
                 type      : this.state.type ,
@@ -73,7 +73,7 @@ class Expense extends Component {
   }
 
   onDescriptionChange(event) {
-    this.setState({ desc: event.target.value })
+    this.setState({ description: event.target.value })
   }
   
   onRateChange(event) {
@@ -85,11 +85,11 @@ class Expense extends Component {
   }
 
   onLedgerFromChange(event) {
-    this.setState({ from: event.target.value })
+    this.setState({ id_ledger_from: event.target.value })
   }
 
   onLedgerToChange(event) {
-    this.setState({ to: event.target.value })
+    this.setState({ id_ledger_to: event.target.value })
   }
  
   render() {
@@ -129,7 +129,7 @@ class Expense extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>From</label>
-                                    <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.from}>
+                                    <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.id_ledger_from}>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
@@ -138,7 +138,7 @@ class Expense extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>To</label>
-                                    <select class="form-control" onChange={this.onLedgerToChange} value={this.state.to}>
+                                    <select class="form-control" onChange={this.onLedgerToChange} value={this.state.id_ledger_to}>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
@@ -149,7 +149,7 @@ class Expense extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" value={this.state.desc} onChange={this.onDescriptionChange} class="form-control" />
+                                    <input type="text" value={this.state.description} onChange={this.onDescriptionChange} class="form-control" />
                                   </div>
                               </div>
                               <div class="col-sm-4">

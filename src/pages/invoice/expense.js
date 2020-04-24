@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
+import { URL_EXPENSE_SAVE,URL_INVOICE_DT } from '../constants';
 
 const API = '/users/account_head';
 
@@ -9,7 +10,14 @@ class Expense extends Component {
     this.state = {
       data:null,
       date: new Date(),
+      from:'',
+      to:'',
+      desc:'',
+      rate:'',
       amount: '',
+      type:'Payment',
+      voucher_no:'1',
+      id_invoice:'1',
       ledger: '',
       arrLedger: [],
       arrExpenses: [
@@ -18,8 +26,10 @@ class Expense extends Component {
 
     
     this.onAmountChange = this.onAmountChange.bind(this);
-    this.onAddClick = this.onAddClick.bind(this);
-    this.onLedgerChange = this.onLedgerChange.bind(this);
+    this.onRateChange = this.onRateChange.bind(this);
+    this.onDescriptionChange = this.onDescriptionChange.bind(this);
+    this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
+    this.onLedgerToChange = this.onLedgerToChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
   }
 
@@ -30,6 +40,26 @@ class Expense extends Component {
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)
   }
+
+  saveInvoice = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+                date      : new Date().toISOString().slice(0, 10),
+                from      : this.state.from ,
+                to        : this.state.to ,
+                desc      : this.state.desc ,
+                rate      : this.state.rate ,
+                amount    : this.state.amount ,
+                type      : this.state.type ,
+                voucher_no: this.state.voucher_no ,
+                id_invoice: this.state.id_invoice ,
+              })
+  };
+  fetch(URL_EXPENSE_SAVE, requestOptions)
+      .then(response => response.json());
+}
 
 
   onDateChange = date => this.setState({ date })
@@ -42,33 +72,26 @@ class Expense extends Component {
     })
   }
 
+  onDescriptionChange(event) {
+    this.setState({ desc: event.target.value })
+  }
+  
+  onRateChange(event) {
+    this.setState({ rate: event.target.value })
+  }
+
   onAmountChange(event) {
     this.setState({ amount: event.target.value })
-
   }
 
-  onLedgerChange(event) {
-    this.setState({ ledger: event.target.value })
+  onLedgerFromChange(event) {
+    this.setState({ from: event.target.value })
   }
 
-  onAddClick(e) {
-    e.preventDefault();
-    let _data = this.state.arrExpenses;
-    _data.push({
-      date: this.state.date.toLocaleDateString("en-US"),
-      id_account_head: this.state.ledger,
-      amount: this.state.amount
-    })
-
-    this.setState({
-      arrExpenses: _data,
-      id_account_head: 0,
-      amount: "",
-      date: new Date()
-    })
-
+  onLedgerToChange(event) {
+    this.setState({ to: event.target.value })
   }
-
+ 
   render() {
     const tableRows = this.state.arrExpenses.map((arrExpense, index) =>
       <TableRow
@@ -105,8 +128,8 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
-                                    <label>Date</label>
-                                    <select class="form-control" onChange={this.onLedgerChange}>
+                                    <label>From</label>
+                                    <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.from}>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
@@ -114,8 +137,8 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
-                                    <label>Date</label>
-                                    <select class="form-control" onChange={this.onLedgerChange}>
+                                    <label>To</label>
+                                    <select class="form-control" onChange={this.onLedgerToChange} value={this.state.to}>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
@@ -126,13 +149,13 @@ class Expense extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                    <input type="text" value={this.state.desc} onChange={this.onDescriptionChange} class="form-control" />
                                   </div>
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Rate</label>
-                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                    <input type="text" value={this.state.rate} onChange={this.onRateChange} class="form-control" />
                                   </div>
                               </div>
                               <div class="col-sm-4">
@@ -143,7 +166,7 @@ class Expense extends Component {
                               </div>
                                 
                               
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={(e) => this.onAddClick(e)}>
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveInvoice}>
                                    Save
                                 </button>
                             </div>

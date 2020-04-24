@@ -2,31 +2,41 @@ import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 
 const API = '/users/account_head';
+const APILabour = '/users/invoice/id_invoice/labour';
+const APIPacking = '/users/invoice/id_invoice/packing';
+const APIOtherExp = '/users/invoice/id_invoice/exp';
 
 class Packing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      packItems: [
-        { sl_no: 1, product: 'PRODUCT 1', weight: 100 },
-        { sl_no: 2, product: 'PRODUCT 2', weight: 200 },
-        { sl_no: 3, product: 'PRODUCT 3', weight: 300 },
-        { sl_no: 4, product: 'PRODUCT 4', weight: 400 },
-      ],
-      LabourItems:[
-        {name:'Labour 1', amount: 1000},
-        {name:'Labour 2', amount: 2000},
-        {name:'Labour 3', amount: 3000},
-      ],
-      ExpenseItems:[
-        {expense:'Expense 1', amount: 1000},
-        {expense:'Expense 1', amount: 1000},
-        {expense:'Expense 1', amount: 1000},
-        {expense:'Expense 1', amount: 1000},
-      ],
+      LabourItems:[],
+      packItems: [],
+      ExpenseItems:[],
     }   
   }
+  
+  componentDidMount() {
+    this.loadLabourItem();
+    this.loadOtherExp();
+    this.loadPacking();
+  }
 
+  loadLabourItem = () => {
+    fetch(APILabour)
+    .then(response => response.json())
+    .then(data => this.setState({ LabourItems: data }));
+  }
+  loadPacking = () => {
+    fetch(APIPacking)
+    .then(response => response.json())
+    .then(data => this.setState({ packItems: data }));
+  }
+  loadOtherExp = () => {
+    fetch(APIOtherExp)
+    .then(response => response.json())
+    .then(data => this.setState({ ExpenseItems: data }));
+  }
   render() {
     const tableRowsPacking = this.state.packItems.map((packItem, index) =>
       <TableRowPacking
@@ -63,16 +73,14 @@ class Packing extends Component {
                     <table class="table">
                       <thead>                       
                         <tr>
-                          <th style={{ width: '25%' }}>Sl No</th>
                           <th style={{ width: '50%' }}>Items</th>
-                          <th style={{ width: '25%' }}>Weight</th>
+                          <th style={{ width: '50%' }}>Weight</th>
                         </tr>
                       </thead>
                       <tbody>
                         {tableRowsPacking}
                       </tbody>
                       <tfoot>
-                        <th></th>
                         <th>Net Weight</th>
                         <th align="right">{grandTotalPacking}</th>
                       </tfoot>
@@ -91,7 +99,7 @@ class Packing extends Component {
                     <table class="table">
                       <thead>                       
                         <tr>
-                          <th style={{ width: '25%' }}>Name</th>
+                          <th style={{ width: '50%' }}>Name</th>
                           <th style={{ width: '50%' }}>Amount</th>
                         </tr>
                       </thead>
@@ -117,7 +125,7 @@ class Packing extends Component {
                     <table class="table">
                       <thead>                       
                         <tr>
-                          <th style={{ width: '25%' }}>Expense</th>
+                          <th style={{ width: '50%' }}>Expense</th>
                           <th style={{ width: '50%' }}>Amount</th>
                         </tr>
                       </thead>
@@ -148,8 +156,7 @@ class TableRowPacking extends React.Component {
 
     return (
       <tr>
-        <td>{packItem.sl_no}</td>
-        <td>{packItem.product}</td>
+        <td>{packItem.name}</td>
         <td>{packItem.weight}</td>
       </tr>
     );
@@ -162,7 +169,7 @@ class TableRowLabour extends React.Component {
 
     return (
       <tr>
-        <td>{LabourItem.name}</td>
+        <td>{LabourItem.account_head}</td>
         <td>{LabourItem.amount}</td>
       </tr>
     );
@@ -175,7 +182,7 @@ class TableRowsExpense extends React.Component {
 
     return (
       <tr>
-        <td>{ExpenseItem.expense}</td>
+        <td>{ExpenseItem.account_head}</td>
         <td>{ExpenseItem.amount}</td>
       </tr>
     );

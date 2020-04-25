@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 
 const API = '/users/account_head';
-const APILabour = '/users/invoice/id_invoice/labour';
-const APIPacking = '/users/invoice/id_invoice/packing';
-const APIOtherExp = '/users/invoice/id_invoice/exp';
+const APILabour = '/users/invoice/invLabour';
+const APIPacking = '/users/invoice/invPacking';
+const APIOtherExp = '/users/invoice/invPackingexp';
 
 class Packing extends Component {
   constructor(props) {
@@ -17,23 +17,24 @@ class Packing extends Component {
   }
   
   componentDidMount() {
-    this.loadLabourItem();
-    this.loadOtherExp();
-    this.loadPacking();
+    const id_invoice=this.props.id_invoice;
+    this.loadInvLabourItem(id_invoice);
+    this.loadInvPackingExp(id_invoice);
+    this.loadInvPackingList();
   }
 
-  loadLabourItem = () => {
-    fetch(APILabour)
+  loadInvLabourItem = (id_invoice) => {
+    fetch(APILabour + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ LabourItems: data }));
   }
-  loadPacking = () => {
-    fetch(APIPacking)
+  loadInvPackingList = (id_invoice) => {
+    fetch(APIPacking + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ packItems: data }));
   }
-  loadOtherExp = () => {
-    fetch(APIOtherExp)
+  loadInvPackingExp = (id_invoice) => {
+    fetch(APIOtherExp + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ ExpenseItems: data }));
   }

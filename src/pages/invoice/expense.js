@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
-//import { ,URL_INVOICE_DT } from '../constants';
+import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
 
 const API = '/users/account_head';
-const URL_EXPENSE_SAVE = '/users/invoice/expense';
 
 class Expense extends Component {
   constructor(props) {
@@ -13,16 +12,14 @@ class Expense extends Component {
       date: new Date(),
       id_ledger_from:'',
       id_ledger_to:'',
-      Description:'',
+      description:'',
       rate:'',
       amount: '',
       type:'Payment',
       voucher_no:'1',
-      id_invoice:'1',
       ledger: '',
       arrLedger: [],
-      arrExpenses: [
-      ]
+      arrExpenses: []
     }
     
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -35,9 +32,28 @@ class Expense extends Component {
 
   
   componentDidMount() {
+    const id_invoice = this.props.id_invoice;
+   this.loadAccountHead();
+   this.loadExpenseList(id_invoice);
+   console.log(id_invoice)
+  }
+  loadAccountHead(){
     fetch(API)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
+    //console.log(data)
+  }
+
+  loadExpenseList = (id_invoice) => {
+    fetch(URL_EXPENSE_DT + `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+         arrExpenses: data ,
+        })
+        }
+      );
     //console.log(data)
   }
 
@@ -46,19 +62,20 @@ class Expense extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-                id_ledger_date: new Date().toISOString().slice(0, 10),
+                date          : new Date().toISOString().slice(0, 10),
                 id_ledger_from: this.state.id_ledger_from ,
                 id_ledger_to  : this.state.id_ledger_to ,
                 description   : this.state.description ,
-                rate      : this.state.rate ,
-                amount    : this.state.amount ,
-                type      : this.state.type ,
-                voucher_no: this.state.voucher_no ,
-                id_invoice: this.state.id_invoice ,
+                rate          : this.state.rate ,
+                amount        : this.state.amount ,
+                type          : this.state.type ,
+                voucher_no    : this.state.voucher_no ,
+                id_invoice    : this.props.id_invoice,
               })
   };
   fetch(URL_EXPENSE_SAVE, requestOptions)
       .then(response => response.json());
+      this.loadExpenseList(this.props.id_invoice);
 }
 
 
@@ -107,13 +124,13 @@ class Expense extends Component {
         <div class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-lg-16">
                 <div class="card card-info">
                   <div class="card-body p-0">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th colspan={4} >
+                          <th colspan={6} >
                             <div class="row" >
                               <div class="col-sm-4">
                                   <div class="form-group">
@@ -174,7 +191,9 @@ class Expense extends Component {
                         </tr>
                         <tr>
                           <th style={{ width: '25%' }}>Date</th>
-                          <th style={{ width: '50%' }}>Ledger</th>
+                          <th style={{ width: '50%' }}>From</th>
+                          <th style={{ width: '25%' }}>To</th>
+                          <th style={{ width: '25%' }}>Description</th>
                           <th style={{ width: '25%' }}>Amount</th>
                           <th></th>
                         </tr>
@@ -185,8 +204,9 @@ class Expense extends Component {
                       <tfoot>
                         <th>Total</th>
                         <th></th>
-                        <th align="right" >{grandTotal}</th>
                         <th></th>
+                        <th></th>
+                        <th align="right" >{grandTotal}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -222,7 +242,9 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrExpense.date}</td>
-        <td>{ledger(arrExpense.id_account_head)}</td>
+        <td>{arrExpense.acc_from}</td>
+        <td>{arrExpense.acc_to}</td>
+        <td>{arrExpense.description}</td>
         <td>{arrExpense.amount}</td>
         <td>
           <div class="btn-group">

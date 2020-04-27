@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
+import { URL_EXPENSE_SAVE, URL_VOUCHER_DT } from '../constants';
 
 const API = '/users/account_head';
 
@@ -17,13 +18,18 @@ class Expense extends Component {
       amount: '',
       type:'Payment',
       voucher_no:'1',
+      id_invoice:'1',
       ledger: '',
       arrLedger: [],
-      arrExpenses: []
+      arrVouchers: [],
+      arrType:[
+              {type:'Payment'},
+              {type:'Receipt'}
+            ]
     }
     
     this.onAmountChange = this.onAmountChange.bind(this);
-    this.onRateChange = this.onRateChange.bind(this);
+    this.onTypeChange = this.onTypeChange.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
     this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
     this.onLedgerToChange = this.onLedgerToChange.bind(this);
@@ -32,10 +38,12 @@ class Expense extends Component {
 
   
   componentDidMount() {
-    const id_invoice = this.props.id_invoice;
-   this.loadAccountHead();
-   this.loadExpenseList(id_invoice);
-   console.log(id_invoice)
+    const date_ = this.state.date.toISOString().slice(0, 10);
+    const type_ = this.state.type;
+    alert(date_);
+    alert(type_);
+    this.loadAccountHead();
+    this.loadVoucherList(date_,type_);
   }
   loadAccountHead(){
     fetch(API)
@@ -44,20 +52,20 @@ class Expense extends Component {
     //console.log(data)
   }
 
-  loadExpenseList = (id_invoice) => {
-    fetch(URL_EXPENSE_DT + `/${id_invoice}`)
+  loadVoucherList = (date_,type_) => {
+    fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${type_}'` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
       this.setState({
-         arrExpenses: data ,
+        arrVouchers: data ,
         })
         }
       );
-    //console.log(data)
+    console.log(this.state.arrVouchers)
   }
 
-  saveInvoice = () => {
+  saveVoucher = () => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -66,35 +74,49 @@ class Expense extends Component {
                 id_ledger_from: this.state.id_ledger_from ,
                 id_ledger_to  : this.state.id_ledger_to ,
                 description   : this.state.description ,
-                rate          : this.state.rate ,
+                rate          : this.state.rate  ,
                 amount        : this.state.amount ,
                 type          : this.state.type ,
                 voucher_no    : this.state.voucher_no ,
-                id_invoice    : this.props.id_invoice,
+                id_invoice    : this.state.id_invoice,
               })
   };
   fetch(URL_EXPENSE_SAVE, requestOptions)
       .then(response => response.json());
-      this.loadExpenseList(this.props.id_invoice);
+      const _date=this.state.date.toISOString().slice(0, 10)
+       this.loadVoucherList(_date,this.state.type);
 }
 
 
-  onDateChange = date => this.setState({ date })
+  onDateChange = date => {
+    this.setState({ date }
+      , () => {
+        const date_=this.state.date.toISOString().slice(0, 10)
+        this.loadVoucherList(date_,this.state.type);
+        alert(date_);
+        alert(this.state.type);
+    }
+      );
+   
+  }
 
   delRow = (rowIndex) => {
-    let _arrExpenses = this.state.arrExpenses;
-    _arrExpenses.splice(rowIndex, 1);
+    let _arrVouchers = this.state.arrVouchers;
+    _arrVouchers.splice(rowIndex, 1);
     this.setState({
-      arrExpenses: _arrExpenses
+      arrVouchers: _arrVouchers
     })
   }
 
   onDescriptionChange(event) {
     this.setState({ description: event.target.value })
   }
-  
-  onRateChange(event) {
-    this.setState({ rate: event.target.value })
+
+  onTypeChange(event) {
+    this.setState({ type: event.target.value }
+      , () => {
+        this.loadVoucherList(this.state.date,this.state.type);
+    });
   }
 
   onAmountChange(event) {
@@ -110,26 +132,41 @@ class Expense extends Component {
   }
  
   render() {
-    const tableRows = this.state.arrExpenses.map((arrExpense, index) =>
+    const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
-        arrExpense={arrExpense}
+      arrVoucher={arrVoucher}
         arrLedger = {this.state.arrLedger}
       />);
 
-    const grandTotal = this.state.arrExpenses.reduce((a, b) => +a + +(b.amount), 0);
+    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
 
     return (
-      <div>
+      
+      <div class="wrapper" >
+      <Nav />
+      <div class="content-wrapper">
+
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Accounts</h1>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
         <div class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-lg-16">
+              <div class="col-lg-12">
                 <div class="card card-info">
                   <div class="card-body p-0">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th colspan={6} >
+                        <th colspan={6} >
                             <div class="row" >
                               <div class="col-sm-4">
                                   <div class="form-group">
@@ -144,6 +181,22 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
+                                    <label>To</label>
+                                    <select class="form-control" onChange={this.onTypeChange} value={this.state.type}>
+                                      {this.state.arrType.map((types) =>
+                                        <option value={types.type}>{types.type}</option>)}
+                                    </select>
+                                  </div>
+                              </div>
+                            </div>
+                           
+                          </th>
+                          </tr>
+                          <tr>
+                          <th colspan={6} >
+                            <div class="row" >                              
+                              <div class="col-sm-6">
+                                  <div class="form-group">
                                     <label>From</label>
                                     <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.id_ledger_from}>
                                       {this.state.arrLedger.map((ledger) =>
@@ -151,7 +204,7 @@ class Expense extends Component {
                                     </select>
                                   </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>To</label>
                                     <select class="form-control" onChange={this.onLedgerToChange} value={this.state.id_ledger_to}>
@@ -162,19 +215,13 @@ class Expense extends Component {
                               </div>
                             </div>
                             <div class="row">
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Description</label>
                                     <input type="text" value={this.state.description} onChange={this.onDescriptionChange} class="form-control" />
                                   </div>
                               </div>
-                              <div class="col-sm-4">
-                                  <div class="form-group">
-                                    <label>Rate</label>
-                                    <input type="text" value={this.state.rate} onChange={this.onRateChange} class="form-control" />
-                                  </div>
-                              </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Amount</label>
                                     <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
@@ -182,7 +229,7 @@ class Expense extends Component {
                               </div>
                                 
                               
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveInvoice}>
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveVoucher}>
                                    Save
                                 </button>
                             </div>
@@ -192,7 +239,7 @@ class Expense extends Component {
                           <th style={{ width: '25%' }}>Date</th>
                           <th style={{ width: '50%' }}>From</th>
                           <th style={{ width: '25%' }}>To</th>
-                          <th style={{ width: '25%' }}>Description</th>
+                          <th style={{ width: '25%' }}>Remarks</th>
                           <th style={{ width: '25%' }}>Amount</th>
                           <th></th>
                         </tr>
@@ -217,6 +264,7 @@ class Expense extends Component {
         </div>
 
       </div>
+    </div>
     );
   }
 }
@@ -230,21 +278,17 @@ class TableRow extends React.Component {
   }
 
   render() {
-    let arrExpense = this.props.arrExpense;
+    let arrVoucher = this.props.arrVoucher;
     
-    let ledger = (id_account_head) => {
-      return this.props.arrLedger.filter(function (el) {
-        return el.id_account_head == id_account_head;
-      })[0].account_head;
-    }
+   
 
     return (
       <tr>
-        <td>{arrExpense.date}</td>
-        <td>{arrExpense.acc_from}</td>
-        <td>{arrExpense.acc_to}</td>
-        <td>{arrExpense.description}</td>
-        <td>{arrExpense.amount}</td>
+        <td>{arrVoucher.date}</td>
+        <td>{arrVoucher.acc_from}</td>
+        <td>{arrVoucher.acc_to}</td>
+        <td>{arrVoucher.description}</td>
+        <td>{arrVoucher.amount}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>

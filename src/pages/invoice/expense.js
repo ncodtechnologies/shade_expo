@@ -43,24 +43,23 @@ class Expense extends Component {
 
   saveInvoice = () => {
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-                id_ledger_date: new Date().toISOString().slice(0, 10),
-                id_ledger_from: this.state.id_ledger_from ,
-                id_ledger_to  : this.state.id_ledger_to ,
-                description   : this.state.description ,
-                rate      : this.state.rate ,
-                amount    : this.state.amount ,
-                type      : this.state.type ,
-                voucher_no: this.state.voucher_no ,
-                id_invoice: this.state.id_invoice ,
-              })
-  };
-  fetch(URL_EXPENSE_SAVE, requestOptions)
-      .then(response => response.json());
-}
-
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+                  id_ledger_date: new Date().toISOString().slice(0, 10),
+                  id_ledger_from: this.state.id_ledger_from ,
+                  id_ledger_to  : this.state.id_ledger_to ,
+                  description   : this.state.description ,
+                  rate      : this.state.rate ,
+                  amount    : this.state.amount ,
+                  type      : this.state.type ,
+                  voucher_no: this.state.voucher_no ,
+                  id_invoice: this.state.id_invoice ,
+                })
+    };
+    fetch(URL_EXPENSE_SAVE, requestOptions)
+        .then(response => response.json());
+  }
 
   onDateChange = date => this.setState({ date })
 

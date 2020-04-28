@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2020 at 03:04 PM
+-- Generation Time: Apr 28, 2020 at 01:09 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.28
 
@@ -68,7 +68,13 @@ INSERT INTO `account_voucher` (`id_account_voucher`, `id_ledger_from`, `id_ledge
 (1, 2, 2, '2020-04-25 00:00:00', 'zxsd', 1000, 20000, 'Payment', 1, 3),
 (2, 1, 2, '2020-04-25 00:00:00', 'desc', 1500, 25000, 'Payment', 1, 3),
 (3, 2, 2, '2020-04-25 00:00:00', 'new', 1000, 100000, 'Payment', 1, 3),
-(4, 2, 1, '2020-04-25 00:00:00', 'gfgf', 45, 3000, 'Payment', 1, 3);
+(4, 2, 1, '2020-04-25 00:00:00', 'gfgf', 45, 3000, 'Payment', 1, 3),
+(5, 2, 2, '2020-04-27 00:00:00', 'gh', 7, 7, 'Receipt', 7, 1),
+(6, 2, 2, '2020-04-27 00:00:00', 'gh', 7, 7, 'Receipt', 7, 1),
+(7, 2, 2, '2020-04-27 00:00:00', 'szda', 2000, 2000, 'Receipt', 2000, 1),
+(8, 2, 2, '2020-04-27 00:00:00', 'jiya jale', 0, 1000, 'Payment', 1, 1),
+(9, 2, 2, '2020-04-27 00:00:00', 'sdf', 0, 2000, 'Receipt', 1, 1),
+(10, 2, 2, '2020-04-27 00:00:00', 'aa', 0, 10, 'Payment', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -192,6 +198,29 @@ CREATE TABLE `login` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payroll`
+--
+
+CREATE TABLE `payroll` (
+  `id_payroll` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `id_ledger` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `amount` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payroll`
+--
+
+INSERT INTO `payroll` (`id_payroll`, `date`, `id_ledger`, `type`, `amount`) VALUES
+(1, '2020-04-28 00:00:00', 2, 'Salary', 2000),
+(2, '2020-04-28 00:00:00', 2, 'Salary', 2433),
+(3, '2020-04-26 15:33:08', 1, 'Loan', 1000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -257,6 +286,12 @@ ALTER TABLE `login`
   ADD PRIMARY KEY (`id_login`);
 
 --
+-- Indexes for table `payroll`
+--
+ALTER TABLE `payroll`
+  ADD PRIMARY KEY (`id_payroll`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -276,7 +311,7 @@ ALTER TABLE `account_head`
 -- AUTO_INCREMENT for table `account_voucher`
 --
 ALTER TABLE `account_voucher`
-  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `invoice`
@@ -295,6 +330,12 @@ ALTER TABLE `invoice_packing_expense`
 --
 ALTER TABLE `invoice_packing_list`
   MODIFY `id_packing_list` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `payroll`
+--
+ALTER TABLE `payroll`
+  MODIFY `id_payroll` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product`

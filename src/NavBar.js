@@ -25,6 +25,12 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/invoiceList"} className="nav-link">Invoices</Link>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/accounts"} className="nav-link">Accounts</Link>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/payroll"} className="nav-link">Payroll</Link>
+            </li>
           </ul>
         </nav>
       
@@ -60,6 +66,22 @@ class App extends Component {
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
                      Invoices
+                    </p>
+                  </NavLink>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    <p>
+                     Accounts
+                    </p>
+                  </NavLink>
+                </li>
+                <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/payroll"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    <p>
+                     Payroll
                     </p>
                   </NavLink>
                 </li>

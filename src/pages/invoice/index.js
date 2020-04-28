@@ -579,13 +579,13 @@ class App extends Component {
                      <Documents />
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                     <Expenses />
+                     <Expenses  id_invoice={this.props.match.params.id}/>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
                      <NetReport />
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
-                     <Packing />
+                     <Packing  id_invoice={this.props.match.params.id}/>
                   </div>
                 </div>
               </div>

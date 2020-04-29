@@ -4,6 +4,7 @@ import RoughInvoiceCreate from '../pages/roughInvCreate';
 import Invoice from '../pages/invoice/';
 import InvoiceList from '../pages/invoiceList';
 import Accounts from '../pages/accounts/voucher';
+import LedgerReport from '../pages/accounts/ledgerReport';
 import Payroll from '../pages/payroll';
 
 export default function Routes() {
@@ -15,6 +16,7 @@ export default function Routes() {
       <Route path="/" exact component={InvoiceList} />
       <Route path="/accounts" exact component={Accounts} />
       <Route path="/payroll" exact component={Payroll} />
+      <Route path="/ledgerReport" exact component={LedgerReport} />
     </Switch>
   );
 }

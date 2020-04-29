@@ -70,12 +70,28 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
+                <a href="#" class="nav-link active">
                   <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
                      Accounts
                     </p>
                   </NavLink>
+                </a> 
+                <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./accounts" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Voucher</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./ledgerReport" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ledger Report</p>
+                </a>
+              </li>
+            </ul>               
                 </li>
                 <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/payroll"} activeClassName="active" className="nav-link">
@@ -85,6 +101,7 @@ class App extends Component {
                     </p>
                   </NavLink>
                 </li>
+             
               </ul>
             </nav>
           </div>

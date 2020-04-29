@@ -10,15 +10,9 @@ class Expense extends Component {
     super(props);
     this.state = {
       data:null,
-      date: new Date(),
-      id_ledger_from:'',
-      id_ledger_to:'',
-      description:'',
-      rate:'',
-      amount: '',
-      type:'Payment',
-      voucher_no:'1',
-      id_invoice:'1',
+      dateFrom: new Date(),
+      dateTo: new Date(),
+      id_ledger:'',
       ledger: '',
       arrLedger: [],
       arrVouchers: [],
@@ -28,20 +22,17 @@ class Expense extends Component {
             ]
     }
     
-    this.onAmountChange = this.onAmountChange.bind(this);
-    this.onTypeChange = this.onTypeChange.bind(this);
-    this.onDescriptionChange = this.onDescriptionChange.bind(this);
-    this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
-    this.onLedgerToChange = this.onLedgerToChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
+    this.onLedgerChange = this.onLedgerChange.bind(this);
+    this.onDateFromChange = this.onDateFromChange.bind(this);
+    this.onDateToChange = this.onDateToChange.bind(this);
   }
 
   
   componentDidMount() {
-    const date_ = this.state.date.toISOString().slice(0, 10);
-    const type_ = this.state.type;
+   // const date_ = this.state.dateFrom.toISOString().slice(0, 10);
+   // const date = this.state.dateTo.toISOString().slice(0, 10);
     this.loadAccountHead();
-    this.loadVoucherList(date_,type_);
+    //this.loadVoucherList(date_,date);
   }
   loadAccountHead(){
     fetch(API)
@@ -50,8 +41,8 @@ class Expense extends Component {
     //console.log(data)
   }
 
-  loadVoucherList = (date_,type_) => {
-    fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${type_}'` )
+  loadVoucherList = (date_,date) => {
+    fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${date}'` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
@@ -86,11 +77,20 @@ class Expense extends Component {
 }
 
 
-  onDateChange = date => {
-    this.setState({ date }
+  onDateFromChange = dateFrom => {
+    this.setState({ dateFrom }
       , () => {
-        const date_=this.state.date.toISOString().slice(0, 10)
-        this.loadVoucherList(date_,this.state.type);
+        const date_=this.state.dateFrom.toISOString().slice(0, 10)
+        //this.loadVoucherList(date_,this.state.type);
+    }
+      );
+   
+  }
+  onDateToChange = dateTo => {
+    this.setState({ dateTo }
+      , () => {
+        //const date_=this.state.date.toISOString().slice(0, 10)
+       // this.loadVoucherList(date_,this.state.type);
     }
       );
    
@@ -104,29 +104,10 @@ class Expense extends Component {
     })
   }
 
-  onDescriptionChange(event) {
-    this.setState({ description: event.target.value })
+  onLedgerChange(event) {
+    this.setState({ id_ledger: event.target.value })
   }
-
-  onTypeChange(event) {
-    this.setState({ type: event.target.value }
-      , () => {
-        this.loadVoucherList(this.state.date,this.state.type);
-    });
-  }
-
-  onAmountChange(event) {
-    this.setState({ amount: event.target.value })
-  }
-
-  onLedgerFromChange(event) {
-    this.setState({ id_ledger_from: event.target.value })
-  }
-
-  onLedgerToChange(event) {
-    this.setState({ id_ledger_to: event.target.value })
-  }
- 
+  
   render() {
     const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
@@ -166,11 +147,11 @@ class Expense extends Component {
                             <div class="row" >
                               <div class="col-sm-4">
                                   <div class="form-group">
-                                    <label>Date</label>
+                                    <label>From</label>
                                     <DatePicker
                                       className={"form-control"}
-                                      onChange={this.onDateChange}
-                                      value={this.state.date}
+                                      onChange={this.onDateFromChange}
+                                      value={this.state.dateFrom}
                                       format={"dd/MM/yyyy"}
                                     />
                                   </div>
@@ -178,10 +159,12 @@ class Expense extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>To</label>
-                                    <select class="form-control" onChange={this.onTypeChange} value={this.state.type}>
-                                      {this.state.arrType.map((types) =>
-                                        <option value={types.type}>{types.type}</option>)}
-                                    </select>
+                                    <DatePicker
+                                      className={"form-control"}
+                                      onChange={this.onDateToChange}
+                                      value={this.state.dateTo}
+                                      format={"dd/MM/yyyy"}
+                                    />
                                   </div>
                               </div>
                             </div>
@@ -194,48 +177,29 @@ class Expense extends Component {
                               <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>From</label>
-                                    <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.id_ledger_from}>
+                                    <select class="form-control" onChange={this.onLedgerChange} value={this.state.id_ledger}>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
                                   </div>
                               </div>
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <label>To</label>
-                                    <select class="form-control" onChange={this.onLedgerToChange} value={this.state.id_ledger_to}>
-                                      {this.state.arrLedger.map((ledger) =>
-                                        <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
-                                    </select>
-                                  </div>
-                              </div>
+                             
                             </div>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <label>Description</label>
-                                    <input type="text" value={this.state.description} onChange={this.onDescriptionChange} class="form-control" />
-                                  </div>
-                              </div>
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <label>Amount</label>
-                                    <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
-                                  </div>
-                              </div>
-                                
-                              
+                            <div class="row">                          
+                                                          
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveVoucher}>
-                                   Save
+                                   Search
                                 </button>
                             </div>
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '50%' }}>From</th>
-                          <th style={{ width: '25%' }}>To</th>
-                          <th style={{ width: '25%' }}>Remarks</th>
-                          <th style={{ width: '25%' }}>Amount</th>
+                          <th style={{ width: '50%' }}>Date</th>
+                          <th style={{ width: '25%' }}>Type</th>
+                          <th style={{ width: '25%' }}>Description</th>
+                          <th style={{ width: '25%' }}>Debit</th>
+                          <th style={{ width: '25%' }}>Credit</th>
+                          <th style={{ width: '25%' }}>Balance</th>
                           <th></th>
                         </tr>
                       </thead>

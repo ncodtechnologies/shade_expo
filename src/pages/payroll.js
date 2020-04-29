@@ -78,7 +78,6 @@ class Expense extends Component {
     this.setState({ date }
       , () => {
         const date_=this.state.date.toISOString().slice(0, 10)
-        alert(date_)
         this.loadVoucherList(date_);
     });
      }

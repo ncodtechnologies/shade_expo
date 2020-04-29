@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_EXPENSE_SAVE, URL_VOUCHER_DT } from '../constants';
 
-const API = '/users/account_head';
+import { URL_VOUCHER_SAVE, URL_VOUCHER_DT } from '../constants';
+import { URL_ACCOUT_HEAD_DT } from '../constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -38,13 +38,13 @@ class Expense extends Component {
 
   
   componentDidMount() {
-    const date_ = this.state.date.toISOString().slice(0, 10);
+    const date_ = this.formatDate(this.state.date);
     const type_ = this.state.type;
     this.loadAccountHead();
     this.loadVoucherList(date_,type_);
   }
   loadAccountHead(){
-    fetch(API)
+    fetch(URL_ACCOUT_HEAD_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)
@@ -68,7 +68,7 @@ class Expense extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-                date          : new Date().toISOString().slice(0, 10),
+                date          : this.formatDate(this.state.date),
                 id_ledger_from: this.state.id_ledger_from ,
                 id_ledger_to  : this.state.id_ledger_to ,
                 description   : this.state.description ,
@@ -79,18 +79,32 @@ class Expense extends Component {
                 id_invoice    : this.state.id_invoice,
               })
   };
-  fetch(URL_EXPENSE_SAVE, requestOptions)
+  fetch(URL_VOUCHER_SAVE, requestOptions)
       .then(response => response.json());
-      const _date=this.state.date.toISOString().slice(0, 10)
+      const _date=this.formatDate(this.state.date);
        this.loadVoucherList(_date,this.state.type);
+}
+
+ formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
 }
 
 
   onDateChange = date => {
     this.setState({ date }
       , () => {
-        const date_=this.state.date.toISOString().slice(0, 10)
-        this.loadVoucherList(date_,this.state.type);
+        const _date=this.formatDate(this.state.date);
+        this.loadVoucherList(_date,this.state.type);
     }
       );
    
@@ -111,7 +125,7 @@ class Expense extends Component {
   onTypeChange(event) {
     this.setState({ type: event.target.value }
       , () => {
-        this.loadVoucherList(this.state.date,this.state.type);
+        this.loadVoucherList(this.formatDate(this.state.date),this.state.type);
     });
   }
 
@@ -146,7 +160,7 @@ class Expense extends Component {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Accounts</h1>
+                  <h1>Voucher</h1>
                 </div>
               </div>
             </div>
@@ -168,16 +182,16 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Date</label>
                                     <DatePicker
-                                      className={"form-control"}
+                                      className="form-control"
                                       onChange={this.onDateChange}
                                       value={this.state.date}
                                       format={"dd/MM/yyyy"}
                                     />
                                   </div>
                               </div>
-                              <div class="col-sm-4">
-                                  <div class="form-group">
-                                    <label>To</label>
+                              <div class="col-sm-8">
+                                  <div class="form-group float-right">
+                                    <label>Type</label>
                                     <select class="form-control" onChange={this.onTypeChange} value={this.state.type}>
                                       {this.state.arrType.map((types) =>
                                         <option value={types.type}>{types.type}</option>)}

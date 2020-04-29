@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
-
-const API = '/users/account_head';
-const APILabour = '/users/invoice/invLabour';
-const APIPacking = '/users/invoice/invPacking';
-const APIOtherExp = '/users/invoice/invPackingexp';
+import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT } from '../constants';
 
 class Packing extends Component {
   constructor(props) {
@@ -24,17 +20,17 @@ class Packing extends Component {
   }
 
   loadInvLabourItem = (id_invoice) => {
-    fetch(APILabour + `/${id_invoice}`)
+    fetch(URL_PACK_LABOUR_DT + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ LabourItems: data }));
   }
   loadInvPackingList = (id_invoice) => {
-    fetch(APIPacking + `/${id_invoice}`)
+    fetch(URL_PACK_PACKINGLIST_DT + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ packItems: data }));
   }
   loadInvPackingExp = (id_invoice) => {
-    fetch(APIOtherExp + `/${id_invoice}`)
+    fetch(URL_PACK_PACKINGEXP_DT + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ ExpenseItems: data }));
   }

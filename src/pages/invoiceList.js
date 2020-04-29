@@ -3,9 +3,7 @@ import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 import { Link } from 'react-router-dom';
 import Invoice from './invoice';
-
-const API = '/users/invoiceList';
-
+import { URL_INVOICE_LIST_DT } from './constants';
 
 class App extends Component {
 
@@ -28,7 +26,7 @@ class App extends Component {
 
   
   componentDidMount() {
-    fetch(API)
+    fetch(URL_INVOICE_LIST_DT)
     .then(response => response.json())
     .then(data => this.setState({ invItems: data }));
     //console.log(data)

@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import RoughInvoiceCreate from '../pages/roughInvCreate';
 import Invoice from '../pages/invoice/';
 import InvoiceList from '../pages/invoiceList';
-import Accounts from '../pages/accounts/voucher';
+import Voucher from '../pages/accounts/voucher';
 import LedgerReport from '../pages/accounts/ledgerReport';
 import Payroll from '../pages/payroll';
 
@@ -14,7 +14,7 @@ export default function Routes() {
       <Route path="/invoice/:id" component={Invoice} />
       <Route path="/invoiceList" component={InvoiceList} />
       <Route path="/" exact component={InvoiceList} />
-      <Route path="/accounts" exact component={Accounts} />
+      <Route path="/voucher" exact component={Voucher} />
       <Route path="/payroll" exact component={Payroll} />
       <Route path="/ledgerReport" exact component={LedgerReport} />
     </Switch>

@@ -26,7 +26,7 @@ class App extends Component {
               <Link to={"/invoiceList"} className="nav-link">Invoices</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/accounts"} className="nav-link">Accounts</Link>
+              <Link to={"/voucher"} className="nav-link">Voucher</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/payroll"} className="nav-link">Payroll</Link>
@@ -53,7 +53,7 @@ class App extends Component {
       
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item">
                   <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-receipt"></i>
                     <p>
@@ -61,7 +61,7 @@ class App extends Component {
                     </p>
                   </NavLink>
                 </li>
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item">
                   <NavLink to={"/invoiceList"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
@@ -70,17 +70,15 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
-                <a href="#" class="nav-link active">
                   <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
                      Accounts
                     </p>
                   </NavLink>
-                </a> 
                 <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./accounts" class="nav-link">
+                <a href="./voucher" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Voucher</p>
                 </a>

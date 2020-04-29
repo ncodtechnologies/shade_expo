@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
-
-const API = '/users/account_head';
+import { URL_ACCOUT_HEAD_DT } from '../constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class Expense extends Component {
    console.log(id_invoice)
   }
   loadAccountHead(){
-    fetch(API)
+    fetch(URL_ACCOUT_HEAD_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)
@@ -77,6 +76,7 @@ class Expense extends Component {
       .then(response => response.json());
       this.loadExpenseList(this.props.id_invoice);
 }
+
 
 
   onDateChange = date => this.setState({ date })

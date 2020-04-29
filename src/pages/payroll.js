@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_PAYROLL_SAVE, URL_PAYROLL_DT } from './constants';
-
-const API = '/users/account_head';
+import { URL_ACCOUT_HEAD_DT } from './constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -32,12 +31,12 @@ class Expense extends Component {
 
   
   componentDidMount() {
-    const date_ = this.state.date.toISOString().slice(0, 10);
+    const date_=this.formatDate(this.state.date);
     this.loadAccountHead();
     this.loadVoucherList(date_);
   }
   loadAccountHead(){
-    fetch(API)
+    fetch(URL_ACCOUT_HEAD_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)
@@ -69,15 +68,29 @@ class Expense extends Component {
   };
   fetch(URL_PAYROLL_SAVE, requestOptions)
       .then(response => response.json());
-      const _date=this.state.date.toISOString().slice(0, 10)
-      // this.loadVoucherList(_date);
+      const date_=this.formatDate(this.state.date);
+      this.loadVoucherList(date_);
+}
+
+formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
 }
 
 
   onDateChange = date => {
     this.setState({ date }
       , () => {
-        const date_=this.state.date.toISOString().slice(0, 10)
+        const date_=this.formatDate(this.state.date);
         this.loadVoucherList(date_);
     });
      }
@@ -142,7 +155,7 @@ class Expense extends Component {
                                     <label>Date</label>
                                     <DatePicker
                                       className={"form-control"}
-                                      onChange={this.onDateChange,  this.loadVoucherList(this.state.date)}
+                                      onChange={this.onDateChange}
                                       value={this.state.date}
                                       format={"dd/MM/yyyy"}
                                     />

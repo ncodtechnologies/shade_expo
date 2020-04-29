@@ -6,7 +6,7 @@ import NetReport from './netreport'
 import Documents from './documents'
 import Packing from './packing'
 import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
-const API = '/users/';
+const API = '/invoice/';
 
 class Invoice extends Component {
 

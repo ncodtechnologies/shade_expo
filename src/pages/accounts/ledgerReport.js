@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_EXPENSE_SAVE, URL_VOUCHER_DT } from '../constants';
+import {  URL_LEDGER_REPORT_DT } from '../constants';
+import { URL_ACCOUT_HEAD_DT } from '../constants';
 
-const API = '/users/account_head';
-
-class Expense extends Component {
+class LedgerReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,10 +15,6 @@ class Expense extends Component {
       ledger: '',
       arrLedger: [],
       arrVouchers: [],
-      arrType:[
-              {type:'Payment'},
-              {type:'Receipt'}
-            ]
     }
     
     this.onLedgerChange = this.onLedgerChange.bind(this);
@@ -29,20 +24,21 @@ class Expense extends Component {
 
   
   componentDidMount() {
-   // const date_ = this.state.dateFrom.toISOString().slice(0, 10);
-   // const date = this.state.dateTo.toISOString().slice(0, 10);
+    const _dateFrom=this.formatDate(this.state.dateFrom);
+    const _dateTo=this.formatDate(this.state.dateTo);
+    this.loadVoucherList(_dateFrom,_dateTo);
     this.loadAccountHead();
-    //this.loadVoucherList(date_,date);
+    
   }
   loadAccountHead(){
-    fetch(API)
+    fetch(URL_ACCOUT_HEAD_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)
   }
 
-  loadVoucherList = (date_,date) => {
-    fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${date}'` )
+  loadVoucherList = (_dateFrom,_dateTo) => {
+    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
@@ -54,34 +50,29 @@ class Expense extends Component {
     console.log(this.state.arrVouchers)
   }
 
-  saveVoucher = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-                date          : new Date().toISOString().slice(0, 10),
-                id_ledger_from: this.state.id_ledger_from ,
-                id_ledger_to  : this.state.id_ledger_to ,
-                description   : this.state.description ,
-                rate          : this.state.rate  ,
-                amount        : this.state.amount ,
-                type          : this.state.type ,
-                voucher_no    : this.state.voucher_no ,
-                id_invoice    : this.state.id_invoice,
-              })
-  };
-  fetch(URL_EXPENSE_SAVE, requestOptions)
-      .then(response => response.json());
-      const _date=this.state.date.toISOString().slice(0, 10)
-       this.loadVoucherList(_date,this.state.type);
+  
+
+formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
 }
 
 
   onDateFromChange = dateFrom => {
     this.setState({ dateFrom }
       , () => {
-        const date_=this.state.dateFrom.toISOString().slice(0, 10)
-        //this.loadVoucherList(date_,this.state.type);
+        const _dateFrom=this.formatDate(this.state.dateFrom);
+        const _dateTo=this.formatDate(this.state.dateTo);
+        this.loadVoucherList(_dateFrom,_dateTo);
     }
       );
    
@@ -89,8 +80,9 @@ class Expense extends Component {
   onDateToChange = dateTo => {
     this.setState({ dateTo }
       , () => {
-        //const date_=this.state.date.toISOString().slice(0, 10)
-       // this.loadVoucherList(date_,this.state.type);
+        const _dateFrom=this.formatDate(this.state.dateFrom);
+        const _dateTo=this.formatDate(this.state.dateTo);
+        this.loadVoucherList(_dateFrom,_dateTo);
     }
       );
    
@@ -145,7 +137,7 @@ class Expense extends Component {
                         <tr>
                         <th colspan={6} >
                             <div class="row" >
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>From</label>
                                     <DatePicker
@@ -156,7 +148,7 @@ class Expense extends Component {
                                     />
                                   </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>To</label>
                                     <DatePicker
@@ -187,15 +179,15 @@ class Expense extends Component {
                             </div>
                             <div class="row">                          
                                                           
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveVoucher}>
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
                                    Search
                                 </button>
                             </div>
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '50%' }}>Date</th>
-                          <th style={{ width: '25%' }}>Type</th>
+                          <th style={{ width: '20%' }}>Date</th>
+                          <th style={{ width: '20%' }}>Type</th>
                           <th style={{ width: '25%' }}>Description</th>
                           <th style={{ width: '25%' }}>Debit</th>
                           <th style={{ width: '25%' }}>Credit</th>
@@ -208,6 +200,8 @@ class Expense extends Component {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
@@ -246,6 +240,8 @@ class TableRow extends React.Component {
         <td>{arrVoucher.acc_to}</td>
         <td>{arrVoucher.description}</td>
         <td>{arrVoucher.amount}</td>
+        <td>{arrVoucher.description}</td>
+        <td>{arrVoucher.amount}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
@@ -256,4 +252,4 @@ class TableRow extends React.Component {
   }
 }
 
-export default Expense;
+export default LedgerReport;

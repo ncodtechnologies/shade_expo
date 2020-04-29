@@ -236,7 +236,6 @@ class Expense extends Component {
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '25%' }}>Date</th>
                           <th style={{ width: '50%' }}>From</th>
                           <th style={{ width: '25%' }}>To</th>
                           <th style={{ width: '25%' }}>Remarks</th>
@@ -249,7 +248,6 @@ class Expense extends Component {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
@@ -284,7 +282,6 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.date}</td>
         <td>{arrVoucher.acc_from}</td>
         <td>{arrVoucher.acc_to}</td>
         <td>{arrVoucher.description}</td>

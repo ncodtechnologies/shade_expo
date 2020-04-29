@@ -38,10 +38,8 @@ class Expense extends Component {
 
   
   componentDidMount() {
-    const date_ = this.state.date.toISOString().slice(0, 10);
+    const date_ = this.formatDate(this.state.date);
     const type_ = this.state.type;
-    alert(date_);
-    alert(type_);
     this.loadAccountHead();
     this.loadVoucherList(date_,type_);
   }
@@ -70,7 +68,7 @@ class Expense extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-                date          : new Date().toISOString().slice(0, 10),
+                date          : this.formatDate(this.state.date),
                 id_ledger_from: this.state.id_ledger_from ,
                 id_ledger_to  : this.state.id_ledger_to ,
                 description   : this.state.description ,
@@ -83,18 +81,29 @@ class Expense extends Component {
   };
   fetch(URL_EXPENSE_SAVE, requestOptions)
       .then(response => response.json());
-      const _date=this.state.date.toISOString().slice(0, 10)
+      const _date=this.formatDate(this.state.date);
        this.loadVoucherList(_date,this.state.type);
+}
+
+ formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
 }
 
 
   onDateChange = date => {
     this.setState({ date }
       , () => {
-        const date_=this.state.date.toISOString().slice(0, 10)
-        this.loadVoucherList(date_,this.state.type);
-        alert(date_);
-        alert(this.state.type);
+        this.loadVoucherList(this.formatDate(date),this.state.type);
     }
       );
    
@@ -115,7 +124,7 @@ class Expense extends Component {
   onTypeChange(event) {
     this.setState({ type: event.target.value }
       , () => {
-        this.loadVoucherList(this.state.date,this.state.type);
+        this.loadVoucherList(this.formatDate(this.state.date),this.state.type);
     });
   }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
-import DatePicker from 'react-date-picker';
 import { Link } from 'react-router-dom';
 import Invoice from './invoice';
 import { URL_INVOICE_LIST_DT } from './constants';

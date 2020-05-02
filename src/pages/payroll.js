@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_PAYROLL_SAVE, URL_PAYROLL_DT } from './constants';
-import { URL_ACCOUT_HEAD_DT } from './constants';
+import { URL_LEDGER_DT } from './constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Expense extends Component {
     this.loadVoucherList(date_);
   }
   loadAccountHead(){
-    fetch(URL_ACCOUT_HEAD_DT)
+    fetch(URL_LEDGER_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)

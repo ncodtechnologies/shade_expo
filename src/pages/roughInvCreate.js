@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 
-const API = '/users/';
+const API = '/invoice/';
 
 class App extends Component {
 

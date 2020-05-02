@@ -3,7 +3,7 @@ import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 
 import { URL_VOUCHER_SAVE, URL_VOUCHER_DT } from '../constants';
-import { URL_ACCOUT_HEAD_DT } from '../constants';
+import { URL_LEDGER_DT } from '../constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class Expense extends Component {
     this.loadVoucherList(date_,type_);
   }
   loadAccountHead(){
-    fetch(URL_ACCOUT_HEAD_DT)
+    fetch(URL_LEDGER_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)

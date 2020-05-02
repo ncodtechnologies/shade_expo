@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2020 at 01:09 PM
+-- Generation Time: May 02, 2020 at 11:52 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.28
 
@@ -21,25 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `shade_app`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `account_head`
---
-
-CREATE TABLE `account_head` (
-  `id_account_head` int(11) NOT NULL,
-  `account_head` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `account_head`
---
-
-INSERT INTO `account_head` (`id_account_head`, `account_head`) VALUES
-(1, 'ACCOUNT HEAD 1'),
-(2, 'ACC 2');
 
 -- --------------------------------------------------------
 
@@ -65,16 +46,8 @@ CREATE TABLE `account_voucher` (
 --
 
 INSERT INTO `account_voucher` (`id_account_voucher`, `id_ledger_from`, `id_ledger_to`, `date`, `description`, `rate`, `amount`, `type`, `voucher_no`, `id_invoice`) VALUES
-(1, 2, 2, '2020-04-25 00:00:00', 'zxsd', 1000, 20000, 'Payment', 1, 3),
-(2, 1, 2, '2020-04-25 00:00:00', 'desc', 1500, 25000, 'Payment', 1, 3),
-(3, 2, 2, '2020-04-25 00:00:00', 'new', 1000, 100000, 'Payment', 1, 3),
-(4, 2, 1, '2020-04-25 00:00:00', 'gfgf', 45, 3000, 'Payment', 1, 3),
-(5, 2, 2, '2020-04-27 00:00:00', 'gh', 7, 7, 'Receipt', 7, 1),
-(6, 2, 2, '2020-04-27 00:00:00', 'gh', 7, 7, 'Receipt', 7, 1),
-(7, 2, 2, '2020-04-27 00:00:00', 'szda', 2000, 2000, 'Receipt', 2000, 1),
-(8, 2, 2, '2020-04-27 00:00:00', 'jiya jale', 0, 1000, 'Payment', 1, 1),
-(9, 2, 2, '2020-04-27 00:00:00', 'sdf', 0, 2000, 'Receipt', 1, 1),
-(10, 2, 2, '2020-04-27 00:00:00', 'aa', 0, 10, 'Payment', 1, 1);
+(12, 2, 2, '2020-04-29 00:00:00', 'sneha', 0, 100000, 'Receipt', 1, 1),
+(13, 2, 2, '2020-04-29 00:00:00', 'no desc', 1220, 100000, 'Payment', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -216,38 +189,183 @@ CREATE TABLE `payroll` (
 INSERT INTO `payroll` (`id_payroll`, `date`, `id_ledger`, `type`, `amount`) VALUES
 (1, '2020-04-28 00:00:00', 2, 'Salary', 2000),
 (2, '2020-04-28 00:00:00', 2, 'Salary', 2433),
-(3, '2020-04-26 15:33:08', 1, 'Loan', 1000);
+(3, '2020-04-07 00:00:00', 1, 'Loan', 1000),
+(4, '2020-04-29 00:00:00', 2, 'Loan', 1200),
+(5, '2020-04-29 00:00:00', 2, 'Salary', 1000000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Table structure for table `z_account_head`
 --
 
-CREATE TABLE `product` (
+CREATE TABLE `z_account_head` (
+  `id_account_head` int(11) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `account_head` varchar(100) NOT NULL,
+  `id_ledger_group` int(11) NOT NULL,
+  `opening_balance` double NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `phone` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `z_account_head`
+--
+
+INSERT INTO `z_account_head` (`id_account_head`, `code`, `account_head`, `id_ledger_group`, `opening_balance`, `address`, `phone`) VALUES
+(1, 'LABOUR', 'LABOUR', 0, 0, '', ''),
+(2, 'CR', 'CLEAR RECEIPT', 1, 0, '', '9899346791'),
+(3, '', 'AC', 18, 0, '', ''),
+(4, '', 'ACC', 1, 500, '', ''),
+(5, '', 'MIN', 1, -5000, '', ''),
+(6, '', 'ACC', 1, 1200, '', ''),
+(7, '', 'AHC', 3, -500, '', ''),
+(8, 'st', 'chidambaram', 2, 200, 'chennai', '9811178267'),
+(9, 'nq', 'vc', 2, 1000, 'ash', '7865344324');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `z_ledger_group`
+--
+
+CREATE TABLE `z_ledger_group` (
+  `id_ledger_group` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `z_ledger_group`
+--
+
+INSERT INTO `z_ledger_group` (`id_ledger_group`, `name`) VALUES
+(1, 'SUPPLIER'),
+(2, 'STAFF'),
+(3, 'ACCOUNT HEAD'),
+(4, 'undefined'),
+(5, 'hai'),
+(6, 'NEW');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `z_product`
+--
+
+CREATE TABLE `z_product` (
   `id_product` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(250) NOT NULL,
+  `unit` varchar(150) NOT NULL,
+  `purchase_price` double NOT NULL,
+  `selling_price` double NOT NULL,
+  `category` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `product`
+-- Dumping data for table `z_product`
 --
 
-INSERT INTO `product` (`id_product`, `name`) VALUES
-(1, 'prod 1'),
-(2, 'prod'),
-(3, 'product '),
-(4, 'product 3');
+INSERT INTO `z_product` (`id_product`, `name`, `unit`, `purchase_price`, `selling_price`, `category`) VALUES
+(1, 'PRODUCT1', 'a', 1000, 1200, 0),
+(2, 'PROD1', 'P1', 1150, 1200, 0),
+(3, 'PROD2', 'hg', 1000, 500, 0),
+(4, 'SAD', 'ZC', 100, 200, 0),
+(5, 'PROD3', 'F', 2000, 2500, 0),
+(6, 'PROD4', 'PR4', 1000, 1200, 0),
+(7, 'P5', '5', 1200, 1400, 0),
+(8, 'QWERTY', '3', 100, 300, 0),
+(9, 'R', 'F', 3, 20, 0),
+(10, 'F', 'Y', 8, 10, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `z_purchase_expenses`
+--
+
+CREATE TABLE `z_purchase_expenses` (
+  `id_purchase_expense` int(11) NOT NULL,
+  `expense` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `amount` double NOT NULL,
+  `id_purchase_voucher` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `z_purchase_expenses`
+--
+
+INSERT INTO `z_purchase_expenses` (`id_purchase_expense`, `expense`, `amount`, `id_purchase_voucher`) VALUES
+(83, 'LABOUR', 0, 1),
+(84, 'CLEAR RECEIPT', 0, 1),
+(85, 'AC', 0, 1),
+(86, 'ACC', 0, 1),
+(87, 'MIN', 0, 1),
+(88, 'ACC', 0, 1),
+(89, 'AHC', 0, 1),
+(90, 'LABOUR', 0, 2),
+(91, 'CLEAR RECEIPT', 0, 2),
+(92, 'AC', 0, 2),
+(93, 'ACC', 0, 2),
+(94, 'MIN', 0, 2),
+(95, 'ACC', 0, 2),
+(96, 'AHC', 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `z_purchase_voucher`
+--
+
+CREATE TABLE `z_purchase_voucher` (
+  `id_purchase_voucher` int(11) NOT NULL,
+  `voucher_no` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `id_account_head` int(11) NOT NULL,
+  `payable` double NOT NULL DEFAULT 0,
+  `gross` double NOT NULL DEFAULT 0,
+  `narration` varchar(250) NOT NULL DEFAULT '0',
+  `_old_balance` double NOT NULL,
+  `ref_no` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `z_purchase_voucher`
+--
+
+INSERT INTO `z_purchase_voucher` (`id_purchase_voucher`, `voucher_no`, `date`, `id_account_head`, `payable`, `gross`, `narration`, `_old_balance`, `ref_no`) VALUES
+(1, 1, '2020-03-22', 1, 0, 100000, '', 3027590, ''),
+(2, 2, '2020-04-22', 7, 0, 50000, '', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `z_purchase_voucher_item`
+--
+
+CREATE TABLE `z_purchase_voucher_item` (
+  `id_purchase_voucher_item` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `kg` double NOT NULL,
+  `unit_price` double NOT NULL,
+  `total` double NOT NULL DEFAULT 0,
+  `id_purchase_voucher` int(11) NOT NULL,
+  `remarks` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `z_purchase_voucher_item`
+--
+
+INSERT INTO `z_purchase_voucher_item` (`id_purchase_voucher_item`, `id_product`, `quantity`, `kg`, `unit_price`, `total`, `id_purchase_voucher`, `remarks`) VALUES
+(3, 2, 25, 0, 10, 250, 2, 'no'),
+(21, 2, 100, 0, 1000, 100000, 1, NULL),
+(22, 3, 250, 0, 200, 50000, 2, NULL);
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `account_head`
---
-ALTER TABLE `account_head`
-  ADD PRIMARY KEY (`id_account_head`);
 
 --
 -- Indexes for table `account_voucher`
@@ -292,26 +410,50 @@ ALTER TABLE `payroll`
   ADD PRIMARY KEY (`id_payroll`);
 
 --
--- Indexes for table `product`
+-- Indexes for table `z_account_head`
 --
-ALTER TABLE `product`
+ALTER TABLE `z_account_head`
+  ADD PRIMARY KEY (`id_account_head`);
+
+--
+-- Indexes for table `z_ledger_group`
+--
+ALTER TABLE `z_ledger_group`
+  ADD PRIMARY KEY (`id_ledger_group`);
+
+--
+-- Indexes for table `z_product`
+--
+ALTER TABLE `z_product`
   ADD PRIMARY KEY (`id_product`);
+
+--
+-- Indexes for table `z_purchase_expenses`
+--
+ALTER TABLE `z_purchase_expenses`
+  ADD PRIMARY KEY (`id_purchase_expense`);
+
+--
+-- Indexes for table `z_purchase_voucher`
+--
+ALTER TABLE `z_purchase_voucher`
+  ADD PRIMARY KEY (`id_purchase_voucher`);
+
+--
+-- Indexes for table `z_purchase_voucher_item`
+--
+ALTER TABLE `z_purchase_voucher_item`
+  ADD PRIMARY KEY (`id_purchase_voucher_item`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `account_head`
---
-ALTER TABLE `account_head`
-  MODIFY `id_account_head` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `account_voucher`
 --
 ALTER TABLE `account_voucher`
-  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `invoice`
@@ -335,13 +477,43 @@ ALTER TABLE `invoice_packing_list`
 -- AUTO_INCREMENT for table `payroll`
 --
 ALTER TABLE `payroll`
-  MODIFY `id_payroll` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_payroll` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `product`
+-- AUTO_INCREMENT for table `z_account_head`
 --
-ALTER TABLE `product`
-  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `z_account_head`
+  MODIFY `id_account_head` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `z_ledger_group`
+--
+ALTER TABLE `z_ledger_group`
+  MODIFY `id_ledger_group` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `z_product`
+--
+ALTER TABLE `z_product`
+  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `z_purchase_expenses`
+--
+ALTER TABLE `z_purchase_expenses`
+  MODIFY `id_purchase_expense` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+
+--
+-- AUTO_INCREMENT for table `z_purchase_voucher`
+--
+ALTER TABLE `z_purchase_voucher`
+  MODIFY `id_purchase_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `z_purchase_voucher_item`
+--
+ALTER TABLE `z_purchase_voucher_item`
+  MODIFY `id_purchase_voucher_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

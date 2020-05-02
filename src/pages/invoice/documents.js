@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-date-picker';
-
-
 
 class Documents extends Component{
     constructor(props){

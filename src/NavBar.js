@@ -20,6 +20,9 @@ class App extends Component {
               <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/product"} className="nav-link">Product</Link>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/roughInvoiceCreate"} className="nav-link">Create Rough Invoice</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
@@ -53,6 +56,14 @@ class App extends Component {
       
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                 <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/product"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    <p>
+                     Product
+                    </p>
+                  </NavLink>
+                </li>
                 <li class="nav-item">
                   <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-receipt"></i>
@@ -70,6 +81,28 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/purchase"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    <p>
+                     Purchase
+                    </p>
+                  </NavLink>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="./purchaseVoucher" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Purchase Voucher</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./purchaseReport" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Purchase Report</p>
+                    </a>
+                  </li>
+                </ul>               
+                </li>
+                <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
@@ -77,19 +110,25 @@ class App extends Component {
                     </p>
                   </NavLink>
                 <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./voucher" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Voucher</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./ledgerReport" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ledger Report</p>
-                </a>
-              </li>
-            </ul>               
+                  <li class="nav-item">
+                    <a href="./ledger" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ledger</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./voucher" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Voucher</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="./ledgerReport" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Ledger Report</p>
+                    </a>
+                  </li>
+                </ul>               
                 </li>
                 <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/payroll"} activeClassName="active" className="nav-link">

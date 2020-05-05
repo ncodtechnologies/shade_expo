@@ -10,8 +10,11 @@
     "react": "^16.4.1",
     "react-date-picker": "^8.0.0",
     "react-dom": "^16.4.1",
+    "react-form-input-validation": "^2.0.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^2.1.1"
+    "react-scripts": "^2.1.1",
+    "react-validation": "^3.0.7",
+    "simple-react-validator": "^1.4.6"
   },
   "homepage": "http://expo.ncod.in",
   "scripts": {

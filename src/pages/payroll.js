@@ -3,6 +3,7 @@ import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_PAYROLL_SAVE, URL_PAYROLL_DT } from './constants';
 import { URL_LEDGER_DT } from './constants';
+import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Expense extends Component {
     this.onTypeChange = this.onTypeChange.bind(this);
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.validator = new SimpleReactValidator();
   }
 
   
@@ -56,6 +58,8 @@ class Expense extends Component {
   }
 
   saveVoucher = () => {
+    
+    if (this.validator.allValid()) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,6 +74,15 @@ class Expense extends Component {
       .then(response => response.json());
       const date_=this.formatDate(this.state.date);
       this.loadVoucherList(date_);
+    } 
+    else
+     {
+      this.validator.showMessages();
+      // rerender to show messages for the first time
+      // you can use the autoForceUpdate option to do this automatically`
+      this.forceUpdate();
+    }
+   
 }
 
 formatDate = date => {
@@ -159,7 +172,7 @@ formatDate = date => {
                                       value={this.state.date}
                                       format={"dd/MM/yyyy"}
                                     />
-                                  </div>
+                                 </div>
                               </div>
                              
                             </div>
@@ -176,6 +189,7 @@ formatDate = date => {
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
+                                    {this.validator.message('id_ledger', this.state.id_ledger, 'required|numeric')}
                                   </div>
                               </div>
                               <div class="col-sm-4">
@@ -185,12 +199,14 @@ formatDate = date => {
                                       {this.state.arrType.map((types) =>
                                         <option value={types.type}>{types.type}</option>)}
                                     </select>
+                                    {this.validator.message('type', this.state.type, 'required|alpha_num_space')}
                                   </div>
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Amount</label>
                                     <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                    {this.validator.message('amount', this.state.amount, 'required|numeric')}
                                   </div>
                               </div>
                                 

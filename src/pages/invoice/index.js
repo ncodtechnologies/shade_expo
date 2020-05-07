@@ -5,8 +5,9 @@ import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
 import Packing from './packing'
-import { URL_INVOICE_SAVE,URL_INVOICE_DT } from '../constants';
-const API = '/invoice/';
+import SimpleReactValidator from 'simple-react-validator';
+import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from '../constants';
+const API = '/invoice';
 
 class Invoice extends Component {
 
@@ -14,6 +15,7 @@ class Invoice extends Component {
     super(props);
 
     this.state = {
+      arrInv:[],
       id:null,
       title: 'Table',
       data:null,
@@ -39,10 +41,8 @@ class Invoice extends Component {
       container_no:'',
       awb_no:'',
       terms:'',
+      arrProducts:[],
       invItems: [
-        { id_product: 1, kg: 10, box: 100 },
-        { id_product: 2, kg: 20, box: 200 },
-        { id_product: 3, kg: 30, box: 300 },
         { id_product: 0, kg: "", box: "" },
       ],
       places: [
@@ -54,6 +54,7 @@ class Invoice extends Component {
     }
     this.handleChangeDate=this.handleChangeDate.bind(this);
     this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
+    this.validator = new SimpleReactValidator();
   }
   
   componentDidMount() {
@@ -64,8 +65,19 @@ class Invoice extends Component {
       this.loadInvoiceDt(id_invoice);
   }
 
+
+  loadInvoiceDt = () => {
+
+    fetch(URL_INVOICE_DT )
+    .then(response => response.json())
+    .then(data => 
+      {       
+        this.setState({ arrInv : data })
+        });
+  }
+
   loadProducts = () => {
-    fetch(API)
+    fetch(URL_PRODUCT_DT)
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
   }
@@ -105,6 +117,7 @@ class Invoice extends Component {
   }
 
   saveInvoice = () => {
+    if (this.validator.allValid()) {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,6 +148,13 @@ class Invoice extends Component {
     fetch(URL_INVOICE_SAVE, requestOptions)
         .then(response => response.json());
   }
+  
+  else
+  {
+   this.validator.showMessages();
+   this.forceUpdate();
+  }
+}
   
   //onDateChange = date => this.setState({ date })
   
@@ -274,6 +294,7 @@ class Invoice extends Component {
                           <div class="form-group">
                             <label>Invoice No</label>
                             <input type="text" value={this.state.invoice_no} onChange={e => this.handleChangeInvoiceNo(e)} class="form-control" />
+                            {this.validator.message('invoice_no', this.state.invoice_no, 'required|numeric')}
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -527,7 +548,7 @@ class TableRow extends Component {
       <tr>
         <td>
           <select class="form-control" onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_product} >
-            {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
+            {products.map((column) => <option value={column.id_product}>{column.name}</option>)}
           </select>
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>

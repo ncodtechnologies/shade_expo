@@ -23,21 +23,7 @@ class LedgerGroup extends Component {
     .then(data => this.setState({ arrProducts: data }));
     //console.log(data)
   }
- /*
-  saveLedger = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
 
-                ledger : this.state.ledger ,
-              })
-  };
-  fetch(URL_LEDGER_GROUP_SAVE, requestOptions)
-      .then(response => response.json());
-       this.loadLedgerGroup();
-}
-*/
   delRow = (rowIndex) => {
     let _arrProducts = this.state.arrProducts;
     _arrProducts.splice(rowIndex, 1);
@@ -45,19 +31,13 @@ class LedgerGroup extends Component {
       arrProducts: _arrProducts
     })
   }
-/*
-  onLedgerChange(event) {
-    this.setState({ ledger: event.target.value })
-  }
 
- */
   render() {
     const tableRows = this.state.arrProducts.map((arrProduct, index) =>
       <TableRow
       arrProduct={arrProduct}
        
       />);
-
    
     return (
       
@@ -82,7 +62,9 @@ class LedgerGroup extends Component {
                     <table class="table">
                       <thead> 
                         <tr>
-                          <th style={{ width: '100%' }}>Name</th>
+                          <th style={{ width: '50%' }}>Name</th>
+                          <th style={{ width: '25%' }}>Purchase Price</th>
+                          <th style={{ width: '25%' }}>Selling Price</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,11 +98,8 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrProduct.name}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
-          </div>
-        </td>
+        <td>{arrProduct.purchase_price}</td>
+        <td>{arrProduct.selling_price}</td>
       </tr>
     );
   }

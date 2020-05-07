@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
 import { URL_LEDGER_DT } from '../constants';
+import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Expense extends Component {
     this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
     this.onLedgerToChange = this.onLedgerToChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.validator = new SimpleReactValidator();
   }
 
   
@@ -57,6 +59,7 @@ class Expense extends Component {
   }
 
   saveInvoice = () => {
+    if (this.validator.allValid()) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -75,6 +78,12 @@ class Expense extends Component {
   fetch(URL_EXPENSE_SAVE, requestOptions)
       .then(response => response.json());
       this.loadExpenseList(this.props.id_invoice);
+} 
+else
+{
+ this.validator.showMessages();
+ this.forceUpdate();
+}
 }
 
 
@@ -149,6 +158,7 @@ class Expense extends Component {
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
+                                    {this.validator.message('id_ledger_from', this.state.id_ledger_from, 'required|numeric')}
                                   </div>
                               </div>
                               <div class="col-sm-4">
@@ -158,6 +168,7 @@ class Expense extends Component {
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
+                                    {this.validator.message('id_ledger_to', this.state.id_ledger_to, 'required|numeric')}
                                   </div>
                               </div>
                             </div>
@@ -178,6 +189,7 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Amount</label>
                                     <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                    {this.validator.message('amount', this.state.amount, 'required|numeric')}
                                   </div>
                               </div>
                                 

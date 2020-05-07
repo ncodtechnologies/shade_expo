@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
+import SimpleReactValidator from 'simple-react-validator';
 
 import { URL_VOUCHER_SAVE, URL_VOUCHER_DT } from '../constants';
 import { URL_LEDGER_DT } from '../constants';
@@ -34,6 +35,7 @@ class Expense extends Component {
     this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
     this.onLedgerToChange = this.onLedgerToChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.validator = new SimpleReactValidator();
   }
 
   
@@ -64,6 +66,7 @@ class Expense extends Component {
   }
 
   saveVoucher = () => {
+    if (this.validator.allValid()) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -83,6 +86,13 @@ class Expense extends Component {
       .then(response => response.json());
       const _date=this.formatDate(this.state.date);
        this.loadVoucherList(_date,this.state.type);
+}
+else
+{
+ this.validator.showMessages();
+ this.forceUpdate();
+}
+
 }
 
  formatDate = date => {
@@ -209,25 +219,29 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>From</label>
                                     <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.id_ledger_from}>
+                                      <option>--Select--</option>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
+                                    {this.validator.message('id_ledger_from', this.state.id_ledger_from, 'required|numeric')}
                                   </div>
                               </div>
                               <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>To</label>
                                     <select class="form-control" onChange={this.onLedgerToChange} value={this.state.id_ledger_to}>
+                                     <option>--Select--</option>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
+                                    {this.validator.message('id_ledger_to', this.state.id_ledger_to, 'required|numeric')}
                                   </div>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label>Description</label>
+                                    <label>Remarks</label>
                                     <input type="text" value={this.state.description} onChange={this.onDescriptionChange} class="form-control" />
                                   </div>
                               </div>
@@ -235,6 +249,7 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Amount</label>
                                     <input type="text" value={this.state.amount} onChange={this.onAmountChange} class="form-control" />
+                                    {this.validator.message('amount', this.state.amount, 'required|numeric')}
                                   </div>
                               </div>
                                 

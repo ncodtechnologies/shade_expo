@@ -133,9 +133,10 @@ formatDate = date => {
                          
                         <tr>
                           <th style={{ width: '15%' }}>V. No</th>
+                          <th style={{ width: '20%' }}>Date</th>
                           <th style={{ width: '40%' }}>Party</th>
-                          <th style={{ width: '25%' }}>Kg</th>
-                          <th style={{ width: '25%' }}>Amount</th>
+                          <th style={{ width: '20%' }}>Kg</th>
+                          <th style={{ width: '20%' }}>Amount</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -172,6 +173,7 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrVoucher.voucher_no}</td>
+        <td>{arrVoucher.date}</td>
         <td>{arrVoucher.account_head}</td>
         <td>{arrVoucher.quantity}</td>
         <td>{arrVoucher.amount}</td>

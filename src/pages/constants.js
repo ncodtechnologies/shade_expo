@@ -1,7 +1,7 @@
 const BASE_URL = "/";
 
-export const URL_INVOICE_SAVE       = `${BASE_URL}invoice`;
-export const URL_INVOICE_DT         = `${BASE_URL}invoice`;
+export const URL_INVOICE_SAVE       = `${BASE_URL}invoice/invoice`;
+export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;
@@ -16,6 +16,7 @@ export const URL_VOUCHER_SAVE       = `${BASE_URL}accounts/accounts/voucher`;
 export const URL_LEDGER_GROUP_SAVE  = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_GROUP_DT    = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_DT          = `${BASE_URL}accounts/ledger`;
+export const URL_LEDGER_BY_GROUP    = `${BASE_URL}accounts/ledger`;
 export const URL_LEDGER_SAVE        = `${BASE_URL}accounts/ledgerCreate`;
 export const URL_PRODUCT_DT         = `${BASE_URL}product/product`;
 export const URL_PURCHASE_REPORT_DT = `${BASE_URL}purchase/purchaseReport`;

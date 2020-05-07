@@ -186,6 +186,7 @@ formatDate = date => {
                                   <div class="form-group">
                                     <label>Name</label>
                                     <select class="form-control" onChange={this.onLedgerChange} value={this.state.id_ledger}>
+                                      <option>--Select--</option>
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
@@ -199,7 +200,6 @@ formatDate = date => {
                                       {this.state.arrType.map((types) =>
                                         <option value={types.type}>{types.type}</option>)}
                                     </select>
-                                    {this.validator.message('type', this.state.type, 'required|alpha_num_space')}
                                   </div>
                               </div>
                               <div class="col-sm-4">

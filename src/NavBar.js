@@ -89,13 +89,13 @@ class App extends Component {
                   </NavLink>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./purchaseVoucher" class="nav-link">
+                    <a href="/purchaseVoucher" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Purchase Voucher</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./purchaseReport" class="nav-link">
+                    <a href="/purchaseReport" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Purchase Report</p>
                     </a>
@@ -111,19 +111,19 @@ class App extends Component {
                   </NavLink>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./ledger" class="nav-link">
+                    <a href="/ledger" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ledger</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./voucher" class="nav-link">
+                    <a href="/voucher" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Voucher</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./ledgerReport" class="nav-link">
+                    <a href="/ledgerReport" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ledger Report</p>
                     </a>

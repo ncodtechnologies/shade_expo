@@ -148,6 +148,7 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Ledger Group</label>
                                     <select class="form-control" onChange={this.onIdChange} value={this.state.id}>
+                                    <option value="">Select</option>
                                       {this.state.arrLedgerGroup.map((types) =>
                                         <option value={types.id_ledger_group}>{types.name}</option>)}
                                     </select> 

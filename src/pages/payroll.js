@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_PAYROLL_SAVE, URL_PAYROLL_DT } from './constants';
-import { URL_LEDGER_DT } from './constants';
+import { URL_PAYROLL_SAVE, URL_PAYROLL_DT,URL_PAYROLL_DEL} from './constants';
+import { URL_LEDGER_DT} from './constants';
 import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
@@ -58,7 +58,6 @@ class Expense extends Component {
   }
 
   saveVoucher = () => {
-    
     if (this.validator.allValid()) {
     const requestOptions = {
       method: 'POST',
@@ -107,15 +106,6 @@ formatDate = date => {
         this.loadVoucherList(date_);
     });
      }
-
-  delRow = (rowIndex) => {
-    let _arrVouchers = this.state.arrVouchers;
-    _arrVouchers.splice(rowIndex, 1);
-    this.setState({
-      arrVouchers: _arrVouchers
-    })
-  }
-
 
   onTypeChange(event) {
     this.setState({ type: event.target.value })
@@ -221,7 +211,7 @@ formatDate = date => {
                           <th style={{ width: '40%' }}>Name</th>
                           <th style={{ width: '30%' }}>Type</th>
                           <th style={{ width: '30%' }}>Amount</th>
-                          <th></th>
+                          <th>hi</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -250,16 +240,22 @@ formatDate = date => {
 
 class TableRow extends React.Component {
 
-
-  delRow = () => {
-    this.props.delRow(this.props.rowIndex);
+  delPayroll = (id_payroll,date) => {
+    fetch(URL_PAYROLL_DEL + `/${id_payroll}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        arrVouchers: data ,
+        })
+        }
+      );
+      alert(date)
+      this.loadVoucherList(date);
   }
 
   render() {
     let arrVoucher = this.props.arrVoucher;
-    
-   
-
     return (
       <tr>
         <td>{arrVoucher.name}</td>
@@ -267,7 +263,9 @@ class TableRow extends React.Component {
         <td>{arrVoucher.amount}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+            <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.delPayroll(arrVoucher.id_payroll,arrVoucher.date)}>
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
         </td>
       </tr>

@@ -58,7 +58,7 @@ class App extends Component {
                   <div class="card-header border-0">
                     <h3 class="card-title">Invoice</h3>
                     <div class="card-tools">
-                    <Link to={'./invoice/'} >
+                    <Link to={'./invoice/0'} >
                       <button type="submit" class="btn btn-block btn-success btn-flat">Create</button>
                     </Link>
                     </div>

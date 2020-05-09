@@ -59,23 +59,13 @@ class Invoice extends Component {
   
   componentDidMount() {
     const id_invoice = this.props.id_invoice;
-
     this.loadProducts();
-    if(id_invoice>0)
+    if(id_invoice!=0)
       this.loadInvoiceDt(id_invoice);
   }
 
 
-  loadInvoiceDt = () => {
-
-    fetch(URL_INVOICE_DT )
-    .then(response => response.json())
-    .then(data => 
-      {       
-        this.setState({ arrInv : data })
-        });
-  }
-
+ 
   loadProducts = () => {
     fetch(URL_PRODUCT_DT)
     .then(response => response.json())

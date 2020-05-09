@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import { Link } from 'react-router-dom';
+import LedgerCreate from './ledgerCreate';
 
 import { URL_LEDGER_GROUP_DT ,URL_LEDGER_BY_GROUP } from '../constants';
 
@@ -100,7 +101,7 @@ class LedgerGroup extends Component {
                               </div>
                               <div class="col-sm-8">
                                   <div class="form-group float-right">
-                                  <Link to="./ledgerCreate" class="btn btn-tool btn-sm">
+                                  <Link to="./ledgerCreate/0" class="btn btn-tool btn-sm">
                                       <button type="submit" class="btn btn-block btn-success btn-fla">Create</button>
                                     </Link> 
                                   </div>
@@ -155,7 +156,9 @@ class TableRow extends React.Component {
         <td>{arrLedger.name}</td>
         <td>
           <div class="btn-group">
+          <Link to={'./ledgerCreate/'+arrLedger.id_account_head} render={(props) => <LedgerCreate {...props}  id_ledger={this.props.match.params.id_ledger}/>} class="btn btn-tool btn-sm">
             <button type="button" class="btn btn-outline-danger"><i class="fas fa-edit"></i></button>
+         </Link>
           </div>
         </td>
       </tr>

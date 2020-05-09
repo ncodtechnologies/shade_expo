@@ -32,7 +32,7 @@ class LedgerReport extends Component {
     .then(data => {
       if(data.length>0)
       this.setState({
-        date             : this.formatDate(data[0].date) , 
+        date             : data[0].date , 
         voucher_no       : data[0].voucher_no , 
         ledger           : data[0].account_head ,
         op               : data[0]._old_balance ,
@@ -136,18 +136,15 @@ formatDate = date => {
                         <tr>
                         <th colspan={6} >
                             <div class="row" >
-                              <div class="col-sm-6">
+                              <div class="col-sm-8">
                                   <div class="form-group">
                                     <label>Voucher No :</label>
                                     <label>{this.state.voucher_no}</label>                                    
                                   </div>
-                                  <div class="form-group">
-                                    <label>{this.state.voucher_no}</label>                                    
-                                  </div>
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
-                                    <label>Date</label>
+                                    <label>Date :</label>
                                     <label>{this.state.date}</label>
                                   </div>
                               </div>
@@ -160,7 +157,7 @@ formatDate = date => {
                             <div class="row" >                              
                               <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label>Party</label>
+                                    <label>Party : </label>
                                     <label>{this.state.ledger}</label>
                                  </div>
                               </div>

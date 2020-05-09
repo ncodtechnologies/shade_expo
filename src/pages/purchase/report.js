@@ -22,7 +22,6 @@ class PurchaseReport extends Component {
   componentDidMount() {
     const _dateFrom=this.formatDate(this.state.dateFrom);
     const _dateTo=this.formatDate(this.state.dateTo);
-    alert(_dateFrom)
     this.loadVoucherList(_dateFrom,_dateTo);
     
   }

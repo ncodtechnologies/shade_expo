@@ -1,7 +1,7 @@
 const BASE_URL = "/";
 
 export const URL_INVOICE_SAVE       = `${BASE_URL}invoice`;
-export const URL_INVOICE_DT         = `${BASE_URL}invoice`;
+export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;

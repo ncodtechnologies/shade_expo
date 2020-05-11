@@ -63,8 +63,6 @@ class Invoice extends Component {
     if(id_invoice!=0)
       this.loadInvoiceDt(id_invoice);
   }
-
-
  
   loadProducts = () => {
     fetch(URL_PRODUCT_DT)
@@ -132,7 +130,8 @@ class Invoice extends Component {
                   container_no      : this.state.container_no ,
                   awb_no            : this.state.awb_no ,
                   terms             : this.state.terms ,
-                  items             : this.state.invItems
+                  items             : this.state.invItems,
+                  id_invoice        : this.props.id_invoice,
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)

@@ -173,7 +173,6 @@ formatDate = date => {
                           <th style={{ width: '25%' }}>Kg</th>
                           <th style={{ width: '25%' }}>Price</th>
                           <th style={{ width: '25%' }}>Total</th>
-                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -198,9 +197,8 @@ formatDate = date => {
                     <table class="table">
                       <thead>
                         <tr>
-                          <th style={{ width: '20%' }}>No</th>
-                          <th style={{ width: '20%' }}>Expense</th>
-                          <th style={{ width: '25%' }}>Amount</th>
+                          <th style={{ width: '65%' }}>Expense</th>
+                          <th style={{ width: '35%' }}>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -208,7 +206,6 @@ formatDate = date => {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
-                        <th></th>
                         <th align="right" >{grandTotalExp}</th>
                       </tfoot>
                     </table>
@@ -284,7 +281,6 @@ class TableRowExp extends React.Component {
    
     return (
       <tr>
-        <td></td>
         <td>{arrVoucherExp.expense}</td>
         <td>{arrVoucherExp.amount}</td>
       </tr>
@@ -299,8 +295,6 @@ class TableRowTotal extends React.Component {
     const grandTotal = this.state.arrVoucherItems.reduce((a, b) => +a + +(b.total), 0);
     const grandTotalExp = this.state.arrVoucherExps.reduce((a, b) => +a + +(b.amount), 0);
   
-    let arrVoucherTotal = this.props.arrVoucherTotal;  
-   
     return (
       <tr>
         <td>Total  :{grandTotal}</td>

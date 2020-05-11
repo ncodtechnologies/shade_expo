@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
+import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from './constants';
 
 const API = '/invoice/';
 
@@ -19,12 +20,18 @@ class App extends Component {
     }
   }
   componentDidMount() {
+    this.loadProducts();
     fetch(API)
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
     //console.log(data)
   }
 
+  loadProducts = () => {
+    fetch(URL_PRODUCT_DT)
+    .then(response => response.json())
+    .then(data => this.setState({ products: data }));
+  }
   onDateChange = date => this.setState({ date })
 
   handleChangeKg = (e, rowIndex) =>  {

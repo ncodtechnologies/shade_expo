@@ -89,12 +89,6 @@ class App extends Component {
                   </NavLink>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="/purchaseVoucher" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Purchase Voucher</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
                     <a href="/purchaseReport" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Purchase Report</p>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../../NavBar';
 import SimpleReactValidator from 'simple-react-validator';
 
-import { URL_LEDGER_SAVE, URL_LEDGER_UPDATE ,URL_LEDGER_GROUP_DT,URL_LEDGER_EDIT_DT} from '../constants';
+import { URL_LEDGER_SAVE, URL_LEDGER_GROUP_DT,URL_LEDGER_EDIT_DT} from '../constants';
 
 class Expense extends Component {
   constructor(props) {
@@ -20,7 +20,6 @@ class Expense extends Component {
       arrLedgerGroup: [],
     }
     
-    this.onCodeChange = this.onCodeChange.bind(this);
     this.onNameChange = this.onNameChange.bind(this);
     this.onIdChange = this.onIdChange.bind(this);
     this.onOpChange = this.onOpChange.bind(this);
@@ -33,9 +32,7 @@ class Expense extends Component {
   componentDidMount() {
     this.loadLedgerGroup();
     const id_ledger=this.props.match.params.id_ledger;
-    if(id_ledger=="")
-    id_ledger=0;
-
+    if(id_ledger!=0)
     this.loadLedger(id_ledger);
   }
   loadLedgerGroup(){
@@ -50,7 +47,6 @@ class Expense extends Component {
     .then(data => {
       if(data.length>0)
       this.setState({
-        code       : data[0].code , 
         name       : data[0].account_head , 
         op         : data[0].opening_balance ,
         address    : data[0].address ,
@@ -61,7 +57,6 @@ class Expense extends Component {
   }  
 
   saveLedger = () => {
-    alert('hg')
     if (this.validator.allValid()) {     
       const requestOptions = {
         method: 'POST',
@@ -78,14 +73,10 @@ class Expense extends Component {
     };
     fetch(URL_LEDGER_SAVE, requestOptions)
         .then(response => response.json());
-        alert('save')
     } 
     else
      {
       this.validator.showMessages();
-      alert('d')
-      // rerender to show messages for the first time
-      // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
     }
    
@@ -97,10 +88,6 @@ class Expense extends Component {
     this.setState({
       arrVouchers: _arrVouchers
     })
-  }
-
-  onCodeChange(event) {
-    this.setState({ code: event.target.value })
   }
 
   onNameChange(event) {
@@ -154,21 +141,11 @@ class Expense extends Component {
                           <div class="row">
                               <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label>Code</label>
-                                    <input type="text" value={this.state.code} onChange={this.onCodeChange} class="form-control" />
-                                    {this.validator.message('code', this.state.code, 'required|alpha_num_space')}
- 
-                                  </div>
-                              </div>
-                              <div class="col-sm-6">
-                                  <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" value={this.state.name} onChange={this.onNameChange} class="form-control" />
                                     {this.validator.message('name', this.state.name, 'required|alpha_num_space')}
                                  </div>
                               </div>
-                            </div>
-                            <div class="row" >
                               <div class="col-sm-5">
                                   <div class="form-group">
                                     <label>Ledger Group</label>
@@ -183,18 +160,27 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-1">
                                   <div class="form-group">
-                                    <Link to="./ledgerGroup" class="btn btn-tool btn-sm">                                    
+                                    <Link to="/ledgerGroup" class="btn btn-tool btn-sm">                                    
                                      <button type="submit" class="btn btn-block btn-success btn-flat">+</button>
                                     </Link>
                                   </div>
                               </div>
+                            </div>
+                            <div class="row" >
+                              
                               <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Opening Balance</label>
                                     <input type="text" value={this.state.op} onChange={this.onOpChange} class="form-control" />
-                                    {this.validator.message('op', this.state.op, 'required|numeric')}
                                   </div>
                               </div>
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" value={this.state.phone} onChange={this.onPhoneChange} class="form-control" />
+                                   </div>
+                              </div>
+                              
                             </div>
                            
                             <div class="row">
@@ -202,16 +188,9 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Address</label>
                                     <input type="text" value={this.state.address} onChange={this.onAddressChange} class="form-control" />
-                                    {this.validator.message('address', this.state.address, 'required|alpha_num_space')}
                                   </div>
                               </div>
-                              <div class="col-sm-6">
-                                  <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" value={this.state.phone} onChange={this.onPhoneChange} class="form-control" />
-                                    {this.validator.message('phone', this.state.phone, 'required|phone')}
-                                  </div>
-                              </div>
+                          
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveLedger}>
                                    Save
                                 </button>

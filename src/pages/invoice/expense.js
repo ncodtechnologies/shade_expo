@@ -218,6 +218,7 @@ else
                         <th></th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
+                        <th></th>
                       </tfoot>
                     </table>
                   </div>

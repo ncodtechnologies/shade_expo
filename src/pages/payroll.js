@@ -29,14 +29,15 @@ class Expense extends Component {
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.validator = new SimpleReactValidator();
+    
   }
-
   
   componentDidMount() {
     const date_=this.formatDate(this.state.date);
     this.loadAccountHead();
     this.loadVoucherList(date_);
   }
+
   loadAccountHead(){
     fetch(URL_LEDGER_DT)
     .then(response => response.json())
@@ -77,11 +78,8 @@ class Expense extends Component {
     else
      {
       this.validator.showMessages();
-      // rerender to show messages for the first time
-      // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
-    }
-   
+    }   
 }
 
 formatDate = date => {
@@ -97,7 +95,6 @@ formatDate = date => {
 
   return [year, month, day].join('-');
 }
-
 
   onDateChange = date => {
     this.setState({ date }
@@ -221,6 +218,7 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
+                        <th></th>
                       </tfoot>
                     </table>
                   </div>
@@ -250,7 +248,6 @@ class TableRow extends React.Component {
         })
         }
       );
-      alert(date)
       this.loadVoucherList(date);
   }
 

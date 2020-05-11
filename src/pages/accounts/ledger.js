@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import { Link } from 'react-router-dom';
+import LedgerCreate from './ledgerCreate';
 
-import { URL_LEDGER_GROUP_DT ,URL_LEDGER_DT } from '../constants';
+import { URL_LEDGER_GROUP_DT ,URL_LEDGER_BY_GROUP } from '../constants';
 
 class LedgerGroup extends Component {
   constructor(props) {
@@ -13,12 +14,13 @@ class LedgerGroup extends Component {
       arrLedgerGroup: [],
       arrLedgers: [],
     }    
-    this.onLedgerChange = this.onLedgerChange.bind(this);
+    this.onLedgerGroupChange = this.onLedgerGroupChange.bind(this);
   }
  
   componentDidMount() {
+    const id_ledger=this.state.ledgerGroup;
     this.loadLedgerGroup();
-    this.loadLedgerList();
+    this.loadLedgerList(id_ledger);
   }
   loadLedgerGroup(){
     fetch(URL_LEDGER_GROUP_DT)
@@ -27,8 +29,8 @@ class LedgerGroup extends Component {
     //console.log(data)
   }
 
-  loadLedgerList = () => {
-    fetch(URL_LEDGER_DT )
+  loadLedgerList = (id_ledger) => {
+    fetch(URL_LEDGER_BY_GROUP   + `/${id_ledger}`)
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
@@ -43,9 +45,16 @@ class LedgerGroup extends Component {
       arrLedgers: _arrLedgers
     })
   }
-  onLedgerChange(event) {
-    this.setState({ ledger: event.target.value })
+
+  onLedgerGroupChange = event => {
+    this.setState({ ledgerGroup: event.target.value }
+      , () => {
+        const id_ledger=this.state.ledgerGroup;
+        this.loadLedgerList(id_ledger);
+    });
+   
   }
+ 
  
   render() {
     const tableRows = this.state.arrLedgers.map((arrLedger, index) =>
@@ -84,14 +93,15 @@ class LedgerGroup extends Component {
                                   <div class="form-group">
                                   <label>Group</label>
                                     <select class="form-control" onChange={this.onLedgerGroupChange} value={this.state.ledgerGroup}>
+                                    <option value=''>All</option>)}
                                       {this.state.arrLedgerGroup.map((types) =>
-                                        <option value={types.name}>{types.name}</option>)}
+                                        <option value={types.id_ledger_group}>{types.name}</option>)}
                                     </select>
                                   </div>
                               </div>
                               <div class="col-sm-8">
                                   <div class="form-group float-right">
-                                  <Link to="./ledgerCreate" class="btn btn-tool btn-sm">
+                                  <Link to="./ledgerCreate/0" class="btn btn-tool btn-sm">
                                       <button type="submit" class="btn btn-block btn-success btn-fla">Create</button>
                                     </Link> 
                                   </div>
@@ -146,7 +156,9 @@ class TableRow extends React.Component {
         <td>{arrLedger.name}</td>
         <td>
           <div class="btn-group">
+          <Link to={'./ledgerCreate/'+arrLedger.id_account_head} render={(props) => <LedgerCreate {...props}  id_ledger={this.props.match.params.id_ledger}/>} class="btn btn-tool btn-sm">
             <button type="button" class="btn btn-outline-danger"><i class="fas fa-edit"></i></button>
+         </Link>
           </div>
         </td>
       </tr>

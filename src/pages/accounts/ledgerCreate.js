@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import Nav from '../../NavBar';
 import SimpleReactValidator from 'simple-react-validator';
 
-import { URL_LEDGER_SAVE ,URL_LEDGER_GROUP_DT} from '../constants';
+import { URL_LEDGER_SAVE, URL_LEDGER_UPDATE ,URL_LEDGER_GROUP_DT,URL_LEDGER_EDIT_DT} from '../constants';
 
 class Expense extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data:null,
+      id_account_head:'',
       code: '',
       id:'',
       name:'',
@@ -31,6 +32,11 @@ class Expense extends Component {
   
   componentDidMount() {
     this.loadLedgerGroup();
+    const id_ledger=this.props.match.params.id_ledger;
+    if(id_ledger=="")
+    id_ledger=0;
+
+    this.loadLedger(id_ledger);
   }
   loadLedgerGroup(){
     fetch(URL_LEDGER_GROUP_DT)
@@ -38,27 +44,46 @@ class Expense extends Component {
     .then(data => this.setState({ arrLedgerGroup: data }));
     //console.log(data)
   }
+  loadLedger = (id_ledger) => {
+    fetch(URL_LEDGER_EDIT_DT  + `/${id_ledger}`)
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        code       : data[0].code , 
+        name       : data[0].account_head , 
+        op         : data[0].opening_balance ,
+        address    : data[0].address ,
+        phone      : data[0].phone ,
+        })
+        }
+      );
+  }  
 
   saveLedger = () => {
-    if (this.validator.allValid()) {
+    alert('hg')
+    if (this.validator.allValid()) {     
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-                  id            : this.state.id ,
-                  name          : this.state.name ,
-                  code          : this.state.code ,
-                  op            : this.state.op  ,
-                  address       : this.state.address ,
-                  phone         : this.state.phone ,
+                  id              : this.state.id ,
+                  name            : this.state.name ,
+                  code            : this.state.code ,
+                  op              : this.state.op  ,
+                  address         : this.state.address ,
+                  phone           : this.state.phone ,
+                  id_account_head : this.props.match.params.id_ledger,
                 })
     };
     fetch(URL_LEDGER_SAVE, requestOptions)
         .then(response => response.json());
+        alert('save')
     } 
     else
      {
       this.validator.showMessages();
+      alert('d')
       // rerender to show messages for the first time
       // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
@@ -148,6 +173,7 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Ledger Group</label>
                                     <select class="form-control" onChange={this.onIdChange} value={this.state.id}>
+                                    <option value="">Select</option>
                                       {this.state.arrLedgerGroup.map((types) =>
                                         <option value={types.id_ledger_group}>{types.name}</option>)}
                                     </select> 

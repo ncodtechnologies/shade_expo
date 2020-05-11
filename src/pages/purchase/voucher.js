@@ -9,18 +9,18 @@ class LedgerReport extends Component {
       data:null,      
       date: '',
       voucher_no:'',
+      op:'',
       ledger:'',
       arrVouchers: [],
       arrVoucherItems:[],
-      arrVoucherExps:[]
+      arrVoucherExps:[],
+      arrVoucherTotals:[],
     }
   }
 
   
   componentDidMount() {
-    //id_invoice={this.props.match.params.id}
     const voucher_no=this.props.match.params.voucher_no
-    alert(voucher_no)
     this.loadVoucherList(voucher_no);    
     this.loadVoucherItemsList(voucher_no);
     this.loadVoucherExpList(voucher_no);
@@ -32,9 +32,10 @@ class LedgerReport extends Component {
     .then(data => {
       if(data.length>0)
       this.setState({
-        date             : this.formatDate(data[0].date) , 
+        date             : data[0].date , 
         voucher_no       : data[0].voucher_no , 
         ledger           : data[0].account_head ,
+        op               : data[0]._old_balance ,
         })
         }
       );
@@ -97,9 +98,16 @@ formatDate = date => {
       arrVoucherExp={arrVoucherExp}
       />);
 
+      const tableRowsTotal = this.state.arrVoucherTotals.map((arrVoucher, index) =>
+      <TableRowTotal
+      arrVoucher={arrVoucher}
+      />);
+
     const grandTotal = this.state.arrVoucherItems.reduce((a, b) => +a + +(b.total), 0);
     const grandTotalExp = this.state.arrVoucherExps.reduce((a, b) => +a + +(b.amount), 0);
-
+    const net=grandTotal-grandTotalExp;
+    const op=this.state.op;
+    const total= net + op;
     return (
       
       <div class="wrapper" >
@@ -110,7 +118,7 @@ formatDate = date => {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Accounts</h1>
+                  <h1>Purchase Voucher</h1>
                 </div>
               </div>
             </div>
@@ -128,16 +136,15 @@ formatDate = date => {
                         <tr>
                         <th colspan={6} >
                             <div class="row" >
-                              <div class="col-sm-6">
+                              <div class="col-sm-8">
                                   <div class="form-group">
-                                    <label>Voucher No</label>
-                                    <label>{this.state.voucher_no}</label>
-                                    
+                                    <label>Voucher No :</label>
+                                    <label>{this.state.voucher_no}</label>                                    
                                   </div>
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
-                                    <label>Date</label>
+                                    <label>Date :</label>
                                     <label>{this.state.date}</label>
                                   </div>
                               </div>
@@ -150,7 +157,7 @@ formatDate = date => {
                             <div class="row" >                              
                               <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label>Party</label>
+                                    <label>Party : </label>
                                     <label>{this.state.ledger}</label>
                                  </div>
                               </div>
@@ -177,7 +184,6 @@ formatDate = date => {
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
                         <th align="right" >{grandTotal}</th>
                       </tfoot>
                     </table>
@@ -185,12 +191,8 @@ formatDate = date => {
                 </div>
               </div>
             </div>
-            
-
-
-
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-md-6">
                 <div class="card card-info">
                   <div class="card-body p-0">
                     <table class="table">
@@ -207,23 +209,43 @@ formatDate = date => {
                       <tfoot>
                         <th>Total</th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
                         <th align="right" >{grandTotalExp}</th>
                       </tfoot>
                     </table>
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="card card-info">
+                  <div class="card-body p-0">
+                    <table class="table">                     
+                      <tbody>
+                        <tr>
+                          <td>Total </td>
+                          <td style={{fontWeight:'bold'}}>{grandTotal}</td>
+                        </tr>
+                        <tr>
+                          <td>Expense </td>
+                          <td style={{fontWeight:'bold'}}>{grandTotalExp}</td>
+                        </tr>
+                        <tr>
+                          <td>Net </td>
+                          <td style={{fontWeight:'bold'}}>{net}</td>
+                        </tr>
+                        <tr>
+                          <td>OB</td>
+                          <td style={{fontWeight:'bold'}}>{this.state.op}</td>
+                        </tr>
+                        <tr>
+                          <td>total</td>
+                          <td style={{fontWeight:'bold'}}>{total}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
-
-
-
-
-
-
-
           </div>
         </div>
       </div>
@@ -244,15 +266,11 @@ class TableRowItems extends React.Component {
    
     return (
       <tr>
+        <td>1</td>
         <td>{arrVoucher.name}</td>
         <td>{arrVoucher.quantity}</td>
         <td>{arrVoucher.unit_price}</td>
         <td>{arrVoucher.total}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
-          </div>
-        </td>
       </tr>
     );
   }
@@ -261,17 +279,33 @@ class TableRowItems extends React.Component {
 
 
 class TableRowExp extends React.Component {
-
- 
-
   render() {
     let arrVoucherExp = this.props.arrVoucherExp;  
    
     return (
       <tr>
-        <td>      </td>
+        <td></td>
         <td>{arrVoucherExp.expense}</td>
         <td>{arrVoucherExp.amount}</td>
+      </tr>
+    );
+  }
+}
+
+class TableRowTotal extends React.Component {
+  
+  render() 
+  {
+    const grandTotal = this.state.arrVoucherItems.reduce((a, b) => +a + +(b.total), 0);
+    const grandTotalExp = this.state.arrVoucherExps.reduce((a, b) => +a + +(b.amount), 0);
+  
+    let arrVoucherTotal = this.props.arrVoucherTotal;  
+   
+    return (
+      <tr>
+        <td>Total  :{grandTotal}</td>
+        <td>Expense :{grandTotalExp}</td>
+        <td>jj</td>
       </tr>
     );
   }

@@ -24,7 +24,7 @@ export default function Routes() {
       <Route path="/payroll" exact component={Payroll} />
       <Route path="/ledgerReport" exact component={LedgerReport} />
       <Route path="/ledger" exact component={Ledger} />
-      <Route path="/ledgerCreate" exact component={LedgerCreate} />
+      <Route path="/ledgerCreate/:id_ledger" exact component={LedgerCreate} />
       <Route path="/ledgerGroup" exact component={LedgerGroup} />
       <Route path="/product" exact component={Product} />
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />

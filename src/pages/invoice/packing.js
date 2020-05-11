@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-date-picker';
 import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT } from '../constants';
 
 class Packing extends Component {
@@ -16,7 +15,7 @@ class Packing extends Component {
     const id_invoice=this.props.id_invoice;
     this.loadInvLabourItem(id_invoice);
     this.loadInvPackingExp(id_invoice);
-    this.loadInvPackingList();
+    this.loadInvPackingList(id_invoice);
   }
 
   loadInvLabourItem = (id_invoice) => {

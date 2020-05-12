@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { URL_DOC } from '../constants';
 
 class Documents extends Component{
     constructor(props){
@@ -12,11 +13,13 @@ class Documents extends Component{
                 {id_doc:'2', doc:'Document 2'},
                 {id_doc:'3', doc:'Document 3'},
             ],
-            arrTable:[]
+            arrTable:[],
+            selectedFile : null
         }
-        this.onChangeDoc    =this.onChangeDoc.bind(this);
-        this.onChangeRemark =this.onChangeRemark.bind(this);
-        this.onAddClick     =this.onAddClick.bind(this)
+        this.onChangeDoc    = this.onChangeDoc.bind(this);
+        this.onChangeRemark = this.onChangeRemark.bind(this);
+        this.onAddClick     = this.onAddClick.bind(this);
+        this.onFileSelect   = this.onFileSelect.bind(this);
     }
     onChangeDoc(event){
         this.setState({doc:event.target.value})
@@ -37,6 +40,9 @@ class Documents extends Component{
 
     onAddClick(e){
         e.preventDefault();
+        this.saveDoc();
+
+        /*
         let data_=this.state.arrTable;
         data_.push({
             id_doc:this.state.doc,
@@ -48,8 +54,29 @@ class Documents extends Component{
             remark:'',
             id_doc:0
         })
-            
+        */
     }
+
+    onFileSelect(event){
+      console.log(JSON.stringify(event.target.files));
+      this.setState({
+        selectedFile: event.target.files[0],
+      })
+    }
+
+    
+    saveDoc = () => {
+        const data = new FormData()
+        data.append('files', this.state.selectedFile)
+          const requestOptions = {
+            method: 'POST',
+            body: data
+        };
+        fetch(URL_DOC, requestOptions)
+            .then(response => response.json());
+      
+    }
+  
  
     render(){
        
@@ -81,8 +108,10 @@ class Documents extends Component{
                             <input type="text" onChange={this.onChangeRemark} value={this.state.remark}  class="form-control" />
                           </th>
                           <th> 
-                              <button type="submit" class="btn btn-default">Select File
-                              </button>                     
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile" onChange={this.onFileSelect} />
+                                <label class="custom-file-label" for="exampleInputFile">{ "Choose file" }</label>
+                            </div>                      
                           </th>
                           <th>
                             <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={(e) => this.onAddClick(e)}>

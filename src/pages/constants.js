@@ -8,6 +8,7 @@ export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;
 export const URL_PACK_LABOUR_DT     = `${BASE_URL}invoice/invoice/invLabour`;
 export const URL_PACK_PACKINGLIST_DT= `${BASE_URL}invoice/invoice/invPacking`;
 export const URL_PACK_PACKINGEXP_DT = `${BASE_URL}invoice/invoice/invPackingExp`;
+export const URL_DOC                = `${BASE_URL}invoice/docs`;
 export const URL_PAYROLL_SAVE       = `${BASE_URL}payroll/payroll`;
 export const URL_PAYROLL_DT         = `${BASE_URL}payroll/payroll`;
 export const URL_PAYROLL_DEL        = `${BASE_URL}payroll/payrollDel`;

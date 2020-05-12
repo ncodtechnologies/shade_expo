@@ -133,11 +133,6 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrLedger.name}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
-          </div>
-        </td>
       </tr>
     );
   }

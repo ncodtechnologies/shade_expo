@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from './constants';
+import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE} from './constants';
+
+import SimpleReactValidator from 'simple-react-validator';
 
 const API = '/invoice/';
 
@@ -14,10 +16,23 @@ class App extends Component {
       data:null,
       title: 'Table',
       date: new Date(),
+      port_load:'',
+      consigner:'',
+      Consignee:'',
       products: [],
-      invItems: [
-      ]
+      invItems: [],
+      places: [
+              { Id_place: 0, Place: '--Select--' },
+              { Id_place: 1, Place: 'INDIA' },
+              { Id_place: 2, Place: 'KSA' },
+              { Id_place: 3, Place: 'US' },
+              ],
     }
+    this.onDateChange           = this.onDateChange.bind(this);
+    this.handleChangeConsignee  = this.handleChangeConsignee.bind(this);
+    this.handleChangeConsigner  = this.handleChangeConsigner.bind(this);
+    this.handleChangePortLoad   = this.handleChangePortLoad.bind(this);
+    this.validator = new SimpleReactValidator();
   }
   componentDidMount() {
     this.loadProducts();
@@ -32,7 +47,44 @@ class App extends Component {
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
   }
+  
+  
+  saveInvoice = () => {
+    if (this.validator.allValid()) {
+      alert('hi')
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+                  date              : new Date().toISOString().slice(0, 10),
+                  consigner         : this.state.consigner ,
+                  consignee         : this.state.consignee ,
+                  port_load         : this.state.port_load ,
+                })
+    };
+    fetch(URL_ROUGH_INVOICE_SAVE, requestOptions)
+        .then(response => response.json());
+        alert('hi')
+  }
+  
+  else
+  {
+   this.validator.showMessages();
+   this.forceUpdate();
+  }
+}
+
   onDateChange = date => this.setState({ date })
+
+  handleChangePortLoad (e){
+    this.setState({ port_load:e.target.value})
+  }
+  handleChangeConsignee (e){
+    this.setState({ consignee:e.target.value})
+  }
+  handleChangeConsigner (e){
+    this.setState({ consigner:e.target.value})
+  }
 
   handleChangeKg = (e, rowIndex) =>  {
       let _invItems = this.state.invItems;
@@ -153,21 +205,22 @@ class App extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Port of loading</label>
-                              <select class="form-control">
-                                <option>Cochin</option>
-                                <option>Calicut</option>
-                                <option>Thrissur</option>
-                              </select>
+                              <select class="form-control" onChange={e => this.handleChangePortLoad(e)} value={this.state.port_load}>
+                              {this.state.places.map(column => (
+                                <option value={column.Id_place}>
+                                  {column.Place}
+                                </option>
+                              ))}
+                            </select>
                             </div>
                           </div>
                         </div>
 
                         <div class="row">
                           <div class="col-sm-12">
-
                             <div class="form-group">
                               <label>Consigner</label>
-                              <textarea class="form-control" rows="3" placeholder="Consigner"></textarea>
+                              <textarea class="form-control" onChange={e => this.handleChangeConsigner(e)} value={this.state.consigner} rows="3" placeholder="Consigner"></textarea>
                             </div>
                           </div>
                         </div>
@@ -176,7 +229,7 @@ class App extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Consignee</label>
-                              <textarea class="form-control" rows="3" placeholder="Consignee" ></textarea>
+                              <textarea class="form-control" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee} rows="3" placeholder="Consignee" ></textarea>
                             </div>
                           </div>
                         </div>
@@ -210,6 +263,17 @@ class App extends Component {
                           <td></td>
                         </tfoot>
                       </table>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card card-info">
+                          <div class="card-footer">
+                            <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

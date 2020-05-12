@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
-import { URL_LEDGER_DT } from '../constants';
+import { URL_LEDGER_DT,URL_EXPENSE_DEL } from '../constants';
 import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
@@ -79,15 +79,12 @@ class Expense extends Component {
       .then(response => response.json());
       this.loadExpenseList(this.props.id_invoice);
 } 
-else
-{
- this.validator.showMessages();
- this.forceUpdate();
+    else
+    {
+    this.validator.showMessages();
+    this.forceUpdate();
+    }
 }
-}
-
-
-
   onDateChange = date => this.setState({ date })
 
   delRow = (rowIndex) => {
@@ -238,9 +235,19 @@ else
 class TableRow extends React.Component {
 
 
-  delRow = () => {
-    this.props.delRow(this.props.rowIndex);
+  delExpense = (id_account_voucher) => {
+    fetch(URL_EXPENSE_DEL + `/${id_account_voucher}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        arrVouchers: data ,
+        })
+        }
+      );
+      //this.loadVoucherList(date);
   }
+
 
   render() {
     let arrExpense = this.props.arrExpense;
@@ -260,7 +267,7 @@ class TableRow extends React.Component {
         <td>{arrExpense.amount}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+            <button type="button" onClick={() =>this.delExpense(arrExpense.id_account_voucher)} class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
           </div>
         </td>
       </tr>

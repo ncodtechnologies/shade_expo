@@ -1,10 +1,12 @@
 const BASE_URL = "/";
 
+export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
 export const URL_INVOICE_SAVE       = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;
+export const URL_EXPENSE_DEL        = `${BASE_URL}invoice/invoice/expenseDel`;
 export const URL_PACK_LABOUR_DT     = `${BASE_URL}invoice/invoice/invLabour`;
 export const URL_PACK_PACKINGLIST_DT= `${BASE_URL}invoice/invoice/invPacking`;
 export const URL_PACK_PACKINGEXP_DT = `${BASE_URL}invoice/invoice/invPackingExp`;

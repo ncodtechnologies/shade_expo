@@ -38,6 +38,20 @@ class Expense extends Component {
     this.loadVoucherList(date_);
   }
 
+  delPayroll = (id_payroll) => {
+    fetch(URL_PAYROLL_DEL + `/${id_payroll}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        arrVouchers: data ,
+        })
+        }
+      );
+      const date=this.formatDate(this.state.date);
+      this.loadVoucherList(date);
+  }
+
   loadAccountHead(){
     fetch(URL_LEDGER_DT)
     .then(response => response.json())
@@ -120,7 +134,8 @@ formatDate = date => {
     const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
       arrVoucher={arrVoucher}
-        arrLedger = {this.state.arrLedger}
+      arrLedger = {this.state.arrLedger}
+      delPayroll={this.delPayroll}
       />);
 
     const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
@@ -237,20 +252,7 @@ formatDate = date => {
 
 
 class TableRow extends React.Component {
-
-  delPayroll = (id_payroll,date) => {
-    fetch(URL_PAYROLL_DEL + `/${id_payroll}` )
-    .then(response => response.json())
-    .then(data => {
-      if(data.length>0)
-      this.setState({
-        arrVouchers: data ,
-        })
-        }
-      );
-      this.loadVoucherList(date);
-  }
-
+ 
   render() {
     let arrVoucher = this.props.arrVoucher;
     return (
@@ -260,7 +262,7 @@ class TableRow extends React.Component {
         <td>{arrVoucher.amount}</td>
         <td>
           <div class="btn-group">
-            <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.delPayroll(arrVoucher.id_payroll,arrVoucher.date)}>
+            <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.props.delPayroll(arrVoucher.id_payroll)}>
               <i class="fas fa-trash"></i>
             </button>
           </div>

@@ -38,6 +38,23 @@ class Expense extends Component {
    this.loadExpenseList(id_invoice);
    console.log(id_invoice)
   }
+
+  delExpense = (id_account_voucher) => {
+    
+    fetch(URL_EXPENSE_DEL + `/${id_account_voucher}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        arrExpenses: data ,
+        })
+        }
+      );
+      const id_invoice = this.props.id_invoice;
+      alert(id_invoice);
+      this.loadExpenseList(id_invoice);
+  }
+
   loadAccountHead(){
     fetch(URL_LEDGER_DT)
     .then(response => response.json())
@@ -120,6 +137,7 @@ class Expense extends Component {
       <TableRow
         arrExpense={arrExpense}
         arrLedger = {this.state.arrLedger}
+        delExpense={this.delExpense}
       />);
 
     const grandTotal = this.state.arrExpenses.reduce((a, b) => +a + +(b.amount), 0);
@@ -234,21 +252,6 @@ class Expense extends Component {
 
 class TableRow extends React.Component {
 
-
-  delExpense = (id_account_voucher) => {
-    fetch(URL_EXPENSE_DEL + `/${id_account_voucher}` )
-    .then(response => response.json())
-    .then(data => {
-      if(data.length>0)
-      this.setState({
-        arrVouchers: data ,
-        })
-        }
-      );
-      //this.loadVoucherList(date);
-  }
-
-
   render() {
     let arrExpense = this.props.arrExpense;
     
@@ -267,7 +270,7 @@ class TableRow extends React.Component {
         <td>{arrExpense.amount}</td>
         <td>
           <div class="btn-group">
-            <button type="button" onClick={() =>this.delExpense(arrExpense.id_account_voucher)} class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+            <button type="button" onClick={() =>this.props.delExpense(arrExpense.id_account_voucher)} class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
           </div>
         </td>
       </tr>

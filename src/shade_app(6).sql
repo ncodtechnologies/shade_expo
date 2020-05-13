@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2020 at 11:35 AM
+-- Generation Time: May 13, 2020 at 02:04 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.28
 
@@ -82,10 +82,28 @@ CREATE TABLE `account_voucher` (
 --
 
 INSERT INTO `account_voucher` (`id_account_voucher`, `id_ledger_from`, `id_ledger_to`, `date`, `description`, `rate`, `amount`, `type`, `voucher_no`, `id_invoice`) VALUES
-(12, 2, 2, '2020-04-29 00:00:00', 'sneha', 0, 100000, 'Receipt', 1, 1),
-(13, 2, 2, '2020-04-29 00:00:00', 'no desc', 1220, 100000, 'Payment', 1, 1),
-(17, 2, 7, '2020-05-09 00:00:00', 'fdfg', 0, 467476, 'Payment', 1, 1),
 (19, 18, 8, '2020-05-11 00:00:00', 'szxaS', 100, 1000, 'Payment', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `documents`
+--
+
+CREATE TABLE `documents` (
+  `id_document` int(11) NOT NULL,
+  `id_invoice` int(11) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `remarks` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `documents`
+--
+
+INSERT INTO `documents` (`id_document`, `id_invoice`, `name`, `remarks`) VALUES
+(5, 1, 'Document 1', 'no remarks'),
+(6, 1, 'Document 2', 'no');
 
 -- --------------------------------------------------------
 
@@ -425,6 +443,12 @@ ALTER TABLE `account_voucher`
   ADD PRIMARY KEY (`id_account_voucher`);
 
 --
+-- Indexes for table `documents`
+--
+ALTER TABLE `documents`
+  ADD PRIMARY KEY (`id_document`);
+
+--
 -- Indexes for table `invoice`
 --
 ALTER TABLE `invoice`
@@ -516,7 +540,13 @@ ALTER TABLE `account_head`
 -- AUTO_INCREMENT for table `account_voucher`
 --
 ALTER TABLE `account_voucher`
-  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_account_voucher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `documents`
+--
+ALTER TABLE `documents`
+  MODIFY `id_document` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `invoice`
@@ -546,7 +576,7 @@ ALTER TABLE `ledger_group`
 -- AUTO_INCREMENT for table `payroll`
 --
 ALTER TABLE `payroll`
-  MODIFY `id_payroll` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_payroll` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `product`

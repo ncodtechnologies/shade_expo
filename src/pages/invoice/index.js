@@ -586,7 +586,7 @@ class App extends Component {
                      <Invoice id_invoice={this.props.match.params.id} />
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
-                     <Documents />
+                     <Documents  id_invoice={this.props.match.params.id}/>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
                      <Expenses  id_invoice={this.props.match.params.id}/>

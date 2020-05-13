@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import {URL_DOCUMENTS_SAVE, URL_DOCUMENTS_DT,URL_DOCUMENTS_DEL } from '../constants';
+import SimpleReactValidator from 'simple-react-validator';
 
 class Documents extends Component{
     constructor(props){
         super(props);
         this.state={
             remark:'',
-            doc:'',
+            name:'',
             arrDocs:[
                 {id_doc:'0', doc:'--Select'},
                 {id_doc:'1', doc:'Document 1'},
@@ -14,42 +16,74 @@ class Documents extends Component{
             ],
             arrTable:[]
         }
-        this.onChangeDoc    =this.onChangeDoc.bind(this);
+        this.onChangeName    =this.onChangeName.bind(this);
         this.onChangeRemark =this.onChangeRemark.bind(this);
-        this.onAddClick     =this.onAddClick.bind(this)
+        this.validator = new SimpleReactValidator();
     }
-    onChangeDoc(event){
-        this.setState({doc:event.target.value})
+    componentDidMount() {
+      const id_invoice = this.props.id_invoice;
+      this.loadDocumentsList(id_invoice);
+    }
+  
+    onChangeName(event){
+        this.setState({name:event.target.value})
     }
 
     onChangeRemark(event){
         this.setState({remark:event.target.value})
     }
 
-    delRow = (rowIndex) => {
-      let _arrTable = this.state.arrTable;
-      _arrTable.splice(rowIndex, 1);
-      this.setState({
-        arrTable: _arrTable
-      })
+    delDoc = (id_document) => {    
+      fetch(URL_DOCUMENTS_DEL + `/${id_document}` )
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+        this.setState({
+          arrTable: data ,
+          })
+          }
+        );
+        const id_invoice = this.props.id_invoice;
+        this.loadDocumentsList(id_invoice);
     }
   
-
-    onAddClick(e){
-        e.preventDefault();
-        let data_=this.state.arrTable;
-        data_.push({
-            id_doc:this.state.doc,
-            remark:this.state.remark
-        })
-
+     
+    loadDocumentsList = (id_invoice) => {
+      fetch(URL_DOCUMENTS_DT + `/${id_invoice}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
         this.setState({
-            arrTable:data_,
-            remark:'',
-            id_doc:0
-        })
-            
+          arrTable: data ,
+          })
+          }
+        );
+      //console.log(data)
     }
+  
+  
+    saveDocument = () => {
+      if (this.validator.allValid()) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+                  
+                  id_invoice    : this.props.id_invoice ,
+                  name          : this.state.name ,
+                  remark        : this.state.remark ,
+                })
+    };
+    fetch(URL_DOCUMENTS_SAVE, requestOptions)
+        .then(response => response.json());
+        this.loadDocumentsList(this.props.id_invoice);
+      } 
+      else
+          {
+          this.validator.showMessages();
+          this.forceUpdate();
+      }
+  }
  
     render(){
        
@@ -57,6 +91,7 @@ class Documents extends Component{
          <TableRow 
          tbl={tbl}
          arrDocs={this.state.arrDocs}
+         delDoc={this.delDoc}
          />
         )
         return(
@@ -72,9 +107,9 @@ class Documents extends Component{
                       <thead>
                         <tr>
                           <th style={{ width: '40%' }}>
-                            <select class="form-control" onChange={this.onChangeDoc}>
+                            <select class="form-control" onChange={this.onChangeName} value={this.state.name}>
                               {this.state.arrDocs.map((docs) =>
-                                <option value={docs.id_doc}>{docs.doc}</option>)}
+                                <option>{docs.doc}</option>)}
                             </select>
                           </th>
                           <th style={{ width: '30%' }}>
@@ -85,7 +120,7 @@ class Documents extends Component{
                               </button>                     
                           </th>
                           <th>
-                            <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={(e) => this.onAddClick(e)}>
+                            <button type="button"  class="btn btn-block btn-outline-success btn-flat" onClick={this.saveDocument}>
                               <i class="fas fa-plus"></i>
                             </button>
 
@@ -116,10 +151,7 @@ class Documents extends Component{
 }
 
 class TableRow extends Component{
-    
-  delRow = () => {
-    this.props.delRow(this.props.rowIndex);
-  }
+  
 
     render(){
         let tbl=this.props.tbl;
@@ -131,13 +163,12 @@ class TableRow extends Component{
 
         return(
             <tr>
-                <td>{doc(tbl.id_doc)} </td>
-                <td>{tbl.remark}</td>
+                <td>{tbl.name} </td>
+                <td>{tbl.remarks}</td>
                 <td></td>
                 <td>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-outline-success"><i class="fas fa-download"></i></button>
-                        <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        <button type="button" onClick={() => this.props.delDoc(tbl.id_document)} class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                       </div>
                 </td>
 

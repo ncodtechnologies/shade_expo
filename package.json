@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3000",
   "secure": false,
   "dependencies": {
+    "file-saver": "^2.0.2",
     "history": "^4.10.1",
     "jquery": "^3.4.1",
     "react": "^16.4.1",

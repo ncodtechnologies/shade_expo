@@ -34,5 +34,11 @@ export const URL_PURCHASE_REPORT_DT = `${BASE_URL}purchase/purchaseReport`;
 export const URL_PURCHASE_VOUCHER_DT= `${BASE_URL}purchase/purchaseVoucher`;
 export const URL_PURCHASE_VHR_ITEMS = `${BASE_URL}purchase/purchaseVoucherItems`;
 export const URL_PURCHASE_VHR_EXP   = `${BASE_URL}purchase/purchaseVoucherExpense`;
+ 
+export const LEDGER_GROUPS = {
+    SUPPLIER : 2,
+    STAFF : 3,
+    ACCOUNT : 5
+}
 
 

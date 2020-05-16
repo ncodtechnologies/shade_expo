@@ -9,11 +9,17 @@ import Voucher from '../pages/accounts/voucher';
 import LedgerReport from '../pages/accounts/ledgerReport';
 import LedgerCreate from '../pages/accounts/ledgerCreate';
 import LedgerGroup from '../pages/accounts/ledgerGroup';
+<<<<<<< HEAD
 import CashBook from '../pages/accounts/cashBook';
 import Product from '../pages/product';
 import PurchaseVoucher from '../pages/purchase/voucher';
 import PurchaseReport from '../pages/purchase/report';
 import StockReport from '../pages/stock';
+=======
+import Product from '../pages/product';
+import PurchaseVoucher from '../pages/purchase/voucher';
+import PurchaseReport from '../pages/purchase/report';
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
 
 export default function Routes() {
   return (
@@ -28,11 +34,17 @@ export default function Routes() {
       <Route path="/ledger" exact component={Ledger} />
       <Route path="/ledgerCreate/:id_ledger" exact component={LedgerCreate} />
       <Route path="/ledgerGroup" exact component={LedgerGroup} />
+<<<<<<< HEAD
       <Route path="/cashBook" exact component={CashBook} />
       <Route path="/product" exact component={Product} />
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />
       <Route path="/stockReport" exact component={StockReport} />
+=======
+      <Route path="/product" exact component={Product} />
+      <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
+      <Route path="/purchaseReport" exact component={PurchaseReport} />
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
     </Switch>
   );
 }

@@ -1,0 +1,10 @@
+ <select class="form-control"  onChange={(e) => this.handleChangeProduct(e)} value={invItem.id_item} >
+            {this.props.products.map((column) => <option value={column.Id_item}>{column.Items}</option>)}
+          </select>
+
+
+empty
+
+ <select class="form-control"  onChange={(e) => this.addRow(e)} value={0} >
+            {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
+          </select>

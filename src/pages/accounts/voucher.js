@@ -280,7 +280,6 @@ else
                                     {this.validator.message('amount', this.state.amount, 'required|numeric')}
                                   </div>
                               </div>
-                                
                               
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveVoucher}>
                                    Save

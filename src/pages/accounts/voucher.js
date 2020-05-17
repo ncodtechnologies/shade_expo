@@ -4,7 +4,11 @@ import DatePicker from 'react-date-picker';
 import SimpleReactValidator from 'simple-react-validator';
 
 import { URL_VOUCHER_SAVE, URL_VOUCHER_DT ,URL_VOUCHER_DEL} from '../constants';
+<<<<<<< HEAD
+import { URL_LEDGER_DT } from '../constants';
+=======
 import { URL_LEDGER_BY_GROUP, LEDGER_GROUPS } from '../constants';
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
 
 class Expense extends Component {
   constructor(props) {
@@ -21,6 +25,13 @@ class Expense extends Component {
       voucher_no:'1',
       id_invoice:'1',
       ledger: '',
+<<<<<<< HEAD
+      arrLedger: [],
+      arrVouchers: [],
+      arrType:[
+              {type:'Payment'},
+              {type:'Receipt'}
+=======
       arrLedgerFrom: [],
       arrLedgerTo: [],
       arrVouchers: [],
@@ -28,6 +39,7 @@ class Expense extends Component {
               {type:'Payment'},
               {type:'Receipt'},
               {type:'Transfer'}
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
             ]
     }
     
@@ -47,6 +59,13 @@ class Expense extends Component {
     this.loadAccountHead();
     this.loadVoucherList(date_,type_);
   }
+<<<<<<< HEAD
+  loadAccountHead(){
+    fetch(URL_LEDGER_DT)
+    .then(response => response.json())
+    .then(data => this.setState({ arrLedger: data }));
+    //console.log(data)
+=======
 
   loadAccountHead(){
     
@@ -76,6 +95,7 @@ class Expense extends Component {
     fetch(`${URL_LEDGER_BY_GROUP}/${id_ledger_group_to}`)
     .then(response => response.json())
     .then(data => this.setState({ arrLedgerTo: data }));
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
   }
 
   loadVoucherList = (date_,type_) => {
@@ -83,9 +103,15 @@ class Expense extends Component {
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
+<<<<<<< HEAD
+      this.setState({
+        arrVouchers: data ,
+        })
+=======
         this.setState({
           arrVouchers: data,
           })
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
         }
       );
     console.log(this.state.arrVouchers)
@@ -141,7 +167,10 @@ else
       , () => {
         const _date=this.formatDate(this.state.date);
         this.loadVoucherList(_date,this.state.type);
+<<<<<<< HEAD
+=======
         this.loadAccountHead();
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
     }
       );
    
@@ -163,7 +192,10 @@ else
     this.setState({ type: event.target.value }
       , () => {
         this.loadVoucherList(this.formatDate(this.state.date),this.state.type);
+<<<<<<< HEAD
+=======
         this.loadAccountHead();
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
     });
   }
 
@@ -248,7 +280,11 @@ else
                                     <label>From</label>
                                     <select class="form-control" onChange={this.onLedgerFromChange} value={this.state.id_ledger_from}>
                                       <option>--Select--</option>
+<<<<<<< HEAD
+                                      {this.state.arrLedger.map((ledger) =>
+=======
                                       {this.state.arrLedgerFrom.map((ledger) =>
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
                                     {this.validator.message('id_ledger_from', this.state.id_ledger_from, 'required|numeric')}
@@ -259,7 +295,11 @@ else
                                     <label>To</label>
                                     <select class="form-control" onChange={this.onLedgerToChange} value={this.state.id_ledger_to}>
                                      <option>--Select--</option>
+<<<<<<< HEAD
+                                      {this.state.arrLedger.map((ledger) =>
+=======
                                       {this.state.arrLedgerTo.map((ledger) =>
+>>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
                                     {this.validator.message('id_ledger_to', this.state.id_ledger_to, 'required|numeric')}

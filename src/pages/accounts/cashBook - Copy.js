@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import {  URL_LEDGER_REPORT_DT } from '../constants';
+import {  URL_CASHBOOK_OP,URL_CASHBOOK_CREDIT,URL_CASHBOOK_DEBIT } from '../constants';
 import { URL_LEDGER_DT } from '../constants';
 
 class LedgerReport extends Component {
@@ -15,6 +15,8 @@ class LedgerReport extends Component {
       ledger: '',
       arrLedger: [],
       arrVouchers: [],
+      op:'',
+      arrDebitVouchers:[]
     }
     
     this.onLedgerChange = this.onLedgerChange.bind(this);
@@ -26,7 +28,10 @@ class LedgerReport extends Component {
   componentDidMount() {
     const _dateFrom=this.formatDate(this.state.dateFrom);
     const _dateTo=this.formatDate(this.state.dateTo);
-    this.loadVoucherList(_dateFrom,_dateTo);
+    const id_account_head=this.state.id_ledger;
+    this.loadOp(_dateFrom,id_account_head);
+    this.loadCredit(_dateFrom,_dateTo,id_account_head);
+    //this.loadDebit(_dateFrom,_dateTo,id_ledger);
     this.loadAccountHead();
     
   }
@@ -37,13 +42,41 @@ class LedgerReport extends Component {
     //console.log(data)
   }
 
-  loadVoucherList = (_dateFrom,_dateTo) => {
-    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` )
+  loadCredit = (_dateFrom,_dateTo,id_account_head) => {
+    alert(id_account_head)
+    fetch(URL_CASHBOOK_CREDIT + `/'${_dateFrom}'` + `/'${_dateTo}'`+ `/${id_account_head}` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
       this.setState({
         arrVouchers: data ,
+        })
+        }
+      );
+    console.log(this.state.arrVouchers)
+  } 
+
+  loadDebit = (_dateFrom,_dateTo,id_account_head) => {
+    alert(id_account_head)
+    fetch(URL_CASHBOOK_DEBIT + `/'${_dateFrom}'` + `/'${_dateTo}'`+ `/${id_account_head}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        arrDebitVouchers: data ,
+        })
+        }
+      );
+    console.log(this.state.arrVouchers)
+  } 
+
+  loadOp = (_dateFrom,id_account_head) => {
+    fetch(URL_CASHBOOK_OP + `/'${_dateFrom}'` + `/${id_account_head}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        op: data[0].balance ,
         })
         }
       );
@@ -69,17 +102,18 @@ formatDate = date => {
       , () => {
         const _dateFrom=this.formatDate(this.state.dateFrom);
         const _dateTo=this.formatDate(this.state.dateTo);
-        this.loadVoucherList(_dateFrom,_dateTo);
+        //this.loadVoucherList(_dateFrom,_dateTo);
     }
       );
    
   }
+
   onDateToChange = dateTo => {
     this.setState({ dateTo }
       , () => {
         const _dateFrom=this.formatDate(this.state.dateFrom);
         const _dateTo=this.formatDate(this.state.dateTo);
-        this.loadVoucherList(_dateFrom,_dateTo);
+      //  this.loadVoucherList(_dateFrom,_dateTo);
     }
       );
    
@@ -93,18 +127,30 @@ formatDate = date => {
     })
   }
 
-  onLedgerChange(event) {
-    this.setState({ id_ledger: event.target.value })
+  onLedgerChange = event => {
+    this.setState({ id_ledger: event.target.value }
+      , () => {
+        const _dateFrom=this.formatDate(this.state.dateFrom);
+        const _dateTo=this.formatDate(this.state.dateTo);
+        const id_account_head=this.state.id_ledger;
+        this.loadCredit(_dateFrom,_dateTo,id_account_head);
+        this.loadOp(_dateFrom,id_account_head);
+    }
+    )
   }
   
   render() {
     const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
       arrVoucher={arrVoucher}
-        arrLedger = {this.state.arrLedger}
+      />);
+      const tableDebitRows = this.state.arrDebitVouchers.map((arrVoucher, index) =>
+      <TableDebitRows
+      arrVoucher={arrVoucher}
       />);
 
-    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
+    const creditTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
+    const debitTotal = this.state.arrDebitVouchers.reduce((a, b) => +a + +(b.amount), 0);
 
     return (
       
@@ -132,9 +178,9 @@ formatDate = date => {
                     <table class="table">
                       <thead>
                         <tr>
-                        <th colspan={6} >
+                        <th colspan={12} >
                             <div class="row" >
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>From</label>
                                     <DatePicker
@@ -145,7 +191,7 @@ formatDate = date => {
                                     />
                                   </div>
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>To</label>
                                     <DatePicker
@@ -156,14 +202,7 @@ formatDate = date => {
                                     />
                                   </div>
                               </div>
-                            </div>
-                           
-                          </th>
-                          </tr>
-                          <tr>
-                          <th colspan={6} >
-                            <div class="row" >                              
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Ledger</label>
                                     <select class="form-control" onChange={this.onLedgerChange} value={this.state.id_ledger}>
@@ -171,30 +210,58 @@ formatDate = date => {
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
                                   </div>
-                              </div>
-                             
+                              </div>  
                             </div>
-                            <div class="row">                          
-                                                          
-<<<<<<< HEAD
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
-=======
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
-                                   Search
-                                </button>
+                           
+                          </th>
+                          </tr>
+                          <tr>
+                        <th colspan={12} >
+                            <div class="row" >
+                              <div class="col-sm-4">
+                                  <div class="form-group">
+                                    <label>From :</label>
+                                    <label>{this.state.op}</label>
+                                   
+                                  </div>
+                              </div>
                             </div>
                           </th>
+                          </tr>
+                         <div>
+                        <section class="content">
+                        <div class="container-fluid">
+                        <div class="row">
+                          
+                       <tr>
+                          <td>
+                            <div class="col-lg-6">
+                              <div class="card card-warning">
+                                <div class="card-body">
+                                  <th style={{ width: '20%' }}>Name</th>
+                                  <th style={{ width: '25%' }}>Particulars</th>
+                                  <th style={{ width: '25%' }}>Debit</th>
+                                </div>
+                               </div>
+                             </div>
+                             </td>
+                             <td>
+                            <div class="col-md-6">
+                              <div class="card card-warning">
+                                <div class="card-body">
+                                  <th style={{ width: '20%' }}>Name</th>
+                                  <th style={{ width: '25%' }}>Particulars</th>
+                                  <th style={{ width: '25%' }}>Credit</th>
+                                </div>
+                             </div>
+                           </div>
+                           </td>
                         </tr>
-                        <tr>
-                          <th style={{ width: '20%' }}>Date</th>
-                          <th style={{ width: '20%' }}>Type</th>
-                          <th style={{ width: '25%' }}>Description</th>
-                          <th style={{ width: '25%' }}>Debit</th>
-                          <th style={{ width: '25%' }}>Credit</th>
-                          <th style={{ width: '25%' }}>Balance</th>
-                          <th></th>
-                        </tr>
+                        
+                        </div>
+                        </div>
+                          </section>
+                          </div>
                       </thead>
                       <tbody>
                         {tableRows}
@@ -202,12 +269,10 @@ formatDate = date => {
                       <tfoot>
                         <th>Total</th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th align="right" >{grandTotal}</th>
+                        <th align="right" >{creditTotal}</th>
                       </tfoot>
                     </table>
+                    
                   </div>
                 </div>
               </div>
@@ -237,12 +302,33 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.acc_from}</td>
-        <td>{arrVoucher.acc_to}</td>
-        <td>{arrVoucher.description}</td>
-        <td>{arrVoucher.amount}</td>
-        <td>{arrVoucher.description}</td>
-        <td>{arrVoucher.amount}</td>
+        <td>{arrVoucher.name}</td>
+        <td>{arrVoucher.narration}</td>
+        <td>{arrVoucher.credit}</td>
+        <td>
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+}
+
+class TableDebitRows extends React.Component {
+
+  delRow = () => {
+    this.props.delRow(this.props.rowIndex);
+  }
+
+  render() {
+    let arrVoucher = this.props.arrVoucher;
+  
+    return (
+      <tr>
+        <td>{arrVoucher.name}</td>
+        <td>{arrVoucher.narration}</td>
+        <td>{arrVoucher.debit}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>

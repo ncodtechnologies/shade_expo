@@ -7,6 +7,8 @@ export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DEL        = `${BASE_URL}invoice/invoice/expenseDel`;
+export const URL_NET_SALES_TOT      = `${BASE_URL}invoice/invoice/netSalesTotal`;
+export const URL_NET_OTHER_EXP      = `${BASE_URL}invoice/invoice/netOtherExp`;
 export const URL_DOCUMENTS_SAVE     = `${BASE_URL}invoice/invoice/documents`;
 export const URL_DOCUMENTS_DT       = `${BASE_URL}invoice/invoice/documentsList`;
 export const URL_DOCUMENTS_DEL      = `${BASE_URL}invoice/invoice/documentsDel`;
@@ -42,6 +44,7 @@ export const URL_PURCHASE_VHR_EXP   = `${BASE_URL}purchase/purchaseVoucherExpens
 export const LEDGER_GROUPS = {
     SUPPLIER : 2,
     STAFF : 3,
-    ACCOUNT : 5
+    ACCOUNT : 5,
+    INV_EXPENSE : 6
 }
 

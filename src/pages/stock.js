@@ -163,8 +163,8 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.name}</td>
-        <td>{arrVoucher.quantity}</td>
+        <td>{arrVoucher.product}</td>
+        <td>{arrVoucher.stock}</td>
         <td>{arrVoucher.rate}</td>
       </tr>
     );

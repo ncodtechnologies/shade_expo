@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
-import { URL_LEDGER_DT,URL_EXPENSE_DEL } from '../constants';
+import { URL_LEDGER_DT,URL_EXPENSE_DEL ,LEDGER_GROUPS} from '../constants';
 import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
@@ -19,7 +19,9 @@ class Expense extends Component {
       voucher_no: "1",
       ledger: "",
       arrLedger: [],
-      arrExpenses: [],
+      arrExpenses: [],      
+      arrLedgerFrom: [],
+      arrLedgerTo: [],
     };
 
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -55,10 +57,17 @@ class Expense extends Component {
   }
 
   loadAccountHead(){
-    fetch(URL_LEDGER_DT)
-      .then((response) => response.json())
-      .then((data) => this.setState({ arrLedger: data }));
-    //console.log(data)
+    var id_ledger_group_from = LEDGER_GROUPS.ACCOUNT;
+    var id_ledger_group_to =  LEDGER_GROUPS.INV_EXPENSE;
+
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group_from}`)
+    .then(response => response.json())
+    .then(data => this.setState({ arrLedgerFrom:[{id_account_head:0, account_head:"--SELECT--"},...data ]}));
+    
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group_to}`)
+    .then(response => response.json())
+    .then(data => this.setState({ arrLedgerTo: [{id_account_head:0, account_head:"--SELECT--"},...data ] }));
+
   }
 
   loadExpenseList = (id_invoice) => {
@@ -171,7 +180,7 @@ class Expense extends Component {
                                     onChange={this.onLedgerFromChange}
                                     value={this.state.id_ledger_from}
                                   >
-                                    {this.state.arrLedger.map((ledger) => (
+                                    {this.state.arrLedgerFrom.map((ledger) => (
                                       <option value={ledger.id_account_head}>
                                         {ledger.account_head}
                                       </option>
@@ -192,7 +201,7 @@ class Expense extends Component {
                                     onChange={this.onLedgerToChange}
                                     value={this.state.id_ledger_to}
                                   >
-                                    {this.state.arrLedger.map((ledger) => (
+                                    {this.state.arrLedgerTo.map((ledger) => (
                                       <option value={ledger.id_account_head}>
                                         {ledger.account_head}
                                       </option>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_PAYROLL_SAVE, URL_PAYROLL_DT,URL_PAYROLL_DEL} from './constants';
-import { URL_LEDGER_DT} from './constants';
+import { URL_LEDGER_DT,LEDGER_GROUPS} from './constants';
 import SimpleReactValidator from 'simple-react-validator';
 
 class Expense extends Component {
@@ -52,8 +52,9 @@ class Expense extends Component {
       this.loadVoucherList(date);
   }
 
-  loadAccountHead(){
-    fetch(URL_LEDGER_DT)
+  loadAccountHead(){    
+    var id_ledger= LEDGER_GROUPS.STAFF;
+    fetch(`${URL_LEDGER_DT}/${id_ledger}`)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
     //console.log(data)

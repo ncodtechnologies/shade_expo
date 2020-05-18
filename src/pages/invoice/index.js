@@ -556,10 +556,9 @@ class App extends Component {
 	render() {
 		return (
       <div class="wrapper" >
-        <Nav />
-        <div class="content-wrapper">
-
-      <div class="col-md-12">
+       <Nav />
+         <div class="content-wrapper">
+         <div class="col-md-12">
             <div class="card card-primary card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
@@ -592,7 +591,7 @@ class App extends Component {
                      <Expenses  id_invoice={this.props.match.params.id}/>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                     <NetReport />
+                     <NetReport id_invoice={this.props.match.params.id}/>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
                      <Packing  id_invoice={this.props.match.params.id}/>

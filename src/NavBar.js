@@ -23,9 +23,6 @@ class App extends Component {
               <Link to={"/product"} className="nav-link">Product</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/roughInvoiceCreate"} className="nav-link">Create Rough Invoice</Link>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/invoiceList"} className="nav-link">Invoices</Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
@@ -68,7 +65,7 @@ class App extends Component {
                   <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-receipt"></i>
                     <p>
-                     Create Rough Invoice
+                     Rough Invoice
                     </p>
                   </NavLink>
                 </li>

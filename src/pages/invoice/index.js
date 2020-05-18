@@ -7,6 +7,7 @@ import Documents from './documents'
 import Packing from './packing'
 import SimpleReactValidator from 'simple-react-validator';
 import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from '../constants';
+import { Redirect } from 'react-router-dom'
 const API = '/invoice';
 
 class Invoice extends Component {
@@ -39,12 +40,10 @@ class Invoice extends Component {
       final_destination:'',
       marks:'',
       container_no:'',
-      awb_no:'',
+      awb_no:'', 
       terms:'',
       arrProducts:[],
-      invItems: [
-        { id_product: 0, kg: "", box: "" },
-      ],
+      invItems: [],
       places: [
         { Id_place: 0, Place: '--Select--' },
         { Id_place: 1, Place: 'INDIA' },
@@ -67,7 +66,9 @@ class Invoice extends Component {
   loadProducts = () => {
     fetch(URL_PRODUCT_DT)
     .then(response => response.json())
-    .then(data => this.setState({ products: data }));
+    .then(data => { 
+      this.setState({ products: [{ id_product:0, name: "SELECT" },...data] })
+    });
   }
   
   loadInvoiceDt = (id_invoice) => {
@@ -98,6 +99,7 @@ class Invoice extends Component {
                 container_no     : data[0].container_no ,
                 awb_no           : data[0].awb_no ,
                 terms            : data[0].terms ,
+                invItems         : data[0].items || []
               }
     )
             }
@@ -135,7 +137,16 @@ class Invoice extends Component {
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
-        .then(response => response.json());
+        .then(response => response.json())
+        .then(response => {
+          if(!response.isUpdate)
+          {
+            this.setState({
+              id_invoice : response.id_invoice,
+              redirect : true
+            })
+          }
+        })
   }
   
   else
@@ -144,8 +155,15 @@ class Invoice extends Component {
    this.forceUpdate();
   }
 }
-  
-  //onDateChange = date => this.setState({ date })
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      this.setState({
+        redirect : false
+      })
+      return <Redirect to={`./invoice/${this.state.id_invoice}`} />
+    }
+  }
   
   //form onChangeFunctions
   handleChangeInvoiceNo (e){
@@ -253,6 +271,19 @@ class Invoice extends Component {
     })
   }
 
+  addRow = (e) =>  {
+    let _invItems = this.state.invItems;
+    let row = {
+      id_product : e.target.value,
+      kg : "",
+      box : ""
+    }
+    _invItems.push(row);
+    this.setState({
+      invItems: _invItems
+    })
+  }
+
   render() {
     
     const tableRows = this.state.invItems.map((invItem, index) =>
@@ -271,6 +302,7 @@ class Invoice extends Component {
     const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
 
     return <div>
+      {this.renderRedirect()}
         <section class="content">
           <div class="container-fluid">
             <div class="row">
@@ -481,7 +513,10 @@ class Invoice extends Component {
                         <th style={{ width: "10%" }} />
                       </tr>
                     </thead>
-                    <tbody>{tableRows}</tbody>
+                    <tbody>
+                      {tableRows}
+                      <EmptyRow products={this.state.products} addRow={this.addRow} />
+                    </tbody>
                     <tfoot>
                       <th>Total</th>
                       <th>{kgTotal}</th>
@@ -556,55 +591,36 @@ class App extends Component {
 	render() {
 		return (
       <div class="wrapper" >
-        <Nav />
-        <div class="content-wrapper">
+      <Nav />
+      <div class="content-wrapper">
 
-      <div class="col-md-12">
-            <div class="card card-primary card-outline card-outline-tabs">
-              <div class="card-header p-0 border-bottom-0">
-                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="card-body">
-                <div class="tab-content" id="custom-tabs-three-tabContent">
-                  <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                     <Invoice id_invoice={this.props.match.params.id} />
-                  </div>
-                  <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
-                     <Documents  id_invoice={this.props.match.params.id}/>
-                  </div>
-                  <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                     <Expenses  id_invoice={this.props.match.params.id}/>
-                  </div>
-                  <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                     <NetReport />
-                  </div>
-                  <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
-                     <Packing  id_invoice={this.props.match.params.id}/>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-          </div>
+      </div>
+    </div>
     );
   }
+}
+
+class EmptyRow extends Component {
+
+	addRow = (e) => {
+    this.props.addRow(e);
+  }
+  
+	render() {
+		return (
+      <tr>
+        <td>
+          <select class="form-control"  onChange={(e) => this.addRow(e)} value={0} >
+            {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
+          </select>
+        </td>
+        <td><input type="text" class="form-control" /></td>
+        <td><input type="text" class="form-control" /></td>
+        <td align="right" ></td>
+        <td> </td>
+      </tr>
+    );
+	}
 }
 
 export default App;

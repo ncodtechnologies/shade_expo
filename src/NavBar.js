@@ -122,15 +122,12 @@ class App extends Component {
                       <p>Ledger Report</p>
                     </a>
                   </li>
-<<<<<<< HEAD
                   <li class="nav-item">
                     <a href="/cashBook" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Cash Book</p>
                     </a>
                   </li>
-=======
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
                 </ul>               
                 </li>
                 <li class="nav-item has-treeview menu-open">
@@ -141,7 +138,6 @@ class App extends Component {
                     </p>
                   </NavLink>
                 </li>
-<<<<<<< HEAD
                 <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/stockReport"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
@@ -150,8 +146,6 @@ class App extends Component {
                     </p>
                   </NavLink>
                 </li>
-=======
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
              
               </ul>
             </nav>

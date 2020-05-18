@@ -30,6 +30,7 @@ class LedgerReport extends Component {
     this.loadAccountHead();
     
   }
+  
   loadAccountHead(){
     fetch(URL_LEDGER_DT)
     .then(response => response.json())
@@ -176,11 +177,7 @@ formatDate = date => {
                             </div>
                             <div class="row">                          
                                                           
-<<<<<<< HEAD
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
-=======
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
                                    Search
                                 </button>
                             </div>

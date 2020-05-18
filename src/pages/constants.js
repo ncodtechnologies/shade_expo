@@ -29,27 +29,19 @@ export const URL_LEDGER_EDIT_DT     = `${BASE_URL}accounts/ledgerEdit`;
 export const URL_LEDGER_BY_GROUP    = `${BASE_URL}accounts/ledger`;
 export const URL_LEDGER_SAVE        = `${BASE_URL}accounts/ledgerCreate`;
 export const URL_LEDGER_UPDATE      = `${BASE_URL}accounts/ledgerCreate`;
-<<<<<<< HEAD
 export const URL_CASHBOOK_OP        = `${BASE_URL}accounts/cashBookOp`;
 export const URL_CASHBOOK_CREDIT    = `${BASE_URL}accounts/cashBookCredit`;
 export const URL_CASHBOOK_DEBIT     = `${BASE_URL}accounts/cashBookDebit`;
 export const URL_PRODUCT_DT         = `${BASE_URL}product/product`;
 export const URL_STOCK_REPORT       = `${BASE_URL}product/stockReport`;
-=======
-export const URL_PRODUCT_DT         = `${BASE_URL}product/product`;
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
 export const URL_PURCHASE_REPORT_DT = `${BASE_URL}purchase/purchaseReport`;
 export const URL_PURCHASE_VOUCHER_DT= `${BASE_URL}purchase/purchaseVoucher`;
 export const URL_PURCHASE_VHR_ITEMS = `${BASE_URL}purchase/purchaseVoucherItems`;
 export const URL_PURCHASE_VHR_EXP   = `${BASE_URL}purchase/purchaseVoucherExpense`;
-<<<<<<< HEAD
-=======
  
 export const LEDGER_GROUPS = {
     SUPPLIER : 2,
     STAFF : 3,
     ACCOUNT : 5
 }
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
-
 

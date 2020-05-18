@@ -28,17 +28,11 @@ export default function Routes() {
       <Route path="/ledger" exact component={Ledger} />
       <Route path="/ledgerCreate/:id_ledger" exact component={LedgerCreate} />
       <Route path="/ledgerGroup" exact component={LedgerGroup} />
-<<<<<<< HEAD
       <Route path="/cashBook" exact component={CashBook} />
       <Route path="/product" exact component={Product} />
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />
       <Route path="/stockReport" exact component={StockReport} />
-=======
-      <Route path="/product" exact component={Product} />
-      <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
-      <Route path="/purchaseReport" exact component={PurchaseReport} />
->>>>>>> 473dcadbdb11ca4d94c6380ef393e3707d90c8a4
     </Switch>
   );
 }

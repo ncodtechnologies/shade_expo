@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_CASHBOOK_OP, URL_CASHBOOK_CREDIT, URL_CASHBOOK_DEBIT } from '../constants';
-import { URL_LEDGER_DT } from '../constants';
+import { URL_LEDGER_DT,LEDGER_GROUPS} from '../constants';
 
 class CashBook extends Component {
   constructor(props) {
@@ -22,33 +22,29 @@ class CashBook extends Component {
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onDateFromChange = this.onDateFromChange.bind(this);
     this.onDateToChange = this.onDateToChange.bind(this);
+    this.loadCashBook = this.loadCashBook.bind(this);
   }
 
   componentDidMount() {
-    const _dateFrom = this.formatDate(this.state.dateFrom);
-    const _dateTo = this.formatDate(this.state.dateTo);
-    const id_account_head = this.state.id_ledger;
-    this.loadOp(_dateFrom, id_account_head);
-    this.loadCredit(_dateFrom, _dateTo, id_account_head);
-    this.loadDebit(_dateFrom,_dateTo,id_account_head);
     this.loadAccountHead();
-
   }
+
   loadAccountHead() {
-    fetch(URL_LEDGER_DT)
+    
+    var id_ledger_group =  LEDGER_GROUPS.ACCOUNT;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
       .then(response => response.json())
-      .then(data => this.setState({ arrLedger: data }));
+      .then(data => this.setState({ arrLedger : [{id_account_head:0, account_head:"--SELECT--"},...data ] }));
     //console.log(data)
   }
 
   loadCredit = (_dateFrom, _dateTo, id_account_head) => {
-    alert(id_account_head)
+    
     fetch(URL_CASHBOOK_CREDIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`)
       .then(response => response.json())
       .then(data => {
-        if (data.length > 0)
           this.setState({
-            arrCreditVouchers: data,
+            arrCreditVouchers: data || []
           })
       }
       );
@@ -58,9 +54,8 @@ class CashBook extends Component {
     fetch(URL_CASHBOOK_DEBIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`)
       .then(response => response.json())
       .then(data => {
-        if (data.length > 0)
           this.setState({
-            arrDebitVouchers: data,
+            arrDebitVouchers: data || []
           })
         }
       );
@@ -70,13 +65,12 @@ class CashBook extends Component {
     fetch(URL_CASHBOOK_OP + `/'${_dateFrom}'` + `/${id_account_head}`)
       .then(response => response.json())
       .then(data => {
-        if (data.length > 0)
           this.setState({
-            op: data[0].balance,
+            op: data ? data[0].balance : 0
           })
       }
       );
-      alert(this.state.op)
+      
   }
 
   formatDate = date => {
@@ -116,14 +110,18 @@ class CashBook extends Component {
   onLedgerChange = event => {
     this.setState({ id_ledger: event.target.value }
       , () => {
-        const _dateFrom = this.formatDate(this.state.dateFrom);
-        const _dateTo = this.formatDate(this.state.dateTo);
-        const id_account_head = this.state.id_ledger;
-        this.loadCredit(_dateFrom, _dateTo, id_account_head);
-        this.loadDebit(_dateFrom, _dateTo, id_account_head);
-        this.loadOp(_dateFrom, id_account_head);
+
       }
     )
+  }
+
+  loadCashBook = () => {
+    const _dateFrom = this.formatDate(this.state.dateFrom);
+    const _dateTo = this.formatDate(this.state.dateTo);
+    const id_account_head = this.state.id_ledger;
+    this.loadCredit(_dateFrom, _dateTo, id_account_head);
+    this.loadDebit(_dateFrom, _dateTo, id_account_head);
+    this.loadOp(_dateFrom, id_account_head);
   }
 
   render() {
@@ -149,7 +147,7 @@ class CashBook extends Component {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Ledger Report</h1>
+                  <h1>Cash Book</h1>
                 </div>
               </div>
             </div>
@@ -198,6 +196,11 @@ class CashBook extends Component {
                                     </select>
                                   </div>
                                 </div>
+                              </div>
+                              <div class="row">
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadCashBook}>
+                                    Search
+                                  </button>
                               </div>
 
                             </th>

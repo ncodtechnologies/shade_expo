@@ -18,8 +18,8 @@ class Expense extends Component {
       rate:'',
       amount: '',
       type:'Payment',
-      voucher_no:'1',
-      id_invoice:'1',
+      voucher_no:0,
+      id_invoice:0,
       ledger: '',
       arrLedgerFrom: [],
       arrLedgerTo: [],
@@ -82,7 +82,6 @@ class Expense extends Component {
     fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${type_}'` )
     .then(response => response.json())
     .then(data => {
-      if(data.length>0)
         this.setState({
           arrVouchers: data,
           })

@@ -591,11 +591,67 @@ class App extends Component {
 	render() {
 		return (
       <div class="wrapper" >
-      <Nav />
-      <div class="content-wrapper">
+        <Nav />
+        <div class="content-wrapper">
 
-      </div>
-    </div>
+            <div class="card card-primary card-outline card-outline-tabs">
+              <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
+                  </li>
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
+                  </li>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
+                  </li>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                  </li>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
+                  </li>
+                  }
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                  <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                     <Invoice id_invoice={this.props.match.params.id} />
+                  </div>
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                     <Documents  id_invoice={this.props.match.params.id}/>
+                  </div>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
+                     <Expenses  id_invoice={this.props.match.params.id} />
+                  </div>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
+                     <NetReport id_invoice={this.props.match.params.id} />
+                  </div>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
+                     <Packing  id_invoice={this.props.match.params.id}/>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
     );
   }
 }

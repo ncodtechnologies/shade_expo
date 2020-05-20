@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Nav from '../../NavBar';
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -18,6 +18,7 @@ class Expense extends Component {
       address:'',
       phone: '',
       arrLedgerGroup: [],
+      redirect : false
     }
     
     this.onNameChange = this.onNameChange.bind(this);
@@ -72,7 +73,10 @@ class Expense extends Component {
                 })
     };
     fetch(URL_LEDGER_SAVE, requestOptions)
-        .then(response => response.json());
+        .then(response => {
+           response.json();
+           this.setState({ redirect : true });
+        });
     } 
     else
      {
@@ -111,6 +115,13 @@ class Expense extends Component {
  
   render() {
   
+    const { redirect } = this.state;
+
+    if (redirect) {
+      this.setState({redirect: false})
+      return <Redirect to='/ledger'/>;
+    }
+
     return (
       
       <div class="wrapper" >

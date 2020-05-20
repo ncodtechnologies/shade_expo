@@ -5,7 +5,7 @@ class App extends Component {
     state = {
         
     };
-    
+  
     componentDidMount() {
 
     }
@@ -110,13 +110,13 @@ class App extends Component {
                       <p>Voucher</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+          {       <li class="nav-item">
                     <a href="/ledgerReport" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ledger Report</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+    }           <li class="nav-item">
                     <a href="/cashBook" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Cash Book</p>
@@ -124,7 +124,15 @@ class App extends Component {
                   </li>
                 </ul>               
                 </li>
-                <li class="nav-item has-treeview menu-open">
+         {/*       <li class="nav-item has-treeview menu-open">
+                  <NavLink to={"/payroll"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    <p>
+                     Payroll
+                    </p>
+                  </NavLink>
+                </li>
+          */}      <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/stockReport"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice"></i>
                     <p>

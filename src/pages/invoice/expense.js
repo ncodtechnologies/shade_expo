@@ -10,7 +10,6 @@ class Expense extends Component {
     this.state = {
       data: null,
       date: new Date(),
-      id_ledger_from: "",
       id_ledger_to: "",
       description: "",
       rate: "",
@@ -27,8 +26,7 @@ class Expense extends Component {
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onRateChange = this.onRateChange.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
-    this.onLedgerFromChange = this.onLedgerFromChange.bind(this);
-    this.onLedgerToChange = this.onLedgerToChange.bind(this);
+    this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.validator = new SimpleReactValidator();
   }
@@ -39,6 +37,21 @@ class Expense extends Component {
     this.loadExpenseList(id_invoice);
     console.log(id_invoice);
   }
+  
+formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 
   delExpense = (id_account_voucher) => {
     
@@ -88,15 +101,14 @@ class Expense extends Component {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          date: new Date().toISOString().slice(0, 10),
-          id_ledger_from: this.state.id_ledger_from,
-          id_ledger_to: this.state.id_ledger_to,
-          description: this.state.description,
-          rate: this.state.rate,
-          amount: this.state.amount,
-          type: this.state.type,
-          voucher_no: this.state.voucher_no,
-          id_invoice: this.props.id_invoice,
+          date          : this.formatDate(this.state.date),
+          id_ledger_to  : this.state.id_ledger_to,
+          description   : this.state.description,
+          rate          : this.state.rate,
+          amount        : this.state.amount,
+          type          : this.state.type,
+          voucher_no    : this.state.voucher_no,
+          id_invoice    : this.props.id_invoice,
         }),
       };
       fetch(URL_EXPENSE_SAVE, requestOptions).then((response) =>
@@ -126,12 +138,7 @@ class Expense extends Component {
   onAmountChange(event) {
     this.setState({ amount: event.target.value });
   }
-
-  onLedgerFromChange(event) {
-    this.setState({ id_ledger_from: event.target.value });
-  }
-
-  onLedgerToChange(event) {
+  onLedgerChange(event) {
     this.setState({ id_ledger_to: event.target.value });
   }
 
@@ -174,31 +181,10 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-4">
                                 <div class="form-group">
-                                  <label>From</label>
+                                  <label>Ledger</label>
                                   <select
                                     class="form-control"
-                                    onChange={this.onLedgerFromChange}
-                                    value={this.state.id_ledger_from}
-                                  >
-                                    {this.state.arrLedgerFrom.map((ledger) => (
-                                      <option value={ledger.id_account_head}>
-                                        {ledger.account_head}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  {this.validator.message(
-                                    "id_ledger_from",
-                                    this.state.id_ledger_from,
-                                    "required|numeric"
-                                  )}
-                                </div>
-                              </div>
-                              <div class="col-sm-4">
-                                <div class="form-group">
-                                  <label>To</label>
-                                  <select
-                                    class="form-control"
-                                    onChange={this.onLedgerToChange}
+                                    onChange={this.onLedgerChange}
                                     value={this.state.id_ledger_to}
                                   >
                                     {this.state.arrLedgerTo.map((ledger) => (
@@ -267,8 +253,7 @@ class Expense extends Component {
                         </tr>
                         <tr>
                           <th style={{ width: "25%" }}>Date</th>
-                          <th style={{ width: "50%" }}>From</th>
-                          <th style={{ width: "25%" }}>To</th>
+                          <th style={{ width: "25%" }}>Ledger</th>
                           <th style={{ width: "25%" }}>Description</th>
                           <th style={{ width: "25%" }}>Amount</th>
                           <th />
@@ -310,8 +295,7 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrExpense.date}</td>
-        <td>{arrExpense.acc_from}</td>
-        <td>{arrExpense.acc_to}</td>
+        <td>{arrExpense.ledger}</td>
         <td>{arrExpense.description}</td>
         <td>{arrExpense.amount}</td>
         <td>

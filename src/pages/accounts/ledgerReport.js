@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import { URL_LEDGER_DT ,URL_LEDGER_REPORT_DT} from '../constants';
+import { URL_LEDGER_DT ,URL_LEDGER_REPORT_DT,URL_LEDGER_REPORT_OP} from '../constants';
 
 class LedgerReport extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class LedgerReport extends Component {
       dateTo: new Date(),
       id_ledger:'',
       ledger: '',
+      op:'',
       arrLedger: [],
       arrVouchers: [],
     }
@@ -20,30 +21,42 @@ class LedgerReport extends Component {
     this.onDateFromChange = this.onDateFromChange.bind(this);
     this.onDateToChange = this.onDateToChange.bind(this);
   }
-
   
   componentDidMount() {
     const _dateFrom=this.formatDate(this.state.dateFrom);
     const _dateTo=this.formatDate(this.state.dateTo);
-    this.loadVoucherList(_dateFrom,_dateTo);
-    this.loadAccountHead();
-    
+    const id_ledger=this.state.id_ledger;
+    this.loadOp(_dateFrom,_dateTo,id_ledger);
+    this.loadVoucherList(_dateFrom,_dateTo,id_ledger);
+    this.loadAccountHead();    
   }
   
   loadAccountHead(){
     fetch(URL_LEDGER_DT)
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
-    //console.log(data)
   }
-
-  loadVoucherList = (_dateFrom,_dateTo) => {
-    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` )
+ 
+  loadVoucherList = (_dateFrom,_dateTo,id_ledger) => {
+    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
       this.setState({
         arrVouchers: data ,
+        })
+        }
+      );
+    this.loadOp(_dateFrom,_dateTo,id_ledger);
+  } 
+  
+  loadOp = (_dateFrom,_dateTo,id_ledger) => {
+    fetch(URL_LEDGER_REPORT_OP + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        op: data[0].opening_bal ,
         })
         }
       );
@@ -65,24 +78,10 @@ formatDate = date => {
 }
 
   onDateFromChange = dateFrom => {
-    this.setState({ dateFrom }
-      , () => {
-        const _dateFrom=this.formatDate(this.state.dateFrom);
-        const _dateTo=this.formatDate(this.state.dateTo);
-        this.loadVoucherList(_dateFrom,_dateTo);
-    }
-      );
-   
+    this.setState({ dateFrom });   
   }
   onDateToChange = dateTo => {
-    this.setState({ dateTo }
-      , () => {
-        const _dateFrom=this.formatDate(this.state.dateFrom);
-        const _dateTo=this.formatDate(this.state.dateTo);
-        this.loadVoucherList(_dateFrom,_dateTo);
-    }
-      );
-   
+    this.setState({ dateTo });   
   }
 
   delRow = (rowIndex) => {
@@ -156,8 +155,7 @@ formatDate = date => {
                                     />
                                   </div>
                               </div>
-                            </div>
-                           
+                            </div>                           
                           </th>
                           </tr>
                           <tr>
@@ -171,12 +169,15 @@ formatDate = date => {
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
                                   </div>
-                              </div>
-                             
-                            </div>
-                            <div class="row">                          
-                                                          
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
+                              </div>                             
+                                                     
+                            <div class="col-sm-6">
+                                  <div class="form-group float-right">
+                                    <label>Opening Balance :</label>
+                                    <label>{this.state.op}</label>
+                                  </div>
+                              </div>                           
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
                                    Search
                                 </button>
                             </div>
@@ -185,11 +186,10 @@ formatDate = date => {
                         <tr>
                           <th style={{ width: '20%' }}>Date</th>
                           <th style={{ width: '20%' }}>Type</th>
-                          <th style={{ width: '25%' }}>Description</th>
-                          <th style={{ width: '25%' }}>Debit</th>
-                          <th style={{ width: '25%' }}>Credit</th>
-                          <th style={{ width: '25%' }}>Balance</th>
-                          <th></th>
+                          <th style={{ width: '20%' }}>Description</th>
+                          <th style={{ width: '20%' }}>Debit</th>
+                          <th style={{ width: '20%' }}>Credit</th>
+                          <th style={{ width: '20%' }}>Balance</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -208,10 +208,8 @@ formatDate = date => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
     );
@@ -233,17 +231,12 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.acc_from}</td>
-        <td>{arrVoucher.acc_to}</td>
-        <td>{arrVoucher.description}</td>
-        <td>{arrVoucher.amount}</td>
-        <td>{arrVoucher.description}</td>
-        <td>{arrVoucher.amount}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
-          </div>
-        </td>
+        <td>{arrVoucher.date}</td>
+        <td>{arrVoucher.type}</td>
+        <td>{arrVoucher.narration}</td>
+        <td>{arrVoucher.payment}</td>
+        <td>{arrVoucher.receipt}</td>
+        <td></td>
       </tr>
     );
   }

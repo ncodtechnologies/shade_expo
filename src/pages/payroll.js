@@ -79,7 +79,7 @@ class Expense extends Component {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-                date          : new Date().toISOString().slice(0, 10),
+                date          : this.formatDate(this.state.date),
                 id_ledger     : this.state.id_ledger,
                 amount        : this.state.amount ,
                 type          : this.state.type ,

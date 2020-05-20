@@ -27,20 +27,22 @@ class Stock extends Component {
 
   
   componentDidMount() {
-    const type_ = this.state.type;
-    const id_product = this.state.id_product;
+    const type_ = this.state.arrType[0].type;
     this.loadProduct();
-    this.loadStockList(id_product,type_);
+    this.loadStockList(type_);
   }
   loadProduct(){
     fetch(URL_PRODUCT_DT)
     .then(response => response.json())
-    .then(data => this.setState({ arrProducts: data }));
+    .then(data => 
+      {
+        this.setState({ arrProducts: data });
+      });
     //console.log(data)
   }
 
-  loadStockList = (id_product,type_) => {
-    fetch(URL_STOCK_REPORT + `/${id_product}` + `/'${type_}'` )
+  loadStockList = (type_) => {
+    fetch(URL_STOCK_REPORT + `/'${type_}'` )
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
@@ -72,7 +74,7 @@ class Stock extends Component {
       arrVoucher={arrVoucher}
       />);
 
-    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.rate), 0);
+    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.rate*b.stock), 0);
 
     return (
       
@@ -107,17 +109,6 @@ class Stock extends Component {
                                       {this.state.arrType.map((types) =>
                                         <option value={types.type}>{types.type}</option>)}
                                     </select>
-                                  </div>
-                              </div>
-                              <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label>Product</label>
-                                    <select class="form-control" onChange={this.onProductChange} value={this.state.id_product}>
-                                     <option>--Select--</option>
-                                      {this.state.arrProducts.map((product) =>
-                                        <option value={product.id_product}>{product.name}</option>)}
-                                    </select>
-                                    {this.validator.message('id_product', this.state.id_product, 'required|numeric')}
                                   </div>
                               </div>
                               <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.loadStockList(this.state.id_product,this.state.type)}>
@@ -163,9 +154,9 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.product}</td>
+        <td>{arrVoucher.product} {arrVoucher.unit}</td>
         <td>{arrVoucher.stock}</td>
-        <td>{arrVoucher.rate}</td>
+        <td>{arrVoucher.rate*arrVoucher.stock}</td>
       </tr>
     );
   }

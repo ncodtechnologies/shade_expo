@@ -82,7 +82,6 @@ class Expense extends Component {
     fetch(URL_VOUCHER_DT + `/'${date_}'` + `/'${type_}'` )
     .then(response => response.json())
     .then(data => {
-      if(data.length>0)
         this.setState({
           arrVouchers: data,
           })

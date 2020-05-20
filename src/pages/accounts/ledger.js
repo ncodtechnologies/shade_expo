@@ -57,13 +57,12 @@ class LedgerGroup extends Component {
  
  
   render() {
-    const tableRows = this.state.arrLedgers.map((arrLedger, index) =>
+      const tableRows = this.state.arrLedgers.map((arrLedger, index) =>
       <TableRow
       arrLedger={arrLedger}
-       
       />);
 
-   
+
     return (
       
       <div class="wrapper" >
@@ -106,9 +105,6 @@ class LedgerGroup extends Component {
                                     </Link> 
                                   </div>
                               </div>
-                              <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.saveLedger}>
-                                   Save
-                                </button>
                             </div>
                            
                           </th>

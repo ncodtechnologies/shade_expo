@@ -28,9 +28,6 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/voucher"} className="nav-link">Voucher</Link>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/payroll"} className="nav-link">Payroll</Link>
-            </li>
           </ul>
         </nav>
       
@@ -126,14 +123,6 @@ class App extends Component {
                     </a>
                   </li>
                 </ul>               
-                </li>
-                <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/payroll"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice"></i>
-                    <p>
-                     Payroll
-                    </p>
-                  </NavLink>
                 </li>
                 <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/stockReport"} activeClassName="active" className="nav-link">

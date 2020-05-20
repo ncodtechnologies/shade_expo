@@ -24,6 +24,7 @@ export const URL_VOUCHER_DT         = `${BASE_URL}accounts/voucher`;
 export const URL_VOUCHER_DEL        = `${BASE_URL}accounts/voucherDel`;
 export const URL_LEDGER_REPORT_DT   = `${BASE_URL}accounts/ledgerReport`;
 export const URL_VOUCHER_SAVE       = `${BASE_URL}accounts/accounts/voucher`;
+export const URL_LEDGER_REPORT_DT   = `${BASE_URL}accounts/ledgerReport`;
 export const URL_LEDGER_GROUP_SAVE  = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_GROUP_DT    = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_DT          = `${BASE_URL}accounts/ledger`;

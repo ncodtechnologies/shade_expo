@@ -105,7 +105,7 @@ formatDate = date => {
 
     const grandTotal = this.state.arrVoucherItems.reduce((a, b) => +a + +(b.total), 0);
     const grandTotalExp = this.state.arrVoucherExps.reduce((a, b) => +a + +(b.amount), 0);
-    const net=grandTotal-grandTotalExp;
+    const net=grandTotal+grandTotalExp;
     const op=this.state.op;
     const total= net + op;
     return (
@@ -299,7 +299,7 @@ class TableRowTotal extends React.Component {
       <tr>
         <td>Total  :{grandTotal}</td>
         <td>Expense :{grandTotalExp}</td>
-        <td>jj</td>
+        <td></td>
       </tr>
     );
   }

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
-import {  URL_LEDGER_REPORT_DT } from '../constants';
-import { URL_LEDGER_DT } from '../constants';
+import { URL_LEDGER_DT ,URL_LEDGER_REPORT_DT} from '../constants';
 
 class LedgerReport extends Component {
   constructor(props) {

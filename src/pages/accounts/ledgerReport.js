@@ -177,7 +177,7 @@ formatDate = date => {
                                     <label>{this.state.op}</label>
                                   </div>
                               </div>                           
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
                                    Search
                                 </button>
                             </div>

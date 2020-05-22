@@ -59,10 +59,10 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item">
-                  <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-receipt"></i>
+                  <NavLink to={"/roughInvoiceList"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
-                     Rough Invoice
+                     Rough Invoices
                     </p>
                   </NavLink>
                 </li>

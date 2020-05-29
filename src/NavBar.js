@@ -28,9 +28,6 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/voucher"} className="nav-link">Voucher</Link>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-              <Link to={"/payroll"} className="nav-link">Payroll</Link>
-            </li>
           </ul>
         </nav>
       
@@ -62,10 +59,10 @@ class App extends Component {
                   </NavLink>
                 </li>
                 <li class="nav-item">
-                  <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-receipt"></i>
+                  <NavLink to={"/roughInvoiceList"} activeClassName="active" className="nav-link">
+                    <i class="nav-icon fas fa-file-invoice"></i>
                     <p>
-                     Rough Invoice
+                     Rough Invoices
                     </p>
                   </NavLink>
                 </li>
@@ -113,13 +110,13 @@ class App extends Component {
                       <p>Voucher</p>
                     </a>
                   </li>
-          {/*        <li class="nav-item">
+          {       <li class="nav-item">
                     <a href="/ledgerReport" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Ledger Report</p>
                     </a>
                   </li>
-    */}           <li class="nav-item">
+    }           <li class="nav-item">
                     <a href="/cashBook" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Cash Book</p>

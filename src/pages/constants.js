@@ -1,6 +1,8 @@
 const BASE_URL = "/";
 
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
+export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoice`;
+export const URL_ROUGH_INV_LIST_DT  = `${BASE_URL}invoice/roughInvoiceList`;
 export const URL_INVOICE_SAVE       = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
@@ -22,8 +24,9 @@ export const URL_PAYROLL_DT         = `${BASE_URL}payroll/payroll`;
 export const URL_PAYROLL_DEL        = `${BASE_URL}payroll/payrollDel`;
 export const URL_VOUCHER_DT         = `${BASE_URL}accounts/voucher`;
 export const URL_VOUCHER_DEL        = `${BASE_URL}accounts/voucherDel`;
-export const URL_LEDGER_REPORT_DT   = `${BASE_URL}accounts/ledgerReport`;
 export const URL_VOUCHER_SAVE       = `${BASE_URL}accounts/accounts/voucher`;
+export const URL_LEDGER_REPORT_DT   = `${BASE_URL}accounts/ledgerReport`;
+export const URL_LEDGER_REPORT_OP   = `${BASE_URL}accounts/ledgerReportOp`;
 export const URL_LEDGER_GROUP_SAVE  = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_GROUP_DT    = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_DT          = `${BASE_URL}accounts/ledger`;

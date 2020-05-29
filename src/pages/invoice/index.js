@@ -101,9 +101,23 @@ class Invoice extends Component {
                 terms            : data[0].terms ,
                 invItems         : data[0].items || []
               }
-    )
+              )
             }
     );
+  }
+  
+  formatDate = date => {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+  
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+  
+    return [year, month, day].join('-');
   }
 
   saveInvoice = () => {
@@ -114,8 +128,8 @@ class Invoice extends Component {
         body: JSON.stringify({ 
                   invoice_no        : this.state.invoice_no,
                   order_no          : this.state.order_no ,
-                  date              : new Date().toISOString().slice(0, 10),
-                  buyer_date        : new Date().toISOString().slice(0, 10),
+                  date              : this.formatDate(this.state.date),
+                  buyer_date        : this.formatDate(this.state.buyer_date),
                   exporter          : this.state.exporter ,
                   consignee         : this.state.consignee ,
                   other             : this.state.other ,
@@ -169,7 +183,6 @@ class Invoice extends Component {
   handleChangeInvoiceNo (e){
     this.setState({ invoice_no:e.target.value})
   }
-
 
   handleChangeDate = date => this.setState({ date })
   handleChangeBuyerDate = buyer_date => this.setState({ buyer_date })

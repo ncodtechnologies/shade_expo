@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
+import { Link, Redirect } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
-import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE} from './constants';
+import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INVOICE_DT} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
 
-const API = '/invoice/';
 
 class App extends Component {
 
@@ -35,36 +35,69 @@ class App extends Component {
     this.validator = new SimpleReactValidator();
   }
   componentDidMount() {
+    const id_rough_invoice=this.props.match.params.id_rough_invoice;
+    alert(id_rough_invoice)
     this.loadProducts();
-    fetch(API)
-    .then(response => response.json())
-    .then(data => this.setState({ products: data }));
-    //console.log(data)
+    if(id_rough_invoice!=0)
+      this.loadInvoiceDt(id_rough_invoice);
   }
 
+  loadInvoiceDt = (id_rough_invoice) => {
+
+    fetch(URL_ROUGH_INVOICE_DT + `/${id_rough_invoice}`)
+    .then(response => response.json())
+    .then(data => 
+      {
+        if(data.length>0)
+        this.setState(
+              { 
+                date             : data[0].date , 
+                port_load        : data[0].port_load , 
+                consigner        : data[0].consigner ,
+                consignee        : data[0].consignee ,                
+                invItems         : data[0].items || []
+              }
+              )
+            }
+    );
+  }
+  
   loadProducts = () => {
     fetch(URL_PRODUCT_DT)
     .then(response => response.json())
     .then(data => this.setState({ products: data }));
   }
   
+  formatDate = date => {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+  
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+  
+    return [year, month, day].join('-');
+  }
   
   saveInvoice = () => {
     if (this.validator.allValid()) {
-      alert('hi')
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-                  date              : new Date().toISOString().slice(0, 10),
+                  date              : this.formatDate(this.state.date),
                   consigner         : this.state.consigner ,
                   consignee         : this.state.consignee ,
                   port_load         : this.state.port_load ,
+                  items             : this.state.invItems,
+                  id_rough_invoice  : this.props.match.params.id_rough_invoice,
                 })
     };
     fetch(URL_ROUGH_INVOICE_SAVE, requestOptions)
         .then(response => response.json());
-        alert('hi')
   }
   
   else
@@ -127,7 +160,7 @@ class App extends Component {
   addRow = (e) =>  {
     let _invItems = this.state.invItems;
     let row = {
-      id_item : e.target.value,
+      id_product : e.target.value,
       kg : "",
       box : ""
     }
@@ -233,10 +266,8 @@ class App extends Component {
                             </div>
                           </div>
                         </div>
-
                       </form>
                     </div>
-
                     <div class="card-header">
                       <h3 class="card-title">Invoice</h3>
                     </div>
@@ -278,12 +309,9 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>
-
-       
+        </div>       
       </div>
     );
   }

@@ -97,7 +97,10 @@ class App extends Component {
                 })
     };
     fetch(URL_ROUGH_INVOICE_SAVE, requestOptions)
-        .then(response => response.json());
+      .then(response => {
+        response.json();
+        this.setState({ redirect : true });
+      });
   }
   
   else
@@ -188,6 +191,13 @@ class App extends Component {
     const boxTotal = this.state.invItems.reduce((a, b) => +a + +(b.box), 0);
     const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
   
+    const { redirect } = this.state;
+
+    if (redirect) {
+      this.setState({redirect: false})
+      return <Redirect to='/ledger'/>;
+    }
+
     return (
       <div class="wrapper" >
         <Nav />

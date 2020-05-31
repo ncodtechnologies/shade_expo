@@ -12,7 +12,7 @@ class LedgerReport extends Component {
       dateTo: new Date(),
       id_ledger:'',
       ledger: '',
-      op:'',
+      op:0,
       arrLedger: [],
       arrVouchers: [],
     }
@@ -236,7 +236,7 @@ class TableRow extends React.Component {
         <td>{arrVoucher.narration}</td>
         <td>{arrVoucher.payment}</td>
         <td>{arrVoucher.receipt}</td>
-        <td></td>
+        <td>{this.state.op + arrVoucher.receipt - arrVoucher.payment}</td>
       </tr>
     );
   }

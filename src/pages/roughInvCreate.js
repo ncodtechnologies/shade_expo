@@ -195,7 +195,7 @@ class App extends Component {
 
     if (redirect) {
       this.setState({redirect: false})
-      return <Redirect to='/ledger'/>;
+      return <Redirect to='/roughInvoiceList'/>;
     }
 
     return (

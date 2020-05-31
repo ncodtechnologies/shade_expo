@@ -129,7 +129,7 @@ class TableRow extends React.Component {
       <tr>
         <td>{invItem.date}</td>
         <td>{invItem.consigner}</td>
-        <td>{invItem.id_rough_invoice}</td>
+        <td>{invItem.consignee}</td>
         <td>{this.getStatus(invItem.status)}</td>
         <td>
           <div class="btn-group">            

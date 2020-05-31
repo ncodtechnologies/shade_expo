@@ -65,7 +65,6 @@ formatDate = date => {
         }
       );
       const id_invoice = this.props.id_invoice;
-      alert(id_invoice);
       this.loadExpenseList(id_invoice);
   }
 

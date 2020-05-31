@@ -189,7 +189,6 @@ formatDate = date => {
                           <th style={{ width: '20%' }}>Description</th>
                           <th style={{ width: '20%' }}>Debit</th>
                           <th style={{ width: '20%' }}>Credit</th>
-                          <th style={{ width: '20%' }}>Balance</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -236,7 +235,6 @@ class TableRow extends React.Component {
         <td>{arrVoucher.narration}</td>
         <td>{arrVoucher.payment}</td>
         <td>{arrVoucher.receipt}</td>
-        <td>{this.state.op + arrVoucher.receipt - arrVoucher.payment}</td>
       </tr>
     );
   }

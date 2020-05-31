@@ -8,3 +8,5 @@ empty
  <select class="form-control"  onChange={(e) => this.addRow(e)} value={0} >
             {this.props.products.map((column) => <option value={column.id_product}>{column.name}</option>)}
           </select>
+          test
+          

@@ -36,7 +36,7 @@ class App extends Component {
   }
   componentDidMount() {
     const id_rough_invoice=this.props.match.params.id_rough_invoice;
-    alert(id_rough_invoice)
+  //  alert(id_rough_invoice)
     this.loadProducts();
     if(id_rough_invoice!=0)
       this.loadInvoiceDt(id_rough_invoice);

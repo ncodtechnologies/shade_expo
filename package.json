@@ -2,7 +2,7 @@
   "name": "react",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://ip-198-12-251-14.ip.secureserver.net:3000",
+  "proxy": "http://localhost:3000",
   "secure": false,
   "dependencies": {
     "file-saver": "^2.0.2",

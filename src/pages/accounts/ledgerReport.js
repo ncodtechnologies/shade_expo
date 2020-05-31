@@ -190,6 +190,7 @@ formatDate = date => {
                           <th style={{ width: '20%' }}>Description</th>
                           <th style={{ width: '20%' }}>Debit</th>
                           <th style={{ width: '20%' }}>Credit</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -201,7 +202,7 @@ formatDate = date => {
                         <th></th>
                         <th align="right">{paymentTotal}</th>
                         <th align="right">{receiptTotal}</th>
-                        <th align="right" >{paymentTotal - receiptTotal}</th>
+                        <th align="right" >{this.state.op - paymentTotal - receiptTotal}</th>
                       </tfoot>
                     </table>
                   </div>

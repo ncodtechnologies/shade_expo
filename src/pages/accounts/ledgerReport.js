@@ -103,7 +103,8 @@ formatDate = date => {
         arrLedger = {this.state.arrLedger}
       />);
 
-    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
+    const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
+    const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
 
     return (
       
@@ -198,9 +199,9 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th align="right" >{grandTotal}</th>
+                        <th align="right">{paymentTotal}</th>
+                        <th align="right">{receiptTotal}</th>
+                        <th align="right" >{paymentTotal - receiptTotal}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -232,9 +233,9 @@ class TableRow extends React.Component {
       <tr>
         <td>{arrVoucher.date}</td>
         <td>{arrVoucher.type}</td>
-        <td>{arrVoucher.narration}</td>
-        <td>{arrVoucher.payment}</td>
-        <td>{arrVoucher.receipt}</td>
+        <td align="right">{arrVoucher.narration}</td>
+        <td align="right">{arrVoucher.payment}</td>
+        <td align="right">{arrVoucher.receipt}</td>
       </tr>
     );
   }

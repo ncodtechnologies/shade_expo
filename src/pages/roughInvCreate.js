@@ -65,7 +65,7 @@ class App extends Component {
   loadProducts = () => {
     fetch(URL_PRODUCT_DT)
     .then(response => response.json())
-    .then(data => this.setState({ products: data }));
+    .then(data => this.setState({ products: [{ id_product:0, name: "SELECT" },...data]  }));
   }
   
   formatDate = date => {

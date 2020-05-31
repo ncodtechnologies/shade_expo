@@ -58,7 +58,7 @@ class App extends Component {
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-              <li class="nav-item has-treeview menu-open">
+              <li class="nav-item has-treeview">
                 <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
                   <i class="nav-icon fas fa-file-invoice" />
                   <p>Master</p>

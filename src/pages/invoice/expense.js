@@ -111,10 +111,13 @@ formatDate = date => {
           id_invoice    : this.props.id_invoice,
         }),
       };
-      fetch(URL_EXPENSE_SAVE, requestOptions).then((response) =>
-        response.json()
+      fetch(URL_EXPENSE_SAVE, requestOptions).then((response) => 
+        {
+          response.json();
+          this.loadExpenseList(this.props.id_invoice);
+        }
       );
-      this.loadExpenseList(this.props.id_invoice);
+      
     } else {
       this.validator.showMessages();
       this.forceUpdate();

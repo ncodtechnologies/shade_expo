@@ -634,17 +634,17 @@ class App extends Component {
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
+                    <a onClick={()=>this.setTab(2)} class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                    <a onClick={()=>this.setTab(13)} class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
+                    <a onClick={()=>this.setTab(4)} class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
                   </li>
                   }
                 </ul>
@@ -669,17 +669,29 @@ class App extends Component {
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                     <Expenses  id_invoice={this.props.match.params.id} />
+                     {this.state.currentTab == 2 ? 
+                     <Expenses  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                     <NetReport id_invoice={this.props.match.params.id} />
+                     {this.state.currentTab == 3 ? 
+                     <NetReport  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
+                    {this.state.currentTab == 4 ? 
                      <Packing  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                 </div>

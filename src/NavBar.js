@@ -11,13 +11,33 @@ class App extends Component {
     }
 
     render() {
-    return <div>
+      return <div>
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link" data-widget="pushmenu" href="#">
                 <i class="fas fa-bars" />
               </a>
+            </li>
+            <li class="nav-item has-treeview menu-open">
+              <NavLink to={"/accounts"} activeClassName="active" className="nav-link">
+                <i class="nav-icon fas fa-file-invoice" />
+                <p>Master</p>
+              </NavLink>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <NavLink to={"/ledger"} activeClassName="active" className="nav-link">
+                    <i class="far fa-circle nav-icon" />
+                    <p>Ledger</p>
+                  </NavLink>
+                </li>
+                <li class="nav-item">
+                  <NavLink to={"/product"} activeClassName="active" className="nav-link">
+                    <i class="far fa-circle nav-icon" />
+                    <p>Product</p>
+                  </NavLink>
+                </li>
+              </ul>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/product"} className="nav-link">
@@ -57,12 +77,7 @@ class App extends Component {
 
             <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item has-treeview menu-open">
-                  <NavLink to={"/product"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-invoice" />
-                    <p>Product</p>
-                  </NavLink>
-                </li>
+
                 <li class="nav-item">
                   <NavLink to={"/roughInvoiceList"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice" />
@@ -95,12 +110,7 @@ class App extends Component {
                     <p>Accounts</p>
                   </NavLink>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <NavLink to={"/ledger"} activeClassName="active" className="nav-link">
-                        <i class="far fa-circle nav-icon" />
-                        <p>Ledger</p>
-                      </NavLink>
-                    </li>
+
                     <li class="nav-item">
                       <NavLink to={"/voucher"} activeClassName="active" className="nav-link">
                         <i class="far fa-circle nav-icon" />

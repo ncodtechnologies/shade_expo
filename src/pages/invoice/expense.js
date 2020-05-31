@@ -14,7 +14,7 @@ class Expense extends Component {
       description: "",
       rate: "",
       amount: "",
-      type: "Payment",
+      type: "Receipt",
       voucher_no: "1",
       ledger: "",
       arrLedger: [],

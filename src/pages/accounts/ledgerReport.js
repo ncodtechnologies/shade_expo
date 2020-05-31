@@ -106,7 +106,8 @@ formatDate = date => {
     const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
     const _cb = this.state.op - paymentTotal - receiptTotal;
-    const cb = _cb > 0 ? `${_cb} DR` : `${_cb} CR`;
+    const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
+    const ob = this.state.ob >= 0 ? `${this.state.ob} DR` : `${-1*this.state.ob} CR`;
 
     return (
       
@@ -177,7 +178,7 @@ formatDate = date => {
                             <div class="col-sm-6">
                                   <div class="form-group float-right">
                                     <label>Opening Balance :</label>
-                                    <label>{this.state.op}</label>
+                                    <label>{ob}</label>
                                   </div>
                               </div>                           
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
@@ -187,12 +188,12 @@ formatDate = date => {
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '20%' }}>Date</th>
-                          <th style={{ width: '20%' }}>Type</th>
+                          <th style={{ width: '15%' }}>Date</th>
+                          <th style={{ width: '15%' }}>Type</th>
                           <th style={{ width: '20%' }}>Description</th>
-                          <th style={{ width: '20%' }}>Debit</th>
-                          <th style={{ width: '20%' }}>Credit</th>
-                          <th></th>
+                          <th style={{ width: '10%' }}>Debit</th>
+                          <th style={{ width: '10%' }}>Credit</th>
+                          <th style={{ width: '10%' }}>Balance</th>
                         </tr>
                       </thead>
                       <tbody>

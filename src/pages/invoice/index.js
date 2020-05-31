@@ -639,7 +639,7 @@ class App extends Component {
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a onClick={()=>this.setTab(13)} class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                    <a onClick={()=>this.setTab(3)} class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 

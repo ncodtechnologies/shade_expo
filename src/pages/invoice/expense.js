@@ -126,7 +126,6 @@ formatDate = date => {
   onDateChange = (date) => this.setState({ date });
 
   onDelRow = (id) => {
-    alert(id);
     this.setState({ description: id });
   };
 

@@ -600,7 +600,21 @@ class TableRow extends Component {
 }
 
 class App extends Component {
+
   
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab : 0
+    }
+
+    this.setTab = this.setTab.bind(this);
+  }
+  
+  setTab = tabIndex => {
+    this.setState({ currentTab : tabIndex });
+  }
+
 	render() {
 		return (
       <div class="wrapper" >
@@ -611,11 +625,11 @@ class App extends Component {
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
+                    <a onClick={()=>this.setTab(0)} class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
                   </li>
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
+                    <a onClick={()=>this.setTab(1)} class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
@@ -638,11 +652,19 @@ class App extends Component {
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
                   <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                     <Invoice id_invoice={this.props.match.params.id} />
+                    {this.state.currentTab == 0 ? 
+                      <Invoice id_invoice={this.props.match.params.id} />
+                    :
+                      <div />
+                    }
                   </div>
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                     {this.state.currentTab == 1 ? 
                      <Documents  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 

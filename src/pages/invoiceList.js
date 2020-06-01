@@ -113,12 +113,14 @@ class TableRow extends React.Component {
   }
 
   getStatus = (status) => {
-    if(status == 1)
-      return <span class="badge bg-primary">created</span>
-    else if(status == 2)
-      return <span class="badge bg-warning">certified</span>  
-    else if(status == 3)
-      return <span class="badge bg-success">shipped</span>
+    if (status == "Waiting Approval")
+      return <span class="badge bg-primary">Waiting Approval</span>
+    else if (status == "Packing")
+      return <span class="badge bg-warning">Packing</span>
+    else if (status == "Shipped")
+      return <span class="badge bg-success">Shipped</span>
+    else if (status == "Cancelled")
+      return <span class="badge bg-danger">Cancelled</span>
   }
   
   getDelBtn = (status) => {

@@ -8,7 +8,6 @@ import Packing from './packing'
 import SimpleReactValidator from 'simple-react-validator';
 import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from '../constants';
 import { Redirect } from 'react-router-dom'
-const API = '/invoice';
 
 class Invoice extends Component {
 
@@ -42,6 +41,8 @@ class Invoice extends Component {
       container_no:'',
       awb_no:'', 
       terms:'',
+      conversion_rate:'',
+      status:'Waiting Approval',
       arrProducts:[],
       invItems: [],
       places: [
@@ -49,6 +50,12 @@ class Invoice extends Component {
         { Id_place: 1, Place: 'INDIA' },
         { Id_place: 2, Place: 'KSA' },
         { Id_place: 3, Place: 'US' },
+      ],
+      statusTypes: [
+        { status: 'Waiting Approval' },
+        { status: 'Packing' },
+        { status: 'Shipped' },
+        { status: 'Cancelled' },
       ],
     }
     this.handleChangeDate=this.handleChangeDate.bind(this);
@@ -99,6 +106,8 @@ class Invoice extends Component {
                 container_no     : data[0].container_no ,
                 awb_no           : data[0].awb_no ,
                 terms            : data[0].terms ,
+                conversion_rate  : data[0].conversion_rate ,
+                status           : data[0].status ,
                 invItems         : data[0].items || []
               }
               )
@@ -148,6 +157,8 @@ class Invoice extends Component {
                   terms             : this.state.terms ,
                   items             : this.state.invItems,
                   id_invoice        : this.props.id_invoice,
+                  conversion_rate   : this.state.conversion_rate,
+                  status            : this.state.status
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
@@ -242,6 +253,12 @@ class Invoice extends Component {
   }
   handleChangeTerms (e){
     this.setState({ terms:e.target.value})
+  }
+  handleChangeConversionRate (e){
+    this.setState({ conversion_rate:e.target.value})
+  }
+  handleChangeStatus (e){
+    this.setState({ status:e.target.value})
   }
 
   //table onChangeFunctions
@@ -521,7 +538,7 @@ class Invoice extends Component {
                       <tr>
                         <th>Description of goods</th>
                         <th style={{ width: "10%" }}>Kg</th>
-                        <th style={{ width: "10%" }}>Amount</th>
+                        <th style={{ width: "20%" }}>Amount(USD)</th>
                         <th style={{ width: "10%" }}>Total</th>
                         <th style={{ width: "10%" }} />
                       </tr>
@@ -545,12 +562,34 @@ class Invoice extends Component {
 
           <div class="row">
             <div class="col-lg-12">
-              <div class="card card-info">
-                <div class="card-footer">
-                  <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
-                    Save
-                  </button>
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-md-4">
+                    <label>Status</label>
+                    <select class="form-control" onChange={e => this.handleChangeStatus(e)} value={this.state.status}>
+                      {this.state.statusTypes.map(column => (
+                        <option value={column.status}>
+                          {column.status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label>Conversion Rate</label>
+                    <input type="text" onChange={e => this.handleChangeConversionRate(e)} value={this.state.conversion_rate} class="form-control" />    
+                  </div>
                 </div>
+              </div>
+
+              <div class="card-footer">
+                    <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
+                      Save Invoice
+                    </button>
+              </div>
+
               </div>
             </div>
           </div>

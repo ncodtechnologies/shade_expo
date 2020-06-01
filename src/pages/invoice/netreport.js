@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP } from '../constants';
+import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_CONV_RATE } from '../constants';
 
 class NetReport extends Component {
   constructor(props) {
@@ -8,7 +8,8 @@ class NetReport extends Component {
         sales_total:'',
         other_exp:'',
         freight:0,
-        packing:0
+        packing:0,
+        conversion_rate:0
     }
   }
    
@@ -16,6 +17,7 @@ class NetReport extends Component {
     const id_invoice=this.props.id_invoice;
     this.loadSalesTotal(id_invoice);
     this.loadOtherExp(id_invoice);
+    this.loadConversionRate(id_invoice);
     
   }
 
@@ -29,6 +31,12 @@ class NetReport extends Component {
     fetch(URL_NET_OTHER_EXP +  `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ other_exp: data[0].tot }));
+  }
+
+  loadConversionRate(id_invoice){
+    fetch(URL_INVOICE_CONV_RATE +  `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => this.setState({ conversion_rate: data[0].conversion_rate }));
   }
 
   render() {
@@ -45,15 +53,15 @@ class NetReport extends Component {
                     <table class="table">
                       <tbody><tr>
                         <th style={{width:"50%"}} >Sales Total:</th>
-                        <td>{this.state.sales_total}</td>
+                        <td>$ {this.state.sales_total}</td>
                       </tr>
                       <tr>
-                        <th>Total</th>
-                        <td>{this.state.sales_total}</td>
+                        <th>Total :</th>
+                        <td>$ {this.state.sales_total}</td>
                       </tr>
                       <tr>
-                        <th>Total (In Rupees):</th>
-                        <td>Rs.0</td>
+                        <th>Total : (Rate: {this.state.conversion_rate})</th>
+                        <td>Rs {this.state.sales_total*this.state.conversion_rate}</td>
                       </tr>
                     </tbody></table>
                   </div>

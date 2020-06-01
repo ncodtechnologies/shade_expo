@@ -108,9 +108,12 @@ class Expense extends Component {
               })
   };
   fetch(URL_VOUCHER_SAVE, requestOptions)
-      .then(response => response.json());
-      const _date=this.formatDate(this.state.date);
-       this.loadVoucherList(_date,this.state.type);
+      .then(response => { 
+        response.json();
+        const _date=this.formatDate(this.state.date);
+        this.loadVoucherList(_date,this.state.type);
+      })
+      
 }
 else
 {

@@ -105,9 +105,9 @@ formatDate = date => {
 
     const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
-    const _cb = this.state.op + paymentTotal - receiptTotal;
+    const _cb = (-1*this.state.op) + paymentTotal - receiptTotal;
     const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
-    const ob = this.state.ob >= 0 ? `${this.state.op} DR` : `${-1*this.state.op} CR`;
+    const ob = this.state.ob;// >= 0 ? `${this.state.op} DR` : `${-1*this.state.op} CR`;
 
     return (
       

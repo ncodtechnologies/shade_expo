@@ -41,10 +41,9 @@ class LedgerReport extends Component {
     fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
     .then(response => response.json())
     .then(data => {
-      if(data.length>0)
       this.setState({
-        arrVouchers: data ,
-        })
+            arrVouchers: data ,
+          })
         }
       );
     this.loadOp(_dateFrom,_dateTo,id_ledger);

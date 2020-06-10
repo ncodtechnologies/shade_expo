@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Nav from '../NavBar';
+import Invoice from './invoice';
 import { Link, Redirect } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
-import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INVOICE_DT} from './constants';
+import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INVOICE_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -17,10 +18,15 @@ class App extends Component {
       title: 'Table',
       date: new Date(),
       port_load:'',
+      consigners:[],
+      consignees:[],
       consigner:'',
-      Consignee:'',
+      consignee:'',
+      consigner_address:'',
+      consignee_address:'',
       products: [],
       invItems: [],
+      redirectToInvoice : false,
       places: [
               { Id_place: 0, Place: '--Select--' },
               { Id_place: 1, Place: 'INDIA' },
@@ -38,6 +44,8 @@ class App extends Component {
     const id_rough_invoice=this.props.match.params.id_rough_invoice;
   //  alert(id_rough_invoice)
     this.loadProducts();
+    this.loadConsigners();
+    this.loadConsignees();
     if(id_rough_invoice!=0)
       this.loadInvoiceDt(id_rough_invoice);
   }
@@ -49,16 +57,17 @@ class App extends Component {
     .then(data => 
       {
         if(data.length>0)
-        this.setState(
+          this.setState(
               { 
-                date             : data[0].date , 
-                port_load        : data[0].port_load , 
-                consigner        : data[0].consigner ,
-                consignee        : data[0].consignee ,                
-                invItems         : data[0].items || []
-              }
-              )
-            }
+                date              : data[0].date , 
+                port_load         : data[0].port_load , 
+                consigner         : data[0].consigner ,
+                consignee         : data[0].consignee ,   
+                consigner_address : data[0].consigner_address ,
+                consignee_address : data[0].consignee_address ,                
+                invItems          : data[0].items || []
+              })
+      }
     );
   }
   
@@ -68,6 +77,38 @@ class App extends Component {
     .then(data => this.setState({ products: [{ id_product:0, name: "SELECT" },...data]  }));
   }
   
+  loadConsigners() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNER;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consigners : [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
+  }
+
+  loadConsignees() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNEE;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consignees: [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
+  }
+  
+  loadLedgerAddress(id_ledger, type) {
+    fetch(`${URL_LEDGER_EDIT_DT}/${id_ledger}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          if(type == "CONSIGNER")
+            this.setState({ consigner_address: data[0].address })
+          else
+            this.setState({ consignee_address: data[0].address })
+      });
+  }
+
   formatDate = date => {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -82,7 +123,7 @@ class App extends Component {
     return [year, month, day].join('-');
   }
   
-  saveInvoice = () => {
+  saveInvoice = (to) => {
     if (this.validator.allValid()) {
       const requestOptions = {
         method: 'POST',
@@ -91,15 +132,21 @@ class App extends Component {
                   date              : this.formatDate(this.state.date),
                   consigner         : this.state.consigner ,
                   consignee         : this.state.consignee ,
+                  consigner_address : this.state.consigner_address ,
+                  consignee_address : this.state.consignee_address ,
                   port_load         : this.state.port_load ,
                   items             : this.state.invItems,
                   id_rough_invoice  : this.props.match.params.id_rough_invoice,
                 })
     };
+    
     fetch(URL_ROUGH_INVOICE_SAVE, requestOptions)
       .then(response => {
         response.json();
-        this.setState({ redirect : true });
+        if(to == "BACK")
+          this.setState({ redirect : true });
+        else
+          this.setState({ redirectToInvoice : true });
       });
   }
   
@@ -115,11 +162,23 @@ class App extends Component {
   handleChangePortLoad (e){
     this.setState({ port_load:e.target.value})
   }
+
   handleChangeConsignee (e){
     this.setState({ consignee:e.target.value})
+    this.loadLedgerAddress(e.target.value, "CONSIGNEE");
   }
+
   handleChangeConsigner (e){
     this.setState({ consigner:e.target.value})
+    this.loadLedgerAddress(e.target.value, "CONSIGNER");
+  }
+
+  handleChangeConsigneeAddress (e){
+    this.setState({ consignee_address:e.target.value});
+  }
+
+  handleChangeConsignerAddress (e){
+    this.setState({ consigner_address:e.target.value});
   }
 
   handleChangeKg = (e, rowIndex) =>  {
@@ -191,11 +250,16 @@ class App extends Component {
     const boxTotal = this.state.invItems.reduce((a, b) => +a + +(b.box), 0);
     const kgTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg), 0);
   
-    const { redirect } = this.state;
+    const { redirect, redirectToInvoice } = this.state;
 
     if (redirect) {
       this.setState({redirect: false})
       return <Redirect to='/roughInvoiceList'/>;
+    }
+
+    if (redirectToInvoice) {
+      this.setState({redirectToInvoice: false})
+      return <Redirect to={`/invoice/0/${this.props.match.params.id_rough_invoice}`}/>;
     }
 
     return (
@@ -263,7 +327,16 @@ class App extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Consigner</label>
-                              <textarea class="form-control" onChange={e => this.handleChangeConsigner(e)} value={this.state.consigner} rows="3" placeholder="Consigner"></textarea>
+                              <select class="form-control" onChange={e => this.handleChangeConsigner(e)} value={this.state.consigner}>
+                                {this.state.consigners.map(column => (
+                                  <option value={column.id_account_head}>
+                                    {column.account_head}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <textarea class="form-control" onChange={e => this.handleChangeConsignerAddress(e)} value={this.state.consigner_address} rows="3" placeholder="Consigner"></textarea>
                             </div>
                           </div>
                         </div>
@@ -272,7 +345,16 @@ class App extends Component {
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Consignee</label>
-                              <textarea class="form-control" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee} rows="3" placeholder="Consignee" ></textarea>
+                              <select class="form-control" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee}>
+                                {this.state.consignees.map(column => (
+                                  <option value={column.id_account_head}>
+                                    {column.account_head}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <textarea class="form-control" onChange={e => this.handleChangeConsigneeAddress(e)} value={this.state.consignee_address} rows="3" placeholder="Consignee" ></textarea>
                             </div>
                           </div>
                         </div>
@@ -309,8 +391,11 @@ class App extends Component {
                       <div class="col-lg-12">
                         <div class="card card-info">
                           <div class="card-footer">
-                            <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
+                            <button onClick={()=>this.saveInvoice("BACK")} type="submit" class="btn btn-primary">
                               Save
+                            </button>
+                            <button onClick={()=>this.saveInvoice("INVOICE")} type="submit" class="btn btn-primary">
+                              Create Invoice
                             </button>
                           </div>
                         </div>

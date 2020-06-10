@@ -49,6 +49,8 @@ export const LEDGER_GROUPS = {
     SUPPLIER : 2,
     STAFF : 3,
     ACCOUNT : 5,
-    INV_EXPENSE : 6
+    INV_EXPENSE : 6,
+    CONSIGNER: 7,
+    CONSIGNEE: 8,
 }
 

@@ -20,7 +20,7 @@ export default function Routes() {
   return (
     <HashRouter>
       <Route path="/roughInvoiceCreate/:id_rough_invoice" component={RoughInvoiceCreate} />
-      <Route path="/invoice/:id" component={Invoice} />
+      <Route path="/invoice/:id/:id_rough_invoice?" component={Invoice} />
       <Route path="/invoiceList" component={InvoiceList} />
       <Route path="/roughInvoiceList" component={RoughInvoiceList} />
       <Route path="/" exact component={InvoiceList} />

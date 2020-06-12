@@ -15,10 +15,16 @@ class Expense extends Component {
       id:'',
       name:'',
       op:'',
+      crdr:'',
       address:'',
       phone: '',
       arrLedgerGroup: [],
-      redirect : false
+      redirect : false,
+      types: [
+        { Id: 0, Type: '--Select--' },
+        { Id: 1, Type: 'Cr' },
+        { Id: 2, Type: 'Dr' },
+      ],
     }
     
     this.onNameChange = this.onNameChange.bind(this);
@@ -26,6 +32,7 @@ class Expense extends Component {
     this.onOpChange = this.onOpChange.bind(this);
     this.onAddressChange = this.onAddressChange.bind(this);
     this.onPhoneChange = this.onPhoneChange.bind(this);
+    this.onCrdrChange = this.onCrdrChange.bind(this);
     this.validator = new SimpleReactValidator();
   }
 
@@ -33,8 +40,11 @@ class Expense extends Component {
   componentDidMount() {
     this.loadLedgerGroup();
     const id_ledger=this.props.match.params.id_ledger;
-    if(id_ledger!=0)
+   
+    if(id_ledger!=0){
     this.loadLedger(id_ledger);
+    alert(id_ledger)
+    }
   }
   loadLedgerGroup(){
     fetch(URL_LEDGER_GROUP_DT)
@@ -42,13 +52,14 @@ class Expense extends Component {
     .then(data => this.setState({ arrLedgerGroup: data }));
     //console.log(data)
   }
+
   loadLedger = (id_ledger) => {
     fetch(URL_LEDGER_EDIT_DT  + `/${id_ledger}`)
     .then(response => response.json())
     .then(data => {
       if(data.length>0)
       this.setState({
-        name       : data[0].account_head , 
+        name       : data[0].name , 
         op         : data[0].opening_balance ,
         address    : data[0].address ,
         phone      : data[0].phone ,
@@ -66,7 +77,7 @@ class Expense extends Component {
                   id              : this.state.id ,
                   name            : this.state.name ,
                   code            : this.state.code ,
-                  op              : this.state.op  ,
+                  op              : this.state.crdr == "cr" ? this.state.op : -1*this.state.op ,
                   address         : this.state.address ,
                   phone           : this.state.phone ,
                   id_account_head : this.props.match.params.id_ledger,
@@ -111,6 +122,9 @@ class Expense extends Component {
   }
   onPhoneChange(event) {
     this.setState({ phone: event.target.value })
+  }
+  onCrdrChange(event) {
+    this.setState({ crdr: event.target.value })
   }
  
   render() {
@@ -179,26 +193,39 @@ class Expense extends Component {
                             </div>
                             <div class="row" >
                               
-                              <div class="col-sm-6">
+                              <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Opening Balance</label>
                                     <input type="text" value={this.state.op} onChange={this.onOpChange} class="form-control" />
                                   </div>
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-2">
                                   <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" value={this.state.phone} onChange={this.onPhoneChange} class="form-control" />
-                                   </div>
+                                  <label>Type</label> 
+                                  <select class="form-control" onChange={this.onCrdrChange} value={this.state.crdr}>
+                                  {this.state.types.map(column => (
+                                    <option value={column.Id}>
+                                      {column.Type}
+                                    </option>
+                                  ))}
+                                </select>
+                             </div>
+                              </div>  
+                              <div class="col-sm-6">
+                              <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" value={this.state.phone} onChange={this.onPhoneChange} class="form-control" />
                               </div>
+                          </div>
                               
                             </div>
                            
                             <div class="row">
-                              <div class="col-sm-6">
+                           
+                              <div class="col-sm-12">
                                   <div class="form-group">
                                     <label>Address</label>
-                                    <input type="text" value={this.state.address} onChange={this.onAddressChange} class="form-control" />
+                                    <textarea multiline={true} type="text" value={this.state.address} onChange={this.onAddressChange} class="form-control" />
                                   </div>
                               </div>
                           

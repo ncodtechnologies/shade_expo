@@ -12,7 +12,7 @@ class LedgerReport extends Component {
       dateTo: new Date(),
       id_ledger:'',
       ledger: '',
-      op:'',
+      op:0,
       arrLedger: [],
       arrVouchers: [],
     }
@@ -41,10 +41,9 @@ class LedgerReport extends Component {
     fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
     .then(response => response.json())
     .then(data => {
-      if(data.length>0)
       this.setState({
-        arrVouchers: data ,
-        })
+            arrVouchers: data ,
+          })
         }
       );
     this.loadOp(_dateFrom,_dateTo,id_ledger);
@@ -103,7 +102,11 @@ formatDate = date => {
         arrLedger = {this.state.arrLedger}
       />);
 
-    const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
+    const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
+    const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
+    const _cb = (-1*this.state.op) + paymentTotal - receiptTotal;
+    const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
+    const ob = this.state.op >= 0 ? `${this.state.op} CR` : `${-1*this.state.op} DR`;
 
     return (
       
@@ -174,7 +177,7 @@ formatDate = date => {
                             <div class="col-sm-6">
                                   <div class="form-group float-right">
                                     <label>Opening Balance :</label>
-                                    <label>{this.state.op}</label>
+                                    <label>{ob}</label>
                                   </div>
                               </div>                           
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
@@ -184,12 +187,12 @@ formatDate = date => {
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '20%' }}>Date</th>
-                          <th style={{ width: '20%' }}>Type</th>
+                          <th style={{ width: '15%' }}>Date</th>
+                          <th style={{ width: '15%' }}>Type</th>
                           <th style={{ width: '20%' }}>Description</th>
-                          <th style={{ width: '20%' }}>Debit</th>
-                          <th style={{ width: '20%' }}>Credit</th>
-                          <th style={{ width: '20%' }}>Balance</th>
+                          <th style={{ width: '10%' }}>Debit</th>
+                          <th style={{ width: '10%' }}>Credit</th>
+                          <th style={{ width: '10%' }}>Balance</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -199,9 +202,9 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th align="right" >{grandTotal}</th>
+                        <th align="right">{paymentTotal}</th>
+                        <th align="right">{receiptTotal}</th>
+                        <th align="right" >{cb}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -233,10 +236,9 @@ class TableRow extends React.Component {
       <tr>
         <td>{arrVoucher.date}</td>
         <td>{arrVoucher.type}</td>
-        <td>{arrVoucher.narration}</td>
-        <td>{arrVoucher.payment}</td>
-        <td>{arrVoucher.receipt}</td>
-        <td></td>
+        <td >{arrVoucher.narration}</td>
+        <td >{arrVoucher.payment}</td>
+        <td >{arrVoucher.receipt}</td>
       </tr>
     );
   }

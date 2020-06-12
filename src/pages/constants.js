@@ -1,8 +1,10 @@
-const BASE_URL = "/";
+const BASE_URL = "http://localhost:3000/";
 
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
+export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoiceList`;
 export const URL_INVOICE_SAVE       = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
+export const URL_INVOICE_CONV_RATE  = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_ROUGH_INV_LIST_DT  = `${BASE_URL}invoice/roughInvoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
@@ -47,6 +49,8 @@ export const LEDGER_GROUPS = {
     SUPPLIER : 2,
     STAFF : 3,
     ACCOUNT : 5,
-    INV_EXPENSE : 6
+    INV_EXPENSE : 6,
+    CONSIGNER: 7,
+    CONSIGNEE: 8,
 }
 

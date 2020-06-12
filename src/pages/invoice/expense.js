@@ -13,8 +13,9 @@ class Expense extends Component {
       id_ledger_to: "",
       description: "",
       rate: "",
+      qty: "",
       amount: "",
-      type: "Payment",
+      type: "Receipt",
       voucher_no: "1",
       ledger: "",
       arrLedger: [],
@@ -25,6 +26,7 @@ class Expense extends Component {
 
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onRateChange = this.onRateChange.bind(this);
+    this.onQtyChange = this.onQtyChange.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
@@ -65,7 +67,6 @@ formatDate = date => {
         }
       );
       const id_invoice = this.props.id_invoice;
-      alert(id_invoice);
       this.loadExpenseList(id_invoice);
   }
 
@@ -104,26 +105,37 @@ formatDate = date => {
           date          : this.formatDate(this.state.date),
           id_ledger_to  : this.state.id_ledger_to,
           description   : this.state.description,
-          rate          : this.state.rate,
-          amount        : this.state.amount,
+          rate          : isNaN(this.state.rate) ? "" : this.state.rate,
+          amount        : isNaN(this.state.amount) ? "" : this.state.amount,
           type          : this.state.type,
           voucher_no    : this.state.voucher_no,
           id_invoice    : this.props.id_invoice,
         }),
       };
-      fetch(URL_EXPENSE_SAVE, requestOptions).then((response) =>
-        response.json()
+      fetch(URL_EXPENSE_SAVE, requestOptions).then((response) => 
+        {
+          response.json();
+          this.loadExpenseList(this.props.id_invoice);
+          this.setState({
+            id_ledger_to: 0,
+            description: "",
+            rate: "",
+            qty: "",
+            amount: "",
+          })
+        }
       );
-      this.loadExpenseList(this.props.id_invoice);
+      
     } else {
       this.validator.showMessages();
       this.forceUpdate();
     }
   };
+
+
   onDateChange = (date) => this.setState({ date });
 
   onDelRow = (id) => {
-    alert(id);
     this.setState({ description: id });
   };
 
@@ -132,7 +144,17 @@ formatDate = date => {
   }
 
   onRateChange(event) {
-    this.setState({ rate: event.target.value });
+    this.setState({ 
+      rate: event.target.value, 
+      amount: this.state.qty * event.target.value
+    });
+  }
+
+  onQtyChange(event) {
+    this.setState({ 
+      qty: event.target.value, 
+      amount: event.target.value * this.state.rate
+    });
   }
 
   onAmountChange(event) {
@@ -213,9 +235,20 @@ formatDate = date => {
                                   />
                                 </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-2">
                                 <div class="form-group">
-                                  <label>Rate</label>
+                                  <label>Qty (Freight)</label>
+                                  <input
+                                    type="text"
+                                    value={this.state.qty}
+                                    onChange={this.onQtyChange}
+                                    class="form-control"
+                                  />
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <div class="form-group">
+                                  <label>Rate (Freight)</label>
                                   <input
                                     type="text"
                                     value={this.state.rate}
@@ -264,7 +297,6 @@ formatDate = date => {
                         <th>Total</th>
                         <th />
                         <th />
-                        <th />
                         <th align="right">{grandTotal}</th>
                         <th />
                       </tfoot>
@@ -292,11 +324,15 @@ class TableRow extends React.Component {
       })[0].account_head;
     }
 
+    const description = (arrExpense.rate != "" && arrExpense.rate != 0) 
+                        ? `${(arrExpense.amount / arrExpense.rate)} x ${arrExpense.rate}`
+                        : arrExpense.description; 
+
     return (
       <tr>
         <td>{arrExpense.date}</td>
         <td>{arrExpense.ledger}</td>
-        <td>{arrExpense.description}</td>
+        <td>{description}</td>
         <td>{arrExpense.amount}</td>
         <td>
           <div class="btn-group">

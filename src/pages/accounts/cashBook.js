@@ -136,7 +136,7 @@ class CashBook extends Component {
 
     const creditTotal = this.state.arrCreditVouchers.reduce((a, b) => +a + +(b.credit), 0);
     const debitTotal = this.state.arrDebitVouchers.reduce((a, b) => +a + +(b.debit), 0);
-    const balance     = debitTotal - creditTotal;
+    const balance     = this.state.op - debitTotal - creditTotal;
     return (
 
       <div class="wrapper" >

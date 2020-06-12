@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 import RoughInvoiceCreate from '../pages/roughInvCreate';
 import Invoice from '../pages/invoice/';
 import InvoiceList from '../pages/invoiceList';
@@ -18,9 +18,9 @@ import StockReport from '../pages/stock';
 
 export default function Routes() {
   return (
-    <Switch>
+    <HashRouter>
       <Route path="/roughInvoiceCreate/:id_rough_invoice" component={RoughInvoiceCreate} />
-      <Route path="/invoice/:id" component={Invoice} />
+      <Route path="/invoice/:id/:id_rough_invoice?" component={Invoice} />
       <Route path="/invoiceList" component={InvoiceList} />
       <Route path="/roughInvoiceList" component={RoughInvoiceList} />
       <Route path="/" exact component={InvoiceList} />
@@ -35,7 +35,7 @@ export default function Routes() {
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />
       <Route path="/stockReport" exact component={StockReport} />
-    </Switch>
+    </HashRouter>
   );
 }
 

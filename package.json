@@ -17,7 +17,7 @@
     "react-validation": "^3.0.7",
     "simple-react-validator": "^1.4.6"
   },
-  "homepage": "http://expo.ncod.in",
+  "homepage": "http://ip-198-12-251-14.ip.secureserver.net",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

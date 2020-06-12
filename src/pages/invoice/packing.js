@@ -50,7 +50,7 @@ class Packing extends Component {
       />
     );   
 
-    const grandTotalPacking = this.state.packItems.reduce((a, b) => +a + +(b.weight), 0);
+    const grandTotalPacking = this.state.packItems.reduce((a, b) => +a + +(b.kg), 0);
     const grandTotalLabour = this.state.LabourItems.reduce((a, b) => +a + +(b.amount), 0);
     const grandTotalExpense = this.state.ExpenseItems.reduce((a, b) => +a + +(b.amount), 0);
 
@@ -69,14 +69,16 @@ class Packing extends Component {
                     <table class="table">
                       <thead>                       
                         <tr>
+                          <th style={{ width: '20%' }} >No</th>
                           <th style={{ width: '50%' }}>Items</th>
-                          <th style={{ width: '50%' }}>Weight</th>
+                          <th style={{ width: '30%' }}>Kg</th>
                         </tr>
                       </thead>
                       <tbody>
                         {tableRowsPacking}
                       </tbody>
                       <tfoot>
+                        <th></th>
                         <th>Net Weight</th>
                         <th align="right">{grandTotalPacking}</th>
                       </tfoot>
@@ -152,8 +154,9 @@ class TableRowPacking extends React.Component {
 
     return (
       <tr>
+        <td>{packItem.pack_no}</td>
         <td>{packItem.name}</td>
-        <td>{packItem.weight}</td>
+        <td>{packItem.kg}</td>
       </tr>
     );
   }

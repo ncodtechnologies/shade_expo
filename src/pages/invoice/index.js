@@ -6,9 +6,8 @@ import NetReport from './netreport'
 import Documents from './documents'
 import Packing from './packing'
 import SimpleReactValidator from 'simple-react-validator';
-import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT} from '../constants';
+import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS, URL_ROUGH_INVOICE_DT} from '../constants';
 import { Redirect } from 'react-router-dom'
-const API = '/invoice';
 
 class Invoice extends Component {
 
@@ -26,8 +25,12 @@ class Invoice extends Component {
       invoice_no:'',
       order_no:'',
       buyer_date:new Date(),
-      exporter:'',
-      consignee:'',
+      consigners: [],
+      consignees: [],
+      consigner: this.props.data && this.props.data.consigner,
+      consignee: "",
+      consigner_address: this.props.data && this.props.data.consigner_address,
+      consignee_address:'',
       other:'',
       buyer:'',
       country_origin:'',
@@ -42,6 +45,10 @@ class Invoice extends Component {
       container_no:'',
       awb_no:'', 
       terms:'',
+      conversion_rate:'',
+      status:'Waiting Approval',
+      discount: '',
+      narration:'',
       arrProducts:[],
       invItems: [],
       places: [
@@ -50,6 +57,29 @@ class Invoice extends Component {
         { Id_place: 2, Place: 'KSA' },
         { Id_place: 3, Place: 'US' },
       ],
+      dischargePlaces: [
+        { Id_place: 0, Place: '--Select--' },
+        { Id_place: 1, Place: 'DELHI' },
+        { Id_place: 2, Place: 'CHENNAI' },
+        { Id_place: 3, Place: 'KERALA' },
+      ],
+      statusTypes: [
+        { status: 'Waiting Approval' },
+        { status: 'Packing' },
+        { status: 'Shipped' },
+        { status: 'Cancelled' },
+      ],
+      airports:[
+        { Id_Port: 0, Port: '--Select--' },
+        { Id_Port: 1, Port: 'KOCHI' },
+        { Id_Port: 1, Port: 'CALICUT' },
+        { Id_Port: 1, Port: 'TRIVANDRUM' },
+        { Id_Port: 1, Port: 'KANNUR' },
+        { Id_Port: 1, Port: 'MUMBAI' },
+        { Id_Port: 1, Port: 'CHENNAI' },
+        { Id_Port: 1, Port: 'KOLKATA' },
+        { Id_Port: 1, Port: 'COIMBATORE' },
+      ]
     }
     this.handleChangeDate=this.handleChangeDate.bind(this);
     this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
@@ -58,9 +88,29 @@ class Invoice extends Component {
   
   componentDidMount() {
     const id_invoice = this.props.id_invoice;
+    if(this.props.id_rough_invoice)
+      this.loadRoughInvoice(this.props.id_rough_invoice);
+    
     this.loadProducts();
+    this.loadConsigners();
+    this.loadConsignees();
+
     if(id_invoice!=0)
       this.loadInvoiceDt(id_invoice);
+  }
+
+  loadRoughInvoice(id) {
+    fetch(URL_ROUGH_INVOICE_DT + "/" + id)
+    .then(response => response.json())
+    .then(data => { 
+      if(data.length > 0)
+        this.setState({  
+          consignee         : data[0].consignee,
+          consigner         : data[0].consigner,
+          consigner_address : data[0].consigner_address,
+          consignee_address : data[0].consignee_address,
+        })
+    });
   }
  
   loadProducts = () => {
@@ -70,7 +120,39 @@ class Invoice extends Component {
       this.setState({ products: [{ id_product:0, name: "SELECT" },...data] })
     });
   }
+
+  loadConsigners() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNER;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consigners : [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
+  }
+
+  loadConsignees() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNEE;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consignees: [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
+  }
   
+  loadLedgerAddress(id_ledger, type) {
+    fetch(`${URL_LEDGER_EDIT_DT}/${id_ledger}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          if(type == "CONSIGNER")
+            this.setState({ consigner_address: data[0].address })
+          else
+            this.setState({ consignee_address: data[0].address })
+      });
+  }
+
   loadInvoiceDt = (id_invoice) => {
 
     fetch(URL_INVOICE_DT + `/${id_invoice}`)
@@ -79,29 +161,36 @@ class Invoice extends Component {
       {
         if(data.length>0)
         this.setState(
-              { invoice_no       : data[0].invoice_no ,
-                date             : data[0].date , 
-                order_no         : data[0].order_no , 
-                buyer_date       : data[0].buyer_date ,
-                exporter         : data[0].exporter ,
-                consignee        : data[0].consignee ,
-                other            : data[0].other ,
-                buyer            : data[0].buyer ,
-                country_origin   : data[0].country_origin ,
-                country_final    : data[0].country_final ,
-                pre_carriage     : data[0].pre_carriage ,
-                receipt_place    : data[0].receipt_place ,
-                vessel_no        : data[0].vessel_no ,
-                port_load        : data[0].port_load ,
-                port_discharge   : data[0].port_discharge ,
-                final_destination: data[0].final_destination ,
-                marks            : data[0].marks ,
-                container_no     : data[0].container_no ,
-                awb_no           : data[0].awb_no ,
-                terms            : data[0].terms ,
-                invItems         : data[0].items || []
-              }
-              )
+              { invoice_no        : data[0].invoice_no ,
+                date              : data[0].date , 
+                order_no          : data[0].order_no , 
+                buyer_date        : data[0].buyer_date ,
+                consigner         : data[0].consigner ,
+                consignee         : data[0].consignee ,
+                consigner_address : data[0].consigner_address ,
+                consignee_address : data[0].consignee_address ,
+                other             : data[0].other ,
+                buyer             : data[0].buyer ,
+                country_origin    : data[0].country_origin ,
+                country_final     : data[0].country_final ,
+                pre_carriage      : data[0].pre_carriage ,
+                receipt_place     : data[0].receipt_place ,
+                vessel_no         : data[0].vessel_no ,
+                port_load         : data[0].port_load ,
+                port_discharge    : data[0].port_discharge ,
+                final_destination : data[0].final_destination ,
+                marks             : data[0].marks ,
+                container_no      : data[0].container_no ,
+                awb_no            : data[0].awb_no ,
+                terms             : data[0].terms ,
+                conversion_rate   : data[0].conversion_rate ,
+                status            : data[0].status ,
+                discount          : data[0].discount,
+                narration         : data[0].narration,
+                invItems          : data[0].items || []
+              }, () => {
+                this.props.setInvoiceNo(this.state.invoice_no);
+            });
             }
     );
   }
@@ -127,11 +216,13 @@ class Invoice extends Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
                   invoice_no        : this.state.invoice_no,
-                  order_no          : this.state.order_no ,
+                  order_no          : this.state.order_no,
                   date              : this.formatDate(this.state.date),
                   buyer_date        : this.formatDate(this.state.buyer_date),
-                  exporter          : this.state.exporter ,
+                  consigner         : this.state.consigner ,
                   consignee         : this.state.consignee ,
+                  consigner_address : this.state.consigner_address ,
+                  consignee_address : this.state.consignee_address ,
                   other             : this.state.other ,
                   buyer             : this.state.buyer ,
                   country_origin    : this.state.country_origin ,
@@ -148,11 +239,16 @@ class Invoice extends Component {
                   terms             : this.state.terms ,
                   items             : this.state.invItems,
                   id_invoice        : this.props.id_invoice,
+                  conversion_rate   : this.state.conversion_rate,
+                  status            : this.state.status,
+                  discount          : this.state.discount,
+                  narration         : this.state.narration,
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
         .then(response => response.json())
         .then(response => {
+          alert('hi')
           if(!response.isUpdate)
           {
             this.setState({
@@ -193,10 +289,20 @@ class Invoice extends Component {
 
   handleChangeConsignee (e){
     this.setState({ consignee:e.target.value})
+    this.loadLedgerAddress(e.target.value, "CONSIGNEE");
   }
 
-  handleChangeExporter (e){
-    this.setState({ exporter:e.target.value})
+  handleChangeConsigner (e){
+    this.setState({ consigner:e.target.value})
+    this.loadLedgerAddress(e.target.value, "CONSIGNER");
+  }
+
+  handleChangeConsigneeAddress (e){
+    this.setState({ consignee_address:e.target.value});
+  }
+
+  handleChangeConsignerAddress (e){
+    this.setState({ consigner_address:e.target.value});
   }
 
   handleChangeOther (e){
@@ -243,7 +349,18 @@ class Invoice extends Component {
   handleChangeTerms (e){
     this.setState({ terms:e.target.value})
   }
-
+  handleChangeConversionRate (e){
+    this.setState({ conversion_rate:e.target.value})
+  }
+  handleChangeStatus (e){
+    this.setState({ status:e.target.value})
+  }
+  handleChangeDiscount (e){
+    this.setState({ discount:e.target.value})
+  }
+  handleChangeNarration (e){
+    this.setState({ narration:e.target.value})
+  }
   //table onChangeFunctions
 
   handleChangeKg = (e, rowIndex) => {
@@ -328,7 +445,7 @@ class Invoice extends Component {
                           <div class="form-group">
                             <label>Invoice No</label>
                             <input type="text" value={this.state.invoice_no} onChange={e => this.handleChangeInvoiceNo(e)} class="form-control" />
-                            {this.validator.message('invoice_no', this.state.invoice_no, 'required|numeric')}
+                            {this.validator.message('invoice_no', this.state.invoice_no, 'required')}
                           </div>
                         </div>
                         <div class="col-sm-6">
@@ -429,12 +546,30 @@ class Invoice extends Component {
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
-                            <label>Exporter</label>
-                            <textarea type="text" onChange={e => this.handleChangeExporter(e)} value={this.state.exporter} class="form-control" rows={4} />
+                            <label>Consigner</label>
+                            <select class="form-control" onChange={e => this.handleChangeConsigner(e)} value={this.state.consigner}>
+                              {this.state.consigners.map(column => (
+                                <option value={column.id_account_head}>
+                                  {column.account_head}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <textarea type="text" onChange={e => this.handleChangeConsignerAddress(e)} value={this.state.consigner_address} class="form-control" rows={4} />
                           </div>
                           <div class="form-group">
                             <label>Consignee</label>
-                            <textarea type="text" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee} class="form-control" rows={4} />
+                            <select class="form-control" onChange={e => this.handleChangeConsignee(e)} value={this.state.consignee}>
+                              {this.state.consignees.map(column => (
+                                <option value={column.id_account_head}>
+                                  {column.account_head}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <textarea type="text" onChange={e => this.handleChangeConsigneeAddress(e)} value={this.state.consignee_address} class="form-control" rows={4} />
                           </div>
                           <div class="form-group">
                             <label>Pre-Carriage by</label>
@@ -457,9 +592,9 @@ class Invoice extends Component {
                           <div class="form-group">
                             <label>Port of loading</label>
                             <select class="form-control" onChange={e => this.handleChangePortLoad(e)} value={this.state.port_load}>
-                              {this.state.places.map(column => (
-                                <option value={column.Id_place}>
-                                  {column.Place}
+                              {this.state.airports.map(column => (
+                                <option value={column.Id_port}>
+                                  {column.Port}
                                 </option>
                               ))}
                             </select>
@@ -471,7 +606,7 @@ class Invoice extends Component {
                           <div class="form-group">
                             <label>Port of discharge</label>
                             <select class="form-control" onChange={e => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
-                              {this.state.places.map(column => (
+                              {this.state.dischargePlaces.map(column => (
                                 <option value={column.Id_place}>
                                   {column.Place}
                                 </option>
@@ -521,7 +656,7 @@ class Invoice extends Component {
                       <tr>
                         <th>Description of goods</th>
                         <th style={{ width: "10%" }}>Kg</th>
-                        <th style={{ width: "10%" }}>Amount</th>
+                        <th style={{ width: "20%" }}>Amount(USD)</th>
                         <th style={{ width: "10%" }}>Total</th>
                         <th style={{ width: "10%" }} />
                       </tr>
@@ -546,11 +681,60 @@ class Invoice extends Component {
           <div class="row">
             <div class="col-lg-12">
               <div class="card card-info">
-                <div class="card-footer">
-                  <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
-                    Save
-                  </button>
+                <div class="card-body p-0">
+                  <div class="col-md-12">
+                    <label>Discount</label>
+                    <input type="text" onChange={e => this.handleChangeDiscount(e)} value={this.state.discount} class="form-control" />    
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="row">
+                   <div class="col-md-12">
+                     <label>Narration</label>
+                     <input type="text" onChange={e => this.handleChangeNarration(e)} value={this.state.narration} class="form-control" />    
+                   </div>         
+                   </div>
+                </div>             
+               </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-md-4">
+                    <label>Status</label>
+                    <select class="form-control" onChange={e => this.handleChangeStatus(e)} value={this.state.status}>
+                      {this.state.statusTypes.map(column => (
+                        <option value={column.status}>
+                          {column.status}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label>Conversion Rate</label>
+                    <input type="text" onChange={e => this.handleChangeConversionRate(e)} value={this.state.conversion_rate} class="form-control" />    
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                    <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
+                      Save Invoice
+                    </button>
+              </div>
+
               </div>
             </div>
           </div>
@@ -600,7 +784,30 @@ class TableRow extends Component {
 }
 
 class App extends Component {
+
   
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTab : 0,
+      invoice_no : 0
+    }
+
+    this.setTab = this.setTab.bind(this);
+  }
+  
+  
+  componentDidMount() {
+    console.log(this.props.match.params);
+  }
+
+  setTab = tabIndex => {
+    this.setState({ currentTab : tabIndex });
+  }
+  setInvoiceNo = invoice_no => {
+    this.setState({ invoice_no});
+  }
+
 	render() {
 		return (
       <div class="wrapper" >
@@ -611,26 +818,26 @@ class App extends Component {
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice</a>
+                    <a onClick={()=>this.setTab(0)} class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Invoice {this.props.match.params.id != 0 && `No. ${this.state.invoice_no}` } </a>
                   </li>
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
-                  </li>
-                  }
-                  {this.props.match.params.id == 0 ? <div /> : 
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
+                    <a onClick={()=>this.setTab(1)} class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Documents</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                    <a onClick={()=>this.setTab(2)} class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Expenses</a>
                   </li>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
+                    <a onClick={()=>this.setTab(3)} class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Net Report</a>
+                  </li>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a onClick={()=>this.setTab(4)} class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
                   </li>
                   }
                 </ul>
@@ -638,26 +845,46 @@ class App extends Component {
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
                   <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                     <Invoice id_invoice={this.props.match.params.id} />
+                    {this.state.currentTab == 0 ? 
+                      <Invoice id_invoice={this.props.match.params.id} id_rough_invoice={this.props.match.params.id_rough_invoice} setInvoiceNo={this.setInvoiceNo} />
+                    :
+                      <div />
+                    }
                   </div>
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                     {this.state.currentTab == 1 ? 
                      <Documents  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">
-                     <Expenses  id_invoice={this.props.match.params.id} />
+                     {this.state.currentTab == 2 ? 
+                     <Expenses  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">
-                     <NetReport id_invoice={this.props.match.params.id} />
+                     {this.state.currentTab == 3 ? 
+                     <NetReport  id_invoice={this.props.match.params.id}/>
+                     :
+                       <div />
+                     }
                   </div>
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
-                     <Packing  id_invoice={this.props.match.params.id}/>
+                    {this.state.currentTab == 4 ? 
+                     <Packing  id_invoice={this.props.match.params.id} {...this.props} />
+                     :
+                       <div />
+                     }
                   </div>
                   }
                 </div>

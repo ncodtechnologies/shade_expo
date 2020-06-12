@@ -45,7 +45,7 @@ class App extends Component {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-12">
-                  <h1>Invoice</h1>
+                  <h1>Rough Invoice</h1>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ class App extends Component {
                 <div class="col-lg-12">
                   <div class="card card-default">
                   <div class="card-header border-0">
-                    <h3 class="card-title">Invoice</h3>
+                    <h3 class="card-title">Rough Invoice</h3>
                     <div class="card-tools">
                     <Link to={'./roughInvoiceCreate/0'} >
                       <button type="submit" class="btn btn-block btn-success btn-flat">Create</button>
@@ -68,23 +68,15 @@ class App extends Component {
                       <table class="table">
                         <thead>
                           <tr>
-                            <th style={{ width: '25%' }}>Date</th>
-                            <th style={{ width: '10%' }}>Consigner</th>
-                            <th style={{ width: '25%' }}>Consignee</th>
-                            <th style={{ width: '20%' }}>Status</th>
-                            <th style={{ width: '15%' }}></th>
+                            <th style={{ width: '20%' }}>Date</th>
+                            <th >Consigner</th>
+                            <th >Consignee</th>
+                            <th ></th>
                           </tr>
                         </thead>
                         <tbody>
                           {tableRows}
                         </tbody>
-                        <tfoot>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td align="right" ></td>
-                        </tfoot>
                       </table>
                     </div>
                   </div>
@@ -129,8 +121,7 @@ class TableRow extends React.Component {
       <tr>
         <td>{invItem.date}</td>
         <td>{invItem.consigner}</td>
-        <td>{invItem.id_rough_invoice}</td>
-        <td>{this.getStatus(invItem.status)}</td>
+        <td>{invItem.consignee}</td>
         <td>
           <div class="btn-group">            
           <Link to={'./roughInvoiceCreate/'+ invItem.id_rough_invoice} render={(props) => <RoughInvoice {...props}  id_rough_invoice={this.props.match.params.id_rough_invoice}/>} ><i class="fas fa-edit"></i> </Link> 

@@ -56,11 +56,11 @@ class Expense extends Component {
     if(this.state.type == "Receipt")
     {
       id_ledger_group_from = -1 * LEDGER_GROUPS.ACCOUNT;
-      id_ledger_group_to = LEDGER_GROUPS.ACCOUNT;
+      id_ledger_group_to = LEDGER_GROUPS.ACCOUNT + "," + LEDGER_GROUPS.CONSIGNER + "," + LEDGER_GROUPS.CONSIGNEE;
     } 
     else if(this.state.type == "Payment")
     {
-      id_ledger_group_from = LEDGER_GROUPS.ACCOUNT;
+      id_ledger_group_from = LEDGER_GROUPS.ACCOUNT + "," + LEDGER_GROUPS.CONSIGNER + "," + LEDGER_GROUPS.CONSIGNEE;
       id_ledger_group_to = -1 * LEDGER_GROUPS.ACCOUNT;
     }
     else if(this.state.type == "Transfer")
@@ -108,9 +108,12 @@ class Expense extends Component {
               })
   };
   fetch(URL_VOUCHER_SAVE, requestOptions)
-      .then(response => response.json());
-      const _date=this.formatDate(this.state.date);
-       this.loadVoucherList(_date,this.state.type);
+      .then(response => { 
+        response.json();
+        const _date=this.formatDate(this.state.date);
+        this.loadVoucherList(_date,this.state.type);
+      })
+      
 }
 else
 {

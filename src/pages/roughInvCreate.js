@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import { Link, Redirect } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
-import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INVOICE_DT} from './constants';
+import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INV_LIST_DT} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -44,7 +44,7 @@ class App extends Component {
 
   loadInvoiceDt = (id_rough_invoice) => {
 
-    fetch(URL_ROUGH_INVOICE_DT + `/${id_rough_invoice}`)
+    fetch(URL_ROUGH_INV_LIST_DT + `/${id_rough_invoice}`)
     .then(response => response.json())
     .then(data => 
       {
@@ -93,7 +93,6 @@ class App extends Component {
                   consignee         : this.state.consignee ,
                   port_load         : this.state.port_load ,
                   items             : this.state.invItems,
-                  id_rough_invoice  : this.props.match.params.id_rough_invoice,
                 })
     };
     fetch(URL_ROUGH_INVOICE_SAVE, requestOptions)
@@ -266,8 +265,10 @@ class App extends Component {
                             </div>
                           </div>
                         </div>
+
                       </form>
                     </div>
+
                     <div class="card-header">
                       <h3 class="card-title">Invoice</h3>
                     </div>
@@ -309,9 +310,12 @@ class App extends Component {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
-        </div>       
+        </div>
+
+       
       </div>
     );
   }

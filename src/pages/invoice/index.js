@@ -5,6 +5,7 @@ import Expenses from './expense'
 import NetReport from './netreport'
 import Documents from './documents'
 import Packing from './packing'
+import FrightExp from './frightExp'
 import SimpleReactValidator from 'simple-react-validator';
 import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS, URL_ROUGH_INVOICE_DT} from '../constants';
 import { Redirect } from 'react-router-dom'
@@ -840,6 +841,11 @@ class App extends Component {
                     <a onClick={()=>this.setTab(4)} class="nav-link" id="custom-tabs-three-packing-tab" data-toggle="pill" href="#custom-tabs-three-packing" role="tab" aria-controls="custom-tabs-three-packing" aria-selected="false">Packing </a>
                   </li>
                   }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <li class="nav-item">
+                    <a onClick={()=>this.setTab(5)} class="nav-link" id="custom-tabs-three-fright-tab" data-toggle="pill" href="#custom-tabs-three-fright" role="tab" aria-controls="custom-tabs-three-fright" aria-selected="false">Fright Items </a>
+                  </li>
+                  }
                 </ul>
               </div>
               <div class="card-body">
@@ -882,6 +888,15 @@ class App extends Component {
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
                     {this.state.currentTab == 4 ? 
                      <Packing  id_invoice={this.props.match.params.id} {...this.props} />
+                     :
+                       <div />
+                     }
+                  </div>
+                  }
+                  {this.props.match.params.id == 0 ? <div /> : 
+                  <div class="tab-pane fade" id="custom-tabs-three-fright" role="tabpanel" aria-labelledby="custom-tabs-three-fright-tab">
+                    {this.state.currentTab == 5 ? 
+                     <FrightExp  id_invoice={this.props.match.params.id} {...this.props} />
                      :
                        <div />
                      }

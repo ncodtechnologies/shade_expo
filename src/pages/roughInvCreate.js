@@ -43,7 +43,7 @@ class App extends Component {
   }
   componentDidMount() {
     const id_rough_invoice=this.props.match.params.id_rough_invoice;
-  //  alert(id_rough_invoice)
+    alert(id_rough_invoice)
     this.loadProducts();
     this.loadConsigners();
     this.loadConsignees();
@@ -137,6 +137,7 @@ class App extends Component {
                   consignee_address : this.state.consignee_address ,
                   port_load         : this.state.port_load ,
                   items             : this.state.invItems,
+                  airwayItems       : this.state.airwayItems,
                 })
     };
     
@@ -190,13 +191,13 @@ class App extends Component {
         invItems: _invItems
       })
   }
-  handleChangeKg = (e, rowIndex) =>  {
-    let _invItems = this.state.invItems;
-    let _row = _invItems[rowIndex];
+  handleChangeAirwayKg = (e, rowIndex) =>  {
+    let _airwayItems = this.state.airwayItems;
+    let _row = _airwayItems[rowIndex];
     _row.kg = e.target.value;
-    _invItems[rowIndex] = _row;
+    _airwayItems[rowIndex] = _row;
     this.setState({
-      invItems: _invItems
+      airwayItems: _airwayItems
     })
 }
 
@@ -209,13 +210,13 @@ class App extends Component {
       invItems: _invItems
     })
   }
-  handleChangeBox = (e, rowIndex) =>  {
-    let _invItems = this.state.invItems;
-    let _row = _invItems[rowIndex];
+  handleChangeAirwayBox = (e, rowIndex) =>  {
+    let _airwayItems = this.state.airwayItems;
+    let _row = _airwayItems[rowIndex];
     _row.box = e.target.value;
-    _invItems[rowIndex] = _row;
+    _airwayItems[rowIndex] = _row;
     this.setState({
-      invItems: _invItems
+      airwayItems: _airwayItems
     })
   }
 
@@ -228,13 +229,13 @@ class App extends Component {
       invItems: _invItems
     })
   }
-  handleChangeProduct = (e, rowIndex) =>  {
-    let _invItems = this.state.invItems;
-    let _row = _invItems[rowIndex];
+  handleChangeAirwayProduct = (e, rowIndex) =>  {
+    let _airwayItems = this.state.airwayItems;
+    let _row = _airwayItems[rowIndex];
     _row.id_product = e.target.value;
-    _invItems[rowIndex] = _row;
+    _airwayItems[rowIndex] = _row;
     this.setState({
-      invItems: _invItems
+      airwayItems: _airwayItems
     })
   }
   
@@ -293,10 +294,11 @@ class App extends Component {
   );
   const tableRowsAirway = this.state.airwayItems.map((airwayItem,index) =>
       <TableRowsAirway 
-        handleChangeKg={this.handleChangeKg}
-        handleChangeBox={this.handleChangeBox} 
-        handleChangeProduct={this.handleChangeProduct} 
-        delRow={this.delRow} 
+        handleChangeAirwayKg={this.handleChangeAirwayKg}
+        handleChangeAirwayBox={this.handleChangeAirwayBox} 
+        handleChangeAirwayProduct={this.handleChangeAirwayProduct} 
+        delRowAirway={this.delRowAirway} 
+
         airwayItem={airwayItem} rowIndex={index} 
         products={products}
        
@@ -580,7 +582,7 @@ class TableRowsAirway extends Component {
         <td><input type="text" class="form-control"  value={airwayItem.box}  onChange={(e) => this.handleChangeAirwayBox(e)}  /></td>
         <td align="right" >{total}</td>
         <td>
-            <button type="button"  onClick={this.delRow}  class="btn btn-success"><i class="fas fa-trash"></i></button>
+            <button type="button"  onClick={this.delRowAirway}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     );

@@ -9,6 +9,7 @@ export const URL_INVOICE_LIST_DT    = `${BASE_URL}invoice/invoiceList`;
 export const URL_ROUGH_INV_LIST_DT  = `${BASE_URL}invoice/roughInvoiceList`;
 export const URL_EXPENSE_SAVE       = `${BASE_URL}invoice/invoice/expense`;
 export const URL_EXPENSE_DT         = `${BASE_URL}invoice/invoice/expense`;
+export const URL_FRIGHT_EXP_DT      = `${BASE_URL}invoice/invoice/frightExp`;
 export const URL_EXPENSE_DEL        = `${BASE_URL}invoice/invoice/expenseDel`;
 export const URL_NET_SALES_TOT      = `${BASE_URL}invoice/invoice/netSalesTotal`;
 export const URL_NET_OTHER_EXP      = `${BASE_URL}invoice/invoice/netOtherExp`;

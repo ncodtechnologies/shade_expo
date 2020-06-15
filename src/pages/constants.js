@@ -1,7 +1,7 @@
 const BASE_URL = "http://198.12.251.14:3000/";
 
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
-export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoiceList`;
+export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoice`;
 export const URL_INVOICE_SAVE       = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_DT         = `${BASE_URL}invoice/invoice`;
 export const URL_INVOICE_CONV_RATE  = `${BASE_URL}invoice/invoice`;

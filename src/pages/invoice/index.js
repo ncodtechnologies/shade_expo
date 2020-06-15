@@ -843,7 +843,7 @@ class App extends Component {
                   }
                   {this.props.match.params.id == 0 ? <div /> : 
                   <li class="nav-item">
-                    <a onClick={()=>this.setTab(5)} class="nav-link" id="custom-tabs-three-fright-tab" data-toggle="pill" href="#custom-tabs-three-fright" role="tab" aria-controls="custom-tabs-three-fright" aria-selected="false">Fright Items </a>
+                    <a onClick={()=>this.setTab(5)} class="nav-link" id="custom-tabs-three-fright-tab" data-toggle="pill" href="#custom-tabs-three-fright" role="tab" aria-controls="custom-tabs-three-fright" aria-selected="false">Freight Items </a>
                   </li>
                   }
                 </ul>

@@ -16,6 +16,7 @@ class App extends Component {
     this.state = {
       data:null,
       title: 'Table',
+      id_rough_invoice: 0,
       date: new Date(),
       port_load:'',
       consigners:[],
@@ -48,12 +49,15 @@ class App extends Component {
     this.loadConsigners();
     this.loadConsignees();
     if(id_rough_invoice!=0)
+    {
       this.loadInvoiceDt(id_rough_invoice);
+      this.setState({id_rough_invoice});
+    }
   }
 
   loadInvoiceDt = (id_rough_invoice) => {
 
-    fetch(URL_ROUGH_INV_LIST_DT + `/${id_rough_invoice}`)
+    fetch(URL_ROUGH_INVOICE_DT + `/${id_rough_invoice}`)
     .then(response => response.json())
     .then(data => 
       {
@@ -138,6 +142,7 @@ class App extends Component {
                   port_load         : this.state.port_load ,
                   items             : this.state.invItems,
                   airwayItems       : this.state.airwayItems,
+                  id_rough_invoice  : this.state.id_rough_invoice,
                 })
     };
     

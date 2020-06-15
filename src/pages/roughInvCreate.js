@@ -3,7 +3,13 @@ import Nav from '../NavBar';
 import Invoice from './invoice';
 import { Link, Redirect } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
-import { URL_PRODUCT_DT,URL_ROUGH_INVOICE_SAVE,URL_ROUGH_INV_LIST_DT,URL_ROUGH_INVOICE_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS} from './constants';
+import {URL_PRODUCT_DT,
+        URL_ROUGH_INVOICE_SAVE,
+        URL_AIRWAY_ITEMS_DT,
+        URL_ROUGH_INVOICE_DT, 
+        URL_LEDGER_EDIT_DT, 
+        URL_LEDGER_DT, 
+        LEDGER_GROUPS} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -44,13 +50,14 @@ class App extends Component {
   }
   componentDidMount() {
     const id_rough_invoice=this.props.match.params.id_rough_invoice;
-    alert(id_rough_invoice)
+    
     this.loadProducts();
     this.loadConsigners();
     this.loadConsignees();
     if(id_rough_invoice!=0)
     {
       this.loadInvoiceDt(id_rough_invoice);
+      this.loadAirwayItemsDt(id_rough_invoice);
       this.setState({id_rough_invoice});
     }
   }
@@ -71,6 +78,21 @@ class App extends Component {
                 consigner_address : data[0].consigner_address ,
                 consignee_address : data[0].consignee_address ,                
                 invItems          : data[0].items || []
+              })
+      }
+    );
+  }
+
+  loadAirwayItemsDt = (id_rough_invoice) => {
+
+    fetch(URL_AIRWAY_ITEMS_DT + `/${id_rough_invoice}`)
+    .then(response => response.json())
+    .then(data => 
+      {
+        if(data.length>0)
+          this.setState(
+              {               
+                airwayItems          : data[0].airwayItems || []
               })
       }
     );
@@ -303,7 +325,6 @@ class App extends Component {
         handleChangeAirwayBox={this.handleChangeAirwayBox} 
         handleChangeAirwayProduct={this.handleChangeAirwayProduct} 
         delRowAirway={this.delRowAirway} 
-
         airwayItem={airwayItem} rowIndex={index} 
         products={products}
        

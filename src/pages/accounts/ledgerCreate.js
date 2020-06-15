@@ -21,7 +21,6 @@ class Expense extends Component {
       arrLedgerGroup: [],
       redirect : false,
       types: [
-        { Id: 0, Type: '--Select--' },
         { Id: 1, Type: 'Cr' },
         { Id: 2, Type: 'Dr' },
       ],
@@ -66,6 +65,10 @@ class Expense extends Component {
         })
         }
       );
+      if(this.state.op<0)
+      this.setState({crdr : 'Dr'});
+      else
+      this.setState({crdr : 'Dr'});
   }  
 
   saveLedger = () => {

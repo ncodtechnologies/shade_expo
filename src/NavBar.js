@@ -78,15 +78,7 @@ class App extends Component {
                   </li>
                 </ul>
             </li>
-                <li class="nav-item">
-                  <NavLink to={"/roughInvoiceCreate"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-receipt"></i>
-                    <p>
-                     Rough Invoice
-                    </p>
-                  </NavLink>
-                </li>
-                <li class="nav-item">
+              <li class="nav-item">
                   <NavLink to={"/roughInvoiceList"} activeClassName="active" className="nav-link">
                     <i class="nav-icon fas fa-file-invoice" />
                     <p>Rough Invoices</p>
@@ -135,6 +127,19 @@ class App extends Component {
                       <NavLink to={"/cashBook"} activeClassName="active" className="nav-link">
                         <i class="far fa-circle nav-icon" />
                         <p>Cash Book</p>
+                      </NavLink>
+                    </li>
+                    <li class="nav-item">
+                      <NavLink to={"/sundryCreditor"} activeClassName="active" className="nav-link">
+                        <i class="far fa-circle nav-icon" />
+                        <p>Sundry Creditor</p>
+                      </NavLink>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <NavLink to={"/sundryDebtor"} activeClassName="active" className="nav-link">
+                        <i class="far fa-circle nav-icon" />
+                        <p>Sundry Debtor</p>
                       </NavLink>
                     </li>
                   </ul>

@@ -11,6 +11,8 @@ import LedgerReport from '../pages/accounts/ledgerReport';
 import LedgerCreate from '../pages/accounts/ledgerCreate';
 import LedgerGroup from '../pages/accounts/ledgerGroup';
 import CashBook from '../pages/accounts/cashBook';
+import SundryCreditor from '../pages/accounts/sundryCreditor';
+import SundryDebtor from '../pages/accounts/sundryDebtor';
 import Product from '../pages/product';
 import PurchaseVoucher from '../pages/purchase/voucher';
 import PurchaseReport from '../pages/purchase/report';
@@ -35,6 +37,9 @@ export default function Routes() {
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />
       <Route path="/stockReport" exact component={StockReport} />
+      <Route path="/sundryCreditor" exact component={SundryCreditor} />
+      <Route path="/sundryDebtor" exact component={SundryDebtor} />     
+
     </HashRouter>
   );
 }

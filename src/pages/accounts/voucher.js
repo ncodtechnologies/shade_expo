@@ -123,6 +123,16 @@ else
 
 }
 
+delVoucher = (id_account_voucher) => {
+    
+  fetch(URL_VOUCHER_DEL + `/${id_account_voucher}` )
+  .then(response => { 
+    response.json();
+    const _date=this.formatDate(this.state.date);
+    this.loadVoucherList(_date,this.state.type);
+  })
+    //this.loadVoucherList(date);
+}
  formatDate = date => {
   var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -184,8 +194,9 @@ else
   render() {
     const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
-      arrVoucher={arrVoucher}
+        arrVoucher={arrVoucher}
         arrLedger = {this.state.arrLedger}
+        delVoucher={this.delVoucher}
       />);
 
     const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
@@ -327,20 +338,6 @@ else
 
 class TableRow extends React.Component {
 
-  delVoucher = (id_account_voucher) => {
-    
-    fetch(URL_VOUCHER_DEL + `/${id_account_voucher}` )
-    .then(response => response.json())
-    .then(data => {
-      if(data.length>0)
-      this.setState({
-        arrVouchers: data ,
-        })
-        }
-      );
-      //this.loadVoucherList(date);
-  }
-
   render() {
     let arrVoucher = this.props.arrVoucher;
 
@@ -352,7 +349,7 @@ class TableRow extends React.Component {
         <td>{arrVoucher.amount}</td>
         <td>
           <div class="btn-group">
-            <button type="button"  onClick={() => this.delVoucher(arrVoucher.id_account_voucher)} class="btn btn-outline-danger">
+            <button type="button"  onClick={() => this.props.delVoucher(arrVoucher.id_account_voucher)} class="btn btn-outline-danger">
               <i class="fas fa-trash"></i>
           </button>
           </div>

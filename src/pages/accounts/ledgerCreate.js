@@ -42,7 +42,6 @@ class Expense extends Component {
    
     if(id_ledger!=0){
     this.loadLedger(id_ledger);
-    alert(id_ledger)
     }
   }
   loadLedgerGroup(){
@@ -58,7 +57,8 @@ class Expense extends Component {
     .then(data => {
       if(data.length>0)
       this.setState({
-        name       : data[0].name , 
+        id         : data[0].id_ledger_group , 
+        name       : data[0].account_head , 
         op         : data[0].opening_balance ,
         address    : data[0].address ,
         phone      : data[0].phone ,

@@ -204,7 +204,7 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-2">
                                   <div class="form-group">
-                                  <label>Type</label> 
+                                  <label><div><div></div></div></label> 
                                   <select class="form-control" onChange={this.onCrdrChange} value={this.state.crdr}>
                                   {this.state.types.map(column => (
                                     <option value={column.Id}>

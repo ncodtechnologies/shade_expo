@@ -657,7 +657,7 @@ class Invoice extends Component {
                       <tr>
                         <th>Description of goods</th>
                         <th style={{ width: "10%" }}>Kg</th>
-                        <th style={{ width: "20%" }}>Amount(USD)</th>
+                        <th style={{ width: "15%" }}>Amount(USD)</th>
                         <th style={{ width: "10%" }}>Total</th>
                         <th style={{ width: "10%" }} />
                       </tr>
@@ -669,8 +669,8 @@ class Invoice extends Component {
                     <tfoot>
                       <th>Total</th>
                       <th>{kgTotal}</th>
-                      <th>{boxTotal}</th>
-                      <th align="right">{grandTotal}</th>
+                      <th></th>
+                      <th align="right">$ {grandTotal}</th>
                       <th />
                     </tfoot>
                   </table>
@@ -678,17 +678,18 @@ class Invoice extends Component {
               </div>
             </div>
           </div>
-
           <div class="row">
             <div class="col-lg-12">
-              <div class="card card-info">
-                <div class="card-body p-0">
-                  <div class="col-md-12">
-                    <label>Discount</label>
-                    <input type="text" onChange={e => this.handleChangeDiscount(e)} value={this.state.discount} class="form-control" />    
-                  </div>
-                </div>
-              </div>
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="row">
+                   <div class="col-md-12">
+                     <label>Discount</label>
+                     <input type="text" onChange={e => this.handleChangeDiscount(e)} value={this.state.discount} class="form-control" />    
+                 </div>         
+                   </div>
+                </div>             
+               </div>
             </div>
           </div>
           <div class="row">

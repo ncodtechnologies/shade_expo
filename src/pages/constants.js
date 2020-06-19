@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "http://198.12.251.14:3000/";
 
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
 export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoice`;
@@ -50,6 +50,7 @@ export const URL_PURCHASE_VHR_ITEMS = `${BASE_URL}purchase/purchaseVoucherItems`
 export const URL_PURCHASE_VHR_EXP   = `${BASE_URL}purchase/purchaseVoucherExpense`;
  
 export const LEDGER_GROUPS = {
+    DESKTOP_ACCOUNT : 1,
     SUPPLIER : 2,
     STAFF : 3,
     ACCOUNT : 5,

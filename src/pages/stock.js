@@ -63,8 +63,10 @@ class Stock extends Component {
 
   onTypeChange(event) {
     this.setState({ type: event.target.value }
-      , () => {
-   });
+      , () => {        
+   const type_ = this.state.type;
+   this.loadStockList(type_);
+   });        
   }
 
  
@@ -111,7 +113,7 @@ class Stock extends Component {
                                     </select>
                                   </div>
                               </div>
-                              <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.loadStockList(this.state.id_product,this.state.type)}>
+                              <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.loadStockList(this.state.type)}>
                                    Search
                                 </button>
                             </div>
@@ -120,6 +122,7 @@ class Stock extends Component {
                         <tr>
                           <th style={{ width: '50%' }}>Product</th>
                           <th style={{ width: '25%' }}>Stock</th>
+                          <th style={{ width: '25%' }}>Rate</th>
                           <th style={{ width: '25%' }}>Amount</th>
                         </tr>
                       </thead>
@@ -128,6 +131,7 @@ class Stock extends Component {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
+                        <th></th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
                       </tfoot>
@@ -156,6 +160,7 @@ class TableRow extends React.Component {
       <tr>
         <td>{arrVoucher.product} {arrVoucher.unit}</td>
         <td>{arrVoucher.stock}</td>
+        <td>{arrVoucher.rate}</td>
         <td>{arrVoucher.rate*arrVoucher.stock}</td>
       </tr>
     );

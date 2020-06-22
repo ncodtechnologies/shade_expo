@@ -34,6 +34,7 @@ class App extends Component {
       consignee:'',
       consigner_address:'',
       consignee_address:'',
+      invoice_no:'',
       products: [],
       invItems: [],
       airwayItems: [],
@@ -46,9 +47,22 @@ class App extends Component {
               { Id_place: 2, Place: 'KSA' },
               { Id_place: 3, Place: 'US' },
               ],
+      redirectToInvoice : false,              
+      airports:[
+        { Id_Port: 0, Port: '--Select--' },
+        { Id_Port: 1, Port: 'KOCHI' },
+        { Id_Port: 1, Port: 'CALICUT' },
+        { Id_Port: 1, Port: 'TRIVANDRUM' },
+        { Id_Port: 1, Port: 'KANNUR' },
+        { Id_Port: 1, Port: 'MUMBAI' },
+        { Id_Port: 1, Port: 'CHENNAI' },
+        { Id_Port: 1, Port: 'KOLKATA' },
+        { Id_Port: 1, Port: 'COIMBATORE' },
+      ]
     }
     this.onDateChange           = this.onDateChange.bind(this);
     this.handleChangeConsignee  = this.handleChangeConsignee.bind(this);
+    this.handleChangeInvoiceNo  = this.handleChangeInvoiceNo.bind(this);
     this.handleChangeConsigner  = this.handleChangeConsigner.bind(this);
     this.handleChangePortLoad   = this.handleChangePortLoad.bind(this);
     this.validator = new SimpleReactValidator();
@@ -77,7 +91,8 @@ class App extends Component {
           this.setState(
               { 
                 date              : data[0].date , 
-                port_load         : data[0].port_load , 
+                port_load         : data[0].port_load ,
+                invoice_no        : data[0].invoice_no ,
                 consigner         : data[0].consigner ,
                 consignee         : data[0].consignee ,   
                 consigner_address : data[0].consigner_address ,
@@ -162,6 +177,7 @@ class App extends Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
                   date              : this.formatDate(this.state.date),
+                  invoice_no        : this.state.invoice_no ,
                   consigner         : this.state.consigner ,
                   consignee         : this.state.consignee ,
                   consigner_address : this.state.consigner_address ,
@@ -194,6 +210,10 @@ class App extends Component {
 
   handleChangePortLoad (e){
     this.setState({ port_load:e.target.value})
+  }
+
+  handleChangeInvoiceNo (e){
+    this.setState({ invoice_no:e.target.value})
   }
 
   handleChangeConsignee (e){
@@ -399,15 +419,22 @@ class App extends Component {
                             </div>
                           </div>
                         </div>
-
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label>Invoice No</label> 
+                              <input type="text" value={this.state.invoice_no} onChange={this.handleChangeInvoiceNo} class="form-control" />
+                            </div>
+                          </div>
+                        </div>
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label>Port of loading</label>
                               <select class="form-control" onChange={e => this.handleChangePortLoad(e)} value={this.state.port_load}>
-                              {this.state.places.map(column => (
-                                <option value={column.Id_place}>
-                                  {column.Place}
+                              {this.state.airports.map(column => (
+                                <option value={column.Id_port}>
+                                  {column.Port}
                                 </option>
                               ))}
                             </select>
@@ -464,7 +491,7 @@ class App extends Component {
                             <th>Product</th>
                             <th style={{ width: '10%' }}>Kg</th>
                             <th style={{ width: '10%' }}>Box</th>
-                            <th style={{ width: '10%' }}>Total</th>
+                            <th style={{ width: '20%' }}>Total</th>
                             <th style={{ width: '10%' }}></th>
                           </tr>
                         </thead>
@@ -474,16 +501,16 @@ class App extends Component {
                         </tbody>
                         <tfoot>
                           <td></td>
-                          <td>{ kgTotal }</td>
-                          <td>{ boxTotal }</td>
-                          <td align="right" >{ grandTotal }</td>
+                          <td align="right" ></td>
+                          <td align="right">{ boxTotal }</td>
+                          <td  >{ grandTotal } Kg</td>
                           <td></td>
                         </tfoot>
                       </table>
                     </div>
                    
                   <div class="card-header">
-                    <h3 class="card-title">Airway Bill</h3>
+                    <h3 class="card-title">Airport Invoice</h3>
                   </div>
 
                   <div class="card-body p-0">
@@ -493,7 +520,7 @@ class App extends Component {
                           <th>Product</th>
                           <th style={{ width: '10%' }}>Kg</th>
                           <th style={{ width: '10%' }}>Box</th>
-                          <th style={{ width: '10%' }}>Total</th>
+                          <th style={{ width: '20%' }}>Total</th>
                           <th style={{ width: '10%' }}></th>
                         </tr>
                       </thead>
@@ -503,9 +530,9 @@ class App extends Component {
                       </tbody>
                       <tfoot>
                         <td></td>
-                        <td>{ airwayKgTotal }</td>
-                        <td>{ airwayBoxTotal }</td>
-                        <td align="right" >{ airwayGrandTotal }</td>
+                        <td align="right" ></td>
+                        <td align="right" >{ airwayBoxTotal }</td>
+                        <td  >{ airwayGrandTotal } Kg</td>
                         <td></td>
                       </tfoot>
                     </table>
@@ -563,12 +590,9 @@ class App extends Component {
 
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-
-       
       </div>
     );
   }
@@ -606,7 +630,7 @@ class TableRow extends Component {
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
         <td><input type="text" class="form-control"  value={invItem.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
-        <td align="right" >{total}</td>
+        <td  >{total}</td>
         <td>
             <button type="button"  onClick={this.delRow}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
@@ -647,7 +671,7 @@ class TableRowsAirway extends Component {
         </td>
         <td><input type="text" class="form-control" value={airwayItem.kg} onChange={(e) => this.handleChangeAirwayKg(e)} /></td>
         <td><input type="text" class="form-control"  value={airwayItem.box}  onChange={(e) => this.handleChangeAirwayBox(e)}  /></td>
-        <td align="right" >{total}</td>
+        <td  >{total}</td>
         <td>
             <button type="button"  onClick={this.delRowAirway}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
@@ -672,7 +696,7 @@ class EmptyRow extends Component {
         </td>
         <td><input type="text" class="form-control" /></td>
         <td><input type="text" class="form-control" /></td>
-        <td align="right" ></td>
+        <td ></td>
         <td> </td>
       </tr>
     );

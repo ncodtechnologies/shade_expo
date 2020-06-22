@@ -5,6 +5,7 @@
   "proxy": "http://localhost:3000",
   "secure": false,
   "dependencies": {
+    "@react-pdf/renderer": "^2.0.0-beta.6",
     "file-saver": "^2.0.2",
     "history": "^4.10.1",
     "jquery": "^3.4.1",
@@ -27,6 +28,9 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "gh-pages": "^1.2.0"
   },
   "browserslist": [

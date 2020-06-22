@@ -9,6 +9,8 @@ import FrightExp from './frightExp'
 import SimpleReactValidator from 'simple-react-validator';
 import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS, URL_ROUGH_INVOICE_DT} from '../constants';
 import { Redirect } from 'react-router-dom'
+import { PdfInvoice } from '../pdf/invoice';
+import { PDFViewer } from '@react-pdf/renderer';
 
 class Invoice extends Component {
 
@@ -16,6 +18,7 @@ class Invoice extends Component {
     super(props);
 
     this.state = {
+      showPdf: false,
       arrInv:[],
       id:null,
       title: 'Table',
@@ -648,6 +651,7 @@ class Invoice extends Component {
               </div>
             </div>
           </div>
+
           <div class="row">
             <div class="col-lg-12">
               <div class="card card-info">
@@ -734,11 +738,37 @@ class Invoice extends Component {
                     <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
                       Save Invoice
                     </button>
+                    <button onClick={()=>this.setState({ showPdf:true }) } type="submit" class="btn btn-primary float-right">
+                      Print Invoice
+                    </button>
               </div>
 
               </div>
             </div>
           </div>
+
+          {this.state.showPdf && 
+          <div class="row">
+            <div class="col-lg-12">
+            <div class="card card-info">
+                    <div class="card-header">
+                      <h3 class="card-title">Pdf Viewer</h3>
+                      <div class="card-tools">
+                        <button type="button" onClick={()=>this.setState({showPdf: false})} class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                </div>
+              <div class="card-body">
+                <div class="row">
+                  <PDFViewer style={{width:"100%", height: 500}} >
+                    <PdfInvoice {...this.state} />
+                  </PDFViewer>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          }
         </section>
       </div>;
   }

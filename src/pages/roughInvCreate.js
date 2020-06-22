@@ -12,6 +12,9 @@ import {URL_PRODUCT_DT,
         LEDGER_GROUPS} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
+import { PdfRoughInvoice } from './pdf/roughInvoice'
+import { PdfAirway } from './pdf/airway'
+import { PDFViewer } from '@react-pdf/renderer';
 
 
 class App extends Component {
@@ -34,6 +37,8 @@ class App extends Component {
       products: [],
       invItems: [],
       airwayItems: [],
+      showPdf: false,
+      printDoc: "",
       redirectToInvoice : false,
       places: [
               { Id_place: 0, Place: '--Select--' },
@@ -515,11 +520,47 @@ class App extends Component {
                           <button onClick={()=>this.saveInvoice("INVOICE")} type="submit" class="btn btn-primary">
                             Create Invoice
                           </button>
+
+                          <button onClick={()=>this.setState({showPdf: false},()=>this.setState({ showPdf:true, printDoc: 'RoughInvoice' }))  } type="button" class="btn btn-primary float-right">
+                            Print Rough Invoice
+                          </button>
+                          <button onClick={()=>this.setState({showPdf: false},()=>this.setState({ showPdf:true, printDoc: 'Airway' }))  } type="button" class="btn btn-primary float-right">
+                            Print Airway Bill
+                          </button>
                         </div>
                       </div>
                     </div>
                    </div>
                   </div>
+
+
+                  {this.state.showPdf && 
+                    <div class="row">
+                      <div class="col-lg-12">
+                      <div class="card card-info">
+                              <div class="card-header">
+                                <h3 class="card-title">Pdf Viewer</h3>
+                                <div class="card-tools">
+                                  <button type="button" onClick={()=>this.setState({showPdf: false})} class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                                  </button>
+                                </div>
+                          </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <PDFViewer style={{width:"100%", height: 500}} >
+                              { this.state.printDoc == 'RoughInvoice' ?
+                              <PdfRoughInvoice {...this.state} />
+                              :
+                              <PdfAirway {...this.state} />
+                              }
+                            </PDFViewer>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    }
+
                 </div>
               </div>
 

@@ -12,28 +12,79 @@ export const PdfInvoice = (props) => (
               <Text>MARIA AQUACON PVT LTD {props.invoice_no}</Text>
               <Text style={styles.address}>5-27, M-1. Maria Street, Kanyakumari Dist{props.invoice_no}</Text>
             </View>
+            <View style={styles.sectionTopRight}>
+              <View style={styles.box}>
+                  <Text style={styles.left}>INVOICE NO </Text>
+                  <Text style={styles.right}>{props.invoice_no}</Text>
+              </View>
+              <View style={styles.box}>
+                  <Text style={styles.left}>DATE</Text>
+                  <Text style={styles.right}>{props.date}</Text>
+              </View>
+              <View style={styles.box}>
+                  <Text style={styles.left}>ORDER NO</Text>
+                  <Text style={styles.right}>{props.order_no}</Text>
+              </View>
+              <View style={styles.box}>
+                  <Text style={styles.left}>ORDER DATE </Text>
+                  <Text style={styles.right}>{props.buyer_date}</Text>
+              </View>
+           </View>
+       </View>
+       <View style={styles.container2}>
             <View style={styles.section}>
-              <Text style={styles.address}>JA ELA, SRI LANKA{props.bill_to}</Text>
-              <Text style={styles.address}>Phone :{props.bill_to}</Text>
-              <Text style={styles.address}>Email :{props.bill_to}</Text>
+              <Text style={styles.addressTitle}>BILL TO</Text>
+              <Text style={styles.address}>{props.consigner}</Text>
+              <Text style={styles.address}>{props.consigner_address}</Text>
+            </View>
+            <View style={styles.section}>
+              <Text style={styles.addressTitle}>CONSIGNEE {props.bill_to}</Text>
+              <Text style={styles.address}>{props.consignee}</Text>
+              <Text style={styles.address}>{props.consignee_address}</Text>
             </View>
        </View>
        <View style={styles.container2}>
             <View style={styles.section}>
-              <Text style={styles.addressTitle}>BILL TO {props.bill_to}</Text>
-              <Text style={styles.address}>HONG ZHAN INTERNATIONAL (PVT) LTD {props.invoice_no}</Text>
-              <Text style={styles.address}>No. 132, OREX CITY BUILDING, EKALA{props.bill_to}</Text>
-              <Text style={styles.address}>JA ELA, SRI LANKA{props.bill_to}</Text>
-              <Text style={styles.address}>Phone :{props.bill_to}</Text>
-              <Text style={styles.address}>Email :{props.bill_to}</Text>
+                <View style={{paddingHorizontal:10,width:'50%'}}>
+                <Text style={styles.dataTitle}>Country of origin of goods</Text>
+                <Text style={styles.address}>{props.country_origin}</Text>
+                    <Text style={styles.dataTitle}>Other references</Text>
+                    <Text style={styles.address}>{props.other}</Text>
+                    <Text style={styles.dataTitle}>Buyer(If other than consignee)</Text>
+                    <Text style={styles.address}>{props.buyer}</Text>
+                    <Text style={styles.dataTitle}>Terms of delivery & payment</Text>
+                    <Text style={styles.address}>{props.pre_carriage}</Text>
+                    <Text style={styles.dataTitle}>AWB No</Text>
+                    <Text style={styles.address}>{props.receipt_place}</Text>
+                </View>
             </View>
             <View style={styles.section}>
-              <Text style={styles.addressTitle}>CONSIGNEE {props.bill_to}</Text>
-              <Text style={styles.address}>HONG ZHAN INTERNATIONAL (PVT) LTD {props.invoice_no}</Text>
-              <Text style={styles.address}>No. 132, OREX CITY BUILDING, EKALA{props.bill_to}</Text>
-              <Text style={styles.address}>JA ELA, SRI LANKA{props.bill_to}</Text>
-              <Text style={styles.address}>Phone :{props.bill_to}</Text>
-              <Text style={styles.address}>Email :{props.bill_to}</Text>
+              <View style={{flexDirection:'column',paddingHorizontal:10}}>
+                <Text style={styles.dataTitle}>Country of final destination</Text>
+                <Text style={styles.address}>{props.country_final}</Text>
+                <Text style={styles.dataTitle}>Pre_carriage by</Text>
+                <Text style={styles.address}>{props.pre_carriage}</Text>
+                <Text style={styles.dataTitle}>Place of receipt by pre_carrier</Text>
+                <Text style={styles.address}>{props.receipt_place}</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+                <View style={styles.sectionRow}>
+                    <Text style={styles.dataTitle}>Vessel / Flat no</Text>
+                    <Text style={styles.address}>{props.vessel_no}</Text>
+                    <Text style={styles.dataTitle}>Port of loading</Text>
+                    <Text style={styles.address}>{props.port_load}</Text>
+                    <Text style={styles.dataTitle}>Marks & No.s</Text>
+                    <Text style={styles.address}>{props.marks}</Text>
+                </View>
+                <View style={styles.sectionRow}>
+                    <Text style={styles.dataTitle}>Port of discharge</Text>
+                    <Text style={styles.address}>{props.port_discharge}</Text>
+                    <Text style={styles.dataTitle}>Final destination</Text>
+                    <Text style={styles.address}>{props.final_destination}</Text>
+                    <Text style={styles.dataTitle}>Container No</Text>
+                    <Text style={styles.address}>{props.container_no}</Text>
+                </View>
+                </View>
             </View>
        </View>
        <View style={styles.tableHeader}>
@@ -72,22 +123,18 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>DISCOUNT {props.bill_to}</Text>
-                  <Text style={styles.right}>0.00 {props.discount}</Text>
+                  <Text style={styles.right}>{props.discount}</Text>
               </View>
               <View style={styles.box}>
-                  <Text style={styles.left}>SUBTOTAL LESS DISCOUNT {props.bill_to}</Text>
+                  <Text style={styles.left}>NET TOTAL {props.bill_to}</Text>
                   <Text style={styles.right}>5070.00 {props.less_discount}</Text>
               </View>
               <View style={styles.box}>
-                  <Text style={styles.left}>TAX RATE {props.bill_to}</Text>
+                  <Text style={styles.left}>OLD BALANCE {props.bill_to}</Text>
                   <Text style={styles.right}>0.00 {props.tax}</Text>
               </View>
               <View style={styles.box}>
-                  <Text style={styles.left}>SUBTOTAL {props.bill_to}</Text>
-                  <Text style={styles.right}>5,470.00 {props.sub}</Text>
-              </View>
-              <View style={styles.box}>
-                  <Text style={styles.left}>Balance Due {props.due}</Text>
+                  <Text style={styles.leftBalance}>BALANCE {props.due}</Text>
                   <Text style={styles.rightBalance}>5,470.00 {props.balance}</Text>
               </View>
            </View>
@@ -98,18 +145,19 @@ export const PdfInvoice = (props) => (
       </Page>
     </Document>
   );
+ 
+  
   const TableRow = (props) => {
-    return (
-      <View style={styles.tableData}>
-              <Text style={styles.col1} >{props.desc}</Text>
-              <Text style={styles.col2} >{props.price}</Text>
-              <Text style={styles.col2} >{props.qty}</Text> 
-              <Text style={styles.col3} >{props.total}</Text> 
-     </View>
-    )
-  }
-
-
+   
+      return (
+        <View style={styles.tableData}>
+                <Text style={styles.col1} >{props.desc}</Text>
+                <Text style={styles.col2} >{props.price}</Text>
+                <Text style={styles.col2} >{props.qty}</Text> 
+                <Text style={styles.col3} >{props.total}</Text> 
+       </View>
+      )
+    }
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -124,10 +172,12 @@ const styles = StyleSheet.create({
   container1: {
     backgroundColor: '#eaeaea' ,
     flexDirection: 'row',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
   },  
   container2: {
     flexDirection: 'row',
+    justifyContent:'space-between',
+    borderWidth:1
   },   
   container3: {
     flexDirection: 'row',
@@ -137,15 +187,22 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+  sectionRow: {    
+    flexDirection:'column',
+    margin: 10,
+    padding: 10,
+  },
   addressTitle:{
   color:'#034a7e',
   borderBottomWidth:1,
   fontSize:10,
-  fontWeight:'bold'
+  },
+  dataTitle:{
+  fontSize:10,
   },
   address:{
     paddingVertical:4,
-    fontSize:10
+    fontSize:10,
   },
   tableHeader: {
     flexDirection:"row",
@@ -155,7 +212,6 @@ const styles = StyleSheet.create({
   tableData: {
     flexDirection:"row",
     borderBottomWidth: 1,
-
   },
   col1 : {
     width: "45%",
@@ -176,9 +232,15 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     fontSize:10,
   },
+  
   sectionBottomRight:{
-    paddingVertical: 10,
+    paddingVertical: 5,
     flex: 1,
+  },
+  sectionTopRight:{
+    paddingVertical: 5,
+    flex: 1,
+    flexDirection:'column',
   },
   box:{
     flexDirection:'row',
@@ -186,22 +248,26 @@ const styles = StyleSheet.create({
     justifyContent:'space-between'
   },
   left:{
-    flex:.5,
+    flex:.6,
     fontSize:10,
     textAlign:'right',
   },
+  leftBalance:{
+    flex:.6,
+    fontSize:16,
+    textAlign:'right',
+  },
   right:{
-    flex:.5,
+    flex:.4,
     fontSize:10,
-    borderBottomWidth:1,
-    borderColor:'#c6c6c6',
     textAlign:'left',
+    paddingHorizontal:10,
   },
   
   rightBalance:{
-    flex:.5,
+    flex:.4,
+    paddingHorizontal:10,
     fontSize:20,
-    borderTopWidth:1,
     backgroundColor:'#c6c6c6',
     textAlign:'left',
   },

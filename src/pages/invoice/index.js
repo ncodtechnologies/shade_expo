@@ -88,8 +88,7 @@ class Invoice extends Component {
     this.handleChangeDate=this.handleChangeDate.bind(this);
     this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
     this.validator = new SimpleReactValidator();
-  }
-  
+  }  
   componentDidMount() {
     const id_invoice = this.props.id_invoice;
     if(this.props.id_rough_invoice)
@@ -252,7 +251,6 @@ class Invoice extends Component {
     fetch(URL_INVOICE_SAVE, requestOptions)
         .then(response => response.json())
         .then(response => {
-          alert('hi')
           if(!response.isUpdate)
           {
             this.setState({

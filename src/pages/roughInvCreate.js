@@ -51,13 +51,13 @@ class App extends Component {
       airports:[
         { Id_Port: 0, Port: '--Select--' },
         { Id_Port: 1, Port: 'KOCHI' },
-        { Id_Port: 1, Port: 'CALICUT' },
-        { Id_Port: 1, Port: 'TRIVANDRUM' },
-        { Id_Port: 1, Port: 'KANNUR' },
-        { Id_Port: 1, Port: 'MUMBAI' },
-        { Id_Port: 1, Port: 'CHENNAI' },
-        { Id_Port: 1, Port: 'KOLKATA' },
-        { Id_Port: 1, Port: 'COIMBATORE' },
+        { Id_Port: 2, Port: 'CALICUT' },
+        { Id_Port: 3, Port: 'TRIVANDRUM' },
+        { Id_Port: 4, Port: 'KANNUR' },
+        { Id_Port: 5, Port: 'MUMBAI' },
+        { Id_Port: 6, Port: 'CHENNAI' },
+        { Id_Port: 7, Port: 'KOLKATA' },
+        { Id_Port: 8, Port: 'COIMBATORE' },
       ]
     }
     this.onDateChange           = this.onDateChange.bind(this);
@@ -210,6 +210,7 @@ class App extends Component {
 
   handleChangePortLoad (e){
     this.setState({ port_load:e.target.value})
+    alert(e.target.value);
   }
 
   handleChangeInvoiceNo (e){
@@ -491,7 +492,7 @@ class App extends Component {
                             <th>Product</th>
                             <th style={{ width: '10%' }}>Kg</th>
                             <th style={{ width: '10%' }}>Box</th>
-                            <th style={{ width: '20%' }}>Total</th>
+                            <th style={{ width: '20%', textAlign:"right" }}>Total</th>
                             <th style={{ width: '10%' }}></th>
                           </tr>
                         </thead>
@@ -503,7 +504,7 @@ class App extends Component {
                           <td></td>
                           <td align="right" ></td>
                           <td align="right">{ boxTotal }</td>
-                          <td  >{ grandTotal } Kg</td>
+                          <td  align="right" >{ grandTotal } Kg</td>
                           <td></td>
                         </tfoot>
                       </table>
@@ -520,7 +521,7 @@ class App extends Component {
                           <th>Product</th>
                           <th style={{ width: '10%' }}>Kg</th>
                           <th style={{ width: '10%' }}>Box</th>
-                          <th style={{ width: '20%' }}>Total</th>
+                          <th align="right" style={{ width: '20%', textAlign:"right" }}>Total</th>
                           <th style={{ width: '10%' }}></th>
                         </tr>
                       </thead>
@@ -532,7 +533,7 @@ class App extends Component {
                         <td></td>
                         <td align="right" ></td>
                         <td align="right" >{ airwayBoxTotal }</td>
-                        <td  >{ airwayGrandTotal } Kg</td>
+                        <td align="right" >{ airwayGrandTotal } Kg</td>
                         <td></td>
                       </tfoot>
                     </table>
@@ -629,8 +630,8 @@ class TableRow extends Component {
                     
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
-        <td><input type="text" class="form-control"  value={invItem.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
-        <td  >{total}</td>
+        <td align="right" ><input type="text" class="form-control"  value={invItem.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
+        <td  align="right"  >{total}</td>
         <td>
             <button type="button"  onClick={this.delRow}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
@@ -670,8 +671,8 @@ class TableRowsAirway extends Component {
                     
         </td>
         <td><input type="text" class="form-control" value={airwayItem.kg} onChange={(e) => this.handleChangeAirwayKg(e)} /></td>
-        <td><input type="text" class="form-control"  value={airwayItem.box}  onChange={(e) => this.handleChangeAirwayBox(e)}  /></td>
-        <td  >{total}</td>
+        <td align="right" ><input type="text" class="form-control"  value={airwayItem.box}  onChange={(e) => this.handleChangeAirwayBox(e)}  /></td>
+        <td  align="right"  >{total}</td>
         <td>
             <button type="button"  onClick={this.delRowAirway}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>

@@ -1,5 +1,19 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+
+const formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [day, month, year].join('/');
+}
 
 // Create Document Component
 export const PdfInvoice = (props) => (
@@ -19,7 +33,7 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>DATE</Text>
-                  <Text style={styles.right}>{props.date}</Text>
+                  <Text style={styles.right}>{formatDate(props.date)}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>ORDER NO</Text>
@@ -27,7 +41,7 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>ORDER DATE </Text>
-                  <Text style={styles.right}>{props.buyer_date}</Text>
+                  <Text style={styles.right}>{formatDate(props.buyer_date)}</Text>
               </View>
            </View>
        </View>
@@ -158,6 +172,9 @@ export const PdfInvoice = (props) => (
        </View>
       )
     }
+
+    Font.register({ family: 'Roboto', src: require("../../fonts/Roboto-Black.ttf") });
+
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -251,6 +268,7 @@ const styles = StyleSheet.create({
     flex:.6,
     fontSize:10,
     textAlign:'right',
+    fontFamily: 'Roboto'
   },
   leftBalance:{
     flex:.6,

@@ -33,6 +33,7 @@ class Invoice extends Component {
       consignees: [],
       consigner: this.props.data && this.props.data.consigner,
       consignee: "",
+      consignee_name: "",
       consigner_address: this.props.data && this.props.data.consigner_address,
       consignee_address:'',
       other:'',
@@ -296,7 +297,7 @@ class Invoice extends Component {
 
   handleChangeConsigner (e){
     this.setState({ consigner:e.target.value})
-    this.loadLedgerAddress(e.target.value, "CONSIGNER");
+    this.loadLedgerAddress(e.target.value, "CONSIGNER");    
   }
 
   handleChangeConsigneeAddress (e){

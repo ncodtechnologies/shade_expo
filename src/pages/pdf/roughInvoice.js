@@ -63,7 +63,7 @@ const getProductName = (id, array) => {
 } 
 
 const grandTotal = (items) => items.reduce((a, b) => +a + +(b.kg * b.box), 0);
-const kgTotal = (items) => items.reduce((a, b) => +a + +(b.kg), 0);
+const boxTotal = (items) => items.reduce((a, b) => +a + +(b.box), 0);
 
 // Create Document Component
 export const PdfRoughInvoice = (props) => (
@@ -104,8 +104,8 @@ export const PdfRoughInvoice = (props) => (
        
        <View style={styles.tableHeader}>
               <Text style={styles.col1} >PRODUCT</Text>
-              <Text style={styles.col2} >KG</Text>
-              <Text style={styles.col2} >BOX</Text> 
+              <Text style={styles.col2} >BOX</Text>
+              <Text style={styles.col2} >KG</Text> 
               <Text style={styles.col3} >TOTAL</Text>      
       </View>
       <View>
@@ -113,8 +113,8 @@ export const PdfRoughInvoice = (props) => (
        </View>
       <View style={styles.tableData}>
               <Text style={styles.col1} ></Text>
-              <Text style={styles.col2} ></Text>
-              <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{kgTotal(props.invItems)}</Text> 
+              <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{boxTotal(props.invItems)}</Text>
+              <Text style={[styles.col2,{fontFamily:"Roboto"}]} ></Text> 
               <Text style={[styles.col3,{fontFamily:"Roboto"}]} >{grandTotal(props.invItems)} KG</Text>      
       </View>
        <View style={styles.top}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+var converter = require('number-to-words');
 
 const formatDate = date => {
   var d = new Date(date),
@@ -156,6 +157,9 @@ export const PdfInvoice = (props) => (
               <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{kgTotal(props.invItems)} kg</Text> 
               <Text style={[styles.col3,{fontFamily:"Roboto"}]} >$ {grandTotal(props.invItems)}</Text>      
       </View>
+      <View style={styles.tableData}>
+        <Text style={styles.colFull} >US Dollar {converter.toWords(grandTotal(props.invItems))} Only</Text>   
+      </View>
       <View style={styles.container3}>
             <View style={styles.section}>
               <Text style={styles.bank}>Bank Detail{props.bill_to}</Text>
@@ -210,6 +214,7 @@ export const PdfInvoice = (props) => (
     }
 
     Font.register({ family: 'Roboto', src: require("../../fonts/Roboto-Bold.ttf") });
+    Font.register({ family: 'Roboto-Italic', src: require("../../fonts/Roboto-BoldItalic.ttf") });
 
 // Create styles
 const styles = StyleSheet.create({
@@ -293,6 +298,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 5,
     fontSize:10,
+  },
+  colFull : {
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    fontSize:10,
+    fontFamily: "Roboto-Italic",
   },
   
   sectionBottomRight:{

@@ -1,6 +1,16 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
+const TableRows = (props) => {   
+    return (
+      props.invItems.map((invItem, index) =>
+      <TableRow 
+        {...invItem}
+      />
+    )
+    )
+  }
+
 // Create Document Component
 export const PdfInvoice = (props) => (
     <Document>
@@ -45,9 +55,12 @@ export const PdfInvoice = (props) => (
        </View>
        <View style={styles.container2}>
             <View style={styles.section}>
-                <View style={{paddingHorizontal:10,width:'50%'}}>
                 <Text style={styles.dataTitle}>Country of origin of goods</Text>
                 <Text style={styles.address}>{props.country_origin}</Text>
+                <Text style={styles.dataTitle}>Place of receipt by pre_carrier</Text>
+                <Text style={styles.address}>{props.receipt_place}</Text>
+                    <Text style={styles.dataTitle}>Vessel / Flat no</Text>
+                    <Text style={styles.address}>{props.vessel_no}</Text>                  
                     <Text style={styles.dataTitle}>Other references</Text>
                     <Text style={styles.address}>{props.other}</Text>
                     <Text style={styles.dataTitle}>Buyer(If other than consignee)</Text>
@@ -56,35 +69,22 @@ export const PdfInvoice = (props) => (
                     <Text style={styles.address}>{props.pre_carriage}</Text>
                     <Text style={styles.dataTitle}>AWB No</Text>
                     <Text style={styles.address}>{props.receipt_place}</Text>
-                </View>
             </View>
             <View style={styles.section}>
-              <View style={{flexDirection:'column',paddingHorizontal:10}}>
-                <Text style={styles.dataTitle}>Country of final destination</Text>
+             <Text style={styles.dataTitle}>Country of final destination</Text>
                 <Text style={styles.address}>{props.country_final}</Text>
                 <Text style={styles.dataTitle}>Pre_carriage by</Text>
                 <Text style={styles.address}>{props.pre_carriage}</Text>
-                <Text style={styles.dataTitle}>Place of receipt by pre_carrier</Text>
-                <Text style={styles.address}>{props.receipt_place}</Text>
-              </View>
-              <View style={{flexDirection:'row'}}>
-                <View style={styles.sectionRow}>
-                    <Text style={styles.dataTitle}>Vessel / Flat no</Text>
-                    <Text style={styles.address}>{props.vessel_no}</Text>
-                    <Text style={styles.dataTitle}>Port of loading</Text>
+                 <Text style={styles.dataTitle}>Port of loading</Text>
                     <Text style={styles.address}>{props.port_load}</Text>
                     <Text style={styles.dataTitle}>Marks & No.s</Text>
                     <Text style={styles.address}>{props.marks}</Text>
-                </View>
-                <View style={styles.sectionRow}>
                     <Text style={styles.dataTitle}>Port of discharge</Text>
                     <Text style={styles.address}>{props.port_discharge}</Text>
                     <Text style={styles.dataTitle}>Final destination</Text>
                     <Text style={styles.address}>{props.final_destination}</Text>
                     <Text style={styles.dataTitle}>Container No</Text>
                     <Text style={styles.address}>{props.container_no}</Text>
-                </View>
-                </View>
             </View>
        </View>
        <View style={styles.tableHeader}>
@@ -94,12 +94,8 @@ export const PdfInvoice = (props) => (
               <Text style={styles.col3} >{props.total}TOTAL</Text>      
       </View>
       <View>
-        <TableRow desc="Tomato Grouper" price="4.60" qty="15.00" total="69.00"/>
-        <TableRow desc="Tomato Grouper" price="4.60" qty="15.00" total="69.00"/>
-        <TableRow desc="Tomato Grouper" price="4.60" qty="15.00" total="69.00"/>
-        <TableRow desc="Tomato Grouper" price="4.60" qty="15.00" total="69.00"/>
-        <TableRow desc="Tomato Grouper" price="4.60" qty="15.00" total="69.00"/>
-      </View>
+        <TableRows {...props}/>
+       </View>
       <View style={styles.tableData}>
               <Text style={styles.col1} >{props.pack_no}</Text>
               <Text style={styles.col2} >{props.product}Total KG:</Text>
@@ -147,14 +143,14 @@ export const PdfInvoice = (props) => (
   );
  
   
-  const TableRow = (props) => {
-   
+  const TableRow = (props) => { 
+    let total =  props.box * props.kg
       return (
         <View style={styles.tableData}>
-                <Text style={styles.col1} >{props.desc}</Text>
-                <Text style={styles.col2} >{props.price}</Text>
-                <Text style={styles.col2} >{props.qty}</Text> 
-                <Text style={styles.col3} >{props.total}</Text> 
+                <Text style={styles.col1} >{props.id_product}</Text>
+                <Text style={styles.col2} >{props.box}</Text>
+                <Text style={styles.col2} >{props.kg}</Text> 
+                <Text style={styles.col3} >{total}</Text> 
        </View>
       )
     }
@@ -177,7 +173,6 @@ const styles = StyleSheet.create({
   container2: {
     flexDirection: 'row',
     justifyContent:'space-between',
-    borderWidth:1
   },   
   container3: {
     flexDirection: 'row',
@@ -186,6 +181,8 @@ const styles = StyleSheet.create({
   section: {    
     margin: 10,
     padding: 10,
+    paddingHorizontal:10,
+    width:'50%',
   },
   sectionRow: {    
     flexDirection:'column',

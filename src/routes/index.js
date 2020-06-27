@@ -17,6 +17,8 @@ import Product from '../pages/product';
 import PurchaseVoucher from '../pages/purchase/voucher';
 import PurchaseReport from '../pages/purchase/report';
 import StockReport from '../pages/stock';
+import Notification from '../pages/notification';
+import NotificationCreate from '../pages/notificationCreate';
 
 export default function Routes() {
   return (
@@ -38,8 +40,9 @@ export default function Routes() {
       <Route path="/purchaseReport" exact component={PurchaseReport} />
       <Route path="/stockReport" exact component={StockReport} />
       <Route path="/sundryCreditor" exact component={SundryCreditor} />
-      <Route path="/sundryDebtor" exact component={SundryDebtor} />     
-
+      <Route path="/sundryDebtor" exact component={SundryDebtor} />   
+      <Route path="/notification" exact component={Notification} />   
+      <Route path="/notificationCreate" exact component={NotificationCreate} /> 
     </HashRouter>
   );
 }

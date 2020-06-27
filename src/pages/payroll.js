@@ -241,10 +241,8 @@ formatDate = date => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
     );

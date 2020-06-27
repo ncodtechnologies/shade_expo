@@ -9,6 +9,7 @@
     "file-saver": "^2.0.2",
     "history": "^4.10.1",
     "jquery": "^3.4.1",
+    "number-to-words": "^1.2.4",
     "react": "^16.4.1",
     "react-date-picker": "^8.0.0",
     "react-dom": "^16.4.1",

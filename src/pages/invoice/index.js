@@ -610,8 +610,8 @@ class Invoice extends Component {
                             <label>Port of discharge</label>
                             <select class="form-control" onChange={e => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
                               {this.state.dischargePlaces.map(column => (
-                                <option value={column.Id_place}>
-                                  {column.Place}
+                                <option value={column.Id_port}>
+                                  {column.Port}
                                 </option>
                               ))}
                             </select>

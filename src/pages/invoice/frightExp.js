@@ -38,7 +38,7 @@ class FrightExp extends Component {
             <div class="row">
               <div class="col-lg-12">
               <div class="card-header">
-                <h3 class="card-title">Fright Items</h3>                
+                <h3 class="card-title">Freight Items</h3>                
               </div>
                 <div class="card card-info">
                   <div class="card-body p-0">

@@ -76,9 +76,9 @@ class App extends Component {
                       <table class="table">
                         <thead>
                           <tr>
-                            <th style={{ width: '25%' }}>Date</th>
-                            <th  style={{ width: '40%' }}>Desciption</th>
-                            <th >Is Read</th>
+                            <th style={{ width: '35%' }}>Date</th>
+                            <th  style={{ width: '50%' }}>Desciption</th>
+                            
                             <th ></th>
                           </tr>
                         </thead>
@@ -112,10 +112,9 @@ class TableRow extends React.Component {
       <tr>
         <td>{invItem.date}</td>
         <td>{invItem.description}</td>
-        <td>{read}</td>
         <td>
         <div class="btn-group">
-            <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() => this.props.delNotification(invItem.id_notification)}>
+            <button type="button"  class="btn btn-outline-danger" onClick={() => this.props.delNotification(invItem.id_notification)}>
               <i class="fas fa-trash"></i>
             </button>
           </div>

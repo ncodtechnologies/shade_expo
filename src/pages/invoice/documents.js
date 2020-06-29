@@ -138,7 +138,7 @@ class Documents extends Component {
                               class="form-control"
                             />
                           </th>
-                          <th style={{ width: "30%" }}>
+                          <th style={{ width: "35%" }}>
                             <div class="custom-file">
                               <input
                                 type="file"
@@ -154,7 +154,7 @@ class Documents extends Component {
                               </label>
                             </div>
                           </th>
-                          <th>
+                          <th style={{ width: "10%" }}>
                             <button
                               type="button"
                               class="btn btn-block btn-outline-success btn-flat"

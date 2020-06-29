@@ -222,15 +222,12 @@ formatDate = date => {
 
 class TableRow extends React.Component {
 
-
   delRow = () => {
     this.props.delRow(this.props.rowIndex);
   }
 
   render() {
     let arrVoucher = this.props.arrVoucher;
-    
-   
 
     return (
       <tr>
@@ -239,6 +236,7 @@ class TableRow extends React.Component {
         <td >{arrVoucher.narration}</td>
         <td >{arrVoucher.payment}</td>
         <td >{arrVoucher.receipt}</td>
+        <td ></td>
       </tr>
     );
   }

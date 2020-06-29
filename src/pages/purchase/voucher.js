@@ -234,7 +234,7 @@ formatDate = date => {
                           <td style={{fontWeight:'bold'}}>{this.state.op}</td>
                         </tr>
                         <tr>
-                          <td>total</td>
+                          <td style={{fontWeight:'bold'}}>Total</td>
                           <td style={{fontWeight:'bold'}}>{total}</td>
                         </tr>
                       </tbody>

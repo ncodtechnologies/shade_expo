@@ -249,7 +249,6 @@ formatDate = date => {
   }
 }
 
-
 class TableRow extends React.Component {
  
   render() {

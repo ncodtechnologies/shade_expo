@@ -190,7 +190,7 @@ formatDate = date => {
                         <tr>
                           <th colspan={6}>
                             <div class="row">
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                 <div class="form-group">
                                   <label>Date</label>
                                   <DatePicker
@@ -201,7 +201,7 @@ formatDate = date => {
                                   />
                                 </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                 <div class="form-group">
                                   <label>Ledger</label>
                                   <select
@@ -246,7 +246,7 @@ formatDate = date => {
                                   />
                                 </div>
                               </div>
-                              <div class="col-sm-2">
+                              <div class="col-sm-3">
                                 <div class="form-group">
                                   <label>Rate (Freight)</label>
                                   <input
@@ -257,7 +257,7 @@ formatDate = date => {
                                   />
                                 </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                 <div class="form-group">
                                   <label>Amount</label>
                                   <input

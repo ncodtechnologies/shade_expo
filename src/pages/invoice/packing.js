@@ -168,7 +168,7 @@ class TableRowLabour extends React.Component {
 
     return (
       <tr>
-        <td>{LabourItem.account_head}</td>
+        <td>{LabourItem.name}</td>
         <td>{LabourItem.amount}</td>
       </tr>
     );
@@ -181,7 +181,7 @@ class TableRowsExpense extends React.Component {
 
     return (
       <tr>
-        <td>{ExpenseItem.account_head}</td>
+        <td>{ExpenseItem.name}</td>
         <td>{ExpenseItem.amount}</td>
       </tr>
     );

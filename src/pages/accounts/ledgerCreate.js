@@ -186,8 +186,9 @@ class Expense extends Component {
  
                                   </div>
                               </div>
-                              <div class="col-sm-1">
+                              <div class="col-sm-1">                                  
                                   <div class="form-group">
+                                    <label>&nbsp;</label> 
                                     <Link to="/ledgerGroup" class="btn btn-tool btn-sm">                                    
                                      <button type="submit" class="btn btn-block btn-success btn-flat">+</button>
                                     </Link>
@@ -204,7 +205,7 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-2">
                                   <div class="form-group">
-                                  <label><div><div></div></div></label> 
+                                  <label>&nbsp;</label> 
                                   <select class="form-control" onChange={this.onCrdrChange} value={this.state.crdr}>
                                   {this.state.types.map(column => (
                                     <option value={column.Id}>

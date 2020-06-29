@@ -45,7 +45,7 @@ class Stock extends Component {
     fetch(URL_STOCK_REPORT + `/'${type_}'` )
     .then(response => response.json())
     .then(data => {
-      if(data.length>0)
+     
       this.setState({
         arrVouchers: data ,
         })

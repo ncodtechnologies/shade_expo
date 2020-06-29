@@ -160,7 +160,7 @@ class App extends Component {
                 </li>
                 <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/notification"} activeClassName="active" className="nav-link">
-                    <i class="nav-icon fas fa-file-notification" />
+                    <i class="nav-icon fas fa-file-invoice" />
                     <p>Notification</p>
                   </NavLink>
                 </li>

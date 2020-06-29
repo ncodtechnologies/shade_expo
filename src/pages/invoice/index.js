@@ -84,7 +84,8 @@ class Invoice extends Component {
         { Id_Port: 1, Port: 'CHENNAI' },
         { Id_Port: 1, Port: 'KOLKATA' },
         { Id_Port: 1, Port: 'COIMBATORE' },
-      ]
+      ],
+      btnSaveText: "Save Invoice",
     }
     this.handleChangeDate=this.handleChangeDate.bind(this);
     this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
@@ -214,6 +215,7 @@ class Invoice extends Component {
   }
 
   saveInvoice = () => {
+    this.setState({btnSaveText: "Saving..."})
     if (this.validator.allValid()) {
       const requestOptions = {
         method: 'POST',
@@ -258,6 +260,17 @@ class Invoice extends Component {
               id_invoice : response.id_invoice,
               redirect : true
             })
+          }
+          else
+          {
+            this.setState({btnSaveText: "Saved"})
+            setTimeout(
+              function() {
+                  this.setState({btnSaveText: "Save Invoice"});
+              }
+              .bind(this),
+              5000
+            );
           }
         })
   }
@@ -736,7 +749,7 @@ class Invoice extends Component {
 
               <div class="card-footer">
                     <button onClick={this.saveInvoice} type="submit" class="btn btn-primary">
-                      Save Invoice
+                      {this.state.btnSaveText}
                     </button>
                     <button onClick={()=>this.setState({ showPdf:true }) } type="submit" class="btn btn-primary float-right">
                       Print Invoice

@@ -3,6 +3,7 @@ import Nav from '../NavBar';
 import { Link } from 'react-router-dom';
 import RoughInvoice from './roughInvCreate'
 import { URL_ROUGH_INV_LIST_DT } from './constants';
+import Pagination from "react-js-pagination";
 
 class App extends Component {
 
@@ -13,18 +14,33 @@ class App extends Component {
       title: 'Table',
       data:null,
       date: new Date(),
-      invItems:[]
+      invItems:[],
+      activePage: 1,
+      totalCount:''
     }
   }
 
   
   componentDidMount() {
-    fetch(URL_ROUGH_INV_LIST_DT)
-    .then(response => response.json())
-    .then(data => this.setState({ invItems: data }));
-    //console.log(data)
+   const activePage=this.state.activePage;
+   this.loadInvoiceList(activePage);
   }
-
+  loadInvoiceList(activePage){
+    fetch(URL_ROUGH_INV_LIST_DT+ `/${activePage}` )
+    .then(response => response.json())
+    .then(data => this.setState({
+       invItems: data.items ,
+       totalCount:data.totalCount
+      }));
+  }
+  handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber}
+      , () => {
+        const activePage=this.state.activePage;
+        this.loadInvoiceList(activePage)
+    });
+  }
 
   
   render() {
@@ -44,8 +60,28 @@ class App extends Component {
           <section class="content-header">
             <div class="container-fluid">
               <div class="row mb-2">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <h1>Rough Invoice</h1>
+                </div>
+                <div class="col-sm-6">
+                <Pagination
+                    innerClass="pagination pagination-sm float-right"
+                      activePage={this.state.activePage}
+                      itemsCountPerPage={10}
+                      totalItemsCount={this.state.totalCount}
+                      pageRangeDisplayed={5}
+                      itemClass="page-item"
+                      itemClassPrev="page-item"
+                      itemClassNext="page-item"                      
+                      itemClassFirst="page-item"
+                      itemClassLast="page-item"                      
+                      linkClass="page-link"
+                      linkClassFirst="page-link"                      
+                      linkClassPrev="page-link"
+                      linkClassNext="page-link"
+                      linkClassLast="page-link"
+                      onChange={this.handlePageChange.bind(this)}
+                    />            
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-const BASE_URL = "http://198.12.251.14:3000/";
+const BASE_URL = "http://localhost:3000/";
 
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
 export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoice`;
@@ -28,14 +28,14 @@ export const URL_PAYROLL_DEL        = `${BASE_URL}payroll/payrollDel`;
 export const URL_VOUCHER_DT         = `${BASE_URL}accounts/voucher`;
 export const URL_VOUCHER_DEL        = `${BASE_URL}accounts/voucherDel`;
 export const URL_VOUCHER_SAVE       = `${BASE_URL}accounts/accounts/voucher`;
+export const URL_SUNDRY_CREDITOR    = `${BASE_URL}accounts/sundryCreditor`;
+export const URL_SUNDRY_DEBTOR      = `${BASE_URL}accounts/sundryDebtor`;
+export const URL_LEDGER_EDIT_DT     = `${BASE_URL}accounts/ledgerEdit`;
 export const URL_LEDGER_REPORT_DT   = `${BASE_URL}accounts/ledgerReport`;
 export const URL_LEDGER_REPORT_OP   = `${BASE_URL}accounts/ledgerReportOp`;
 export const URL_LEDGER_GROUP_SAVE  = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_GROUP_DT    = `${BASE_URL}accounts/ledgerGroup`;
 export const URL_LEDGER_DT          = `${BASE_URL}accounts/ledger`;
-export const URL_SUNDRY_CREDITOR    = `${BASE_URL}accounts/sundryCreditor`;
-export const URL_SUNDRY_DEBTOR      = `${BASE_URL}accounts/sundryDebtor`;
-export const URL_LEDGER_EDIT_DT     = `${BASE_URL}accounts/ledgerEdit`;
 export const URL_LEDGER_BY_GROUP    = `${BASE_URL}accounts/ledger`;
 export const URL_LEDGER_SAVE        = `${BASE_URL}accounts/ledgerCreate`;
 export const URL_LEDGER_UPDATE      = `${BASE_URL}accounts/ledgerCreate`;

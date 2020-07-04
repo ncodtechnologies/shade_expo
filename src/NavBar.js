@@ -12,7 +12,9 @@ class App extends Component {
 
     render() {
       return <div>
+        
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+          
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link" data-widget="pushmenu" href="#">
@@ -22,6 +24,16 @@ class App extends Component {
             <li class="nav-item d-none d-sm-inline-block">
               <Link to={"/product"} className="nav-link">
                 Product
+              </Link>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/login"} className="nav-link">
+                Login
+              </Link>
+            </li>            
+            <li class="nav-item d-none d-sm-inline-block">
+              <Link to={"/users"} className="nav-link">
+                Users
               </Link>
             </li>
             <li class="nav-item d-none d-sm-inline-block">

@@ -19,6 +19,9 @@ import PurchaseReport from '../pages/purchase/report';
 import StockReport from '../pages/stock';
 import Notification from '../pages/notification';
 import NotificationCreate from '../pages/notificationCreate';
+import Login from '../pages/login';
+import Users from '../pages/users';
+import UserCreate from '../pages/userCreate';
 
 export default function Routes() {
   return (
@@ -43,6 +46,9 @@ export default function Routes() {
       <Route path="/sundryDebtor" exact component={SundryDebtor} />   
       <Route path="/notification" exact component={Notification} />   
       <Route path="/notificationCreate" exact component={NotificationCreate} /> 
+      <Route path="/login" exact component={Login} />
+      <Route path="/users" exact component={Users} />
+      <Route path="/userCreate/:id_user" exact component={UserCreate} />
     </HashRouter>
   );
 }

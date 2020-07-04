@@ -1,5 +1,9 @@
 const BASE_URL = "http://localhost:3000/";
 
+export const URL_LOGIN              = `${BASE_URL}login/login`;
+export const URL_USER_SAVE          = `${BASE_URL}login/users`;
+export const URL_USER_DT            = `${BASE_URL}login/users`;
+export const URL_USER_LIST          = `${BASE_URL}login/userList`;
 export const URL_ROUGH_INVOICE_SAVE = `${BASE_URL}invoice/roughInvoice`;
 export const URL_ROUGH_INVOICE_DT   = `${BASE_URL}invoice/roughInvoice`;
 export const URL_AIRWAY_ITEMS_DT    = `${BASE_URL}invoice/roughInvoice/airway`;

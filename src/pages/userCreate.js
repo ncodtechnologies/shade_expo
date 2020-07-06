@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import Invoice from './invoice';
 import { Link, Redirect } from 'react-router-dom';
-import {URL_USER_SAVE,URL_USER_DT} from './constants';
+import {URL_USER_SAVE,URL_USER_EDIT} from './constants';
 
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -28,17 +28,16 @@ class App extends Component {
   }
   componentDidMount() {
     const id_user=this.props.match.params.id_user;
-    
     if(id_user!=0)
     {
-      this.loadInvoiceDt(id_user);
+      this.loadUserDt(id_user);
       this.setState({id_user});
     }
   }
 
-  loadInvoiceDt = (id_user) => {
+  loadUserDt = (id_user) => {
 
-    fetch(URL_USER_DT + `/${id_user}`)
+    fetch(URL_USER_EDIT + `/${id_user}`)
     .then(response => response.json())
     .then(data => 
       {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../NavBar';
 import { Link } from 'react-router-dom';
 import UserCreate from './userCreate'
-import { URL_USER_LIST } from './constants';
+import { URL_USER_LIST,URL_USER_DEL } from './constants';
 import Pagination from "react-js-pagination";
 
 class App extends Component {
@@ -22,6 +22,7 @@ class App extends Component {
   componentDidMount() {
    this.loadInvoiceList();
   }
+
   loadInvoiceList(){
     fetch(URL_USER_LIST)
     .then(response => response.json())
@@ -29,11 +30,24 @@ class App extends Component {
       items: data
       }));
   }
+
+  delUser = (id_user) => {
+    fetch(URL_USER_DEL + `/${id_user}` )
+    .then(response => response.json())
+    .then(data => {
+      if(data.length>0)
+      this.setState({
+        items: data ,
+        })
+        }
+      );
+      this.loadInvoiceList();
+  }
    
   render() {
     const tableRows = this.state.items.map((item, index) =>
       <TableRow      
-        delRow={this.delRow}
+        delUser={this.delUser}
         item={item} rowIndex={index}
        
       />
@@ -65,8 +79,7 @@ class App extends Component {
                       <button type="submit" class="btn btn-block btn-success btn-flat">Create</button>
                     </Link>
                     </div>
-                  </div>
-                   
+                  </div>                   
                     <div class="card-body p-0">
                       <table class="table">
                         <thead>
@@ -94,29 +107,25 @@ class App extends Component {
 }
 
 class TableRow extends React.Component {
- 
-  getStatus = (status) => {
-    if(status == 1)
-      return <span class="badge bg-primary">created</span>
-    else if(status == 2)
-      return <span class="badge bg-warning">certified</span>  
-    else if(status == 3)
-      return <span class="badge bg-success">shipped</span>
-  }  
-
+  
   render() {
     let item = this.props.item;
+
     return (
       <tr>
         <td>{item.username}</td>
         <td>{item.access}</td>
         <td>
           <div class="btn-group">            
-          <Link to={'./userCreate/'+ item.id_user} render={(props) => <UserCreate {...props}  id_user={this.props.match.params.id_user}/>} ><i class="fas fa-edit"></i> </Link> 
+          <Link to={'./userCreate/'+ item.id_user} render={(props) => <UserCreate {...props}  id_user={this.props.match.params.id_user}/>} >
+            <i class="fas fa-edit"></i> </Link> 
          </div>
         </td> 
-        <td><button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button></td>
-       
+        <td>
+          <button type="button"  class="btn btn-outline-danger" onClick={() => this.props.delUser(item.id_user)}>
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
       </tr>
     );
   }

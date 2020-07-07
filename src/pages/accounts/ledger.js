@@ -11,7 +11,7 @@ class LedgerGroup extends Component {
     super(props);
     this.state = {
       data:null,
-      ledgerGroup: '',
+      ledgerGroup: '0',
       activePage: 1,
       totalCount:'',
       arrLedgerGroup: [],
@@ -49,7 +49,7 @@ class LedgerGroup extends Component {
     this.setState({activePage: pageNumber}
       , () => {
         const activePage=this.state.activePage;
-        const id_ledger_group=this.state.id_ledger;
+        const id_ledger_group=this.state.ledgerGroup;
         this.loadLedgerList(id_ledger_group,activePage);
     });
   }
@@ -86,26 +86,6 @@ class LedgerGroup extends Component {
               <div class="row mb-2">
                 <div class="col-sm-6">
                   <h1>Ledger</h1>
-                </div>
-                <div class="col-sm-6">
-                <Pagination
-                    innerClass="pagination pagination-sm float-right"
-                      activePage={this.state.activePage}
-                      itemsCountPerPage={10}
-                      totalItemsCount={this.state.totalCount}
-                      pageRangeDisplayed={5}
-                      itemClass="page-item"
-                      itemClassPrev="page-item"
-                      itemClassNext="page-item"                      
-                      itemClassFirst="page-item"
-                      itemClassLast="page-item"                      
-                      linkClass="page-link"
-                      linkClassFirst="page-link"                      
-                      linkClassPrev="page-link"
-                      linkClassNext="page-link"
-                      linkClassLast="page-link"
-                      onChange={this.handlePageChange.bind(this)}
-                    />            
                 </div>
               </div>
             </div>
@@ -154,6 +134,26 @@ class LedgerGroup extends Component {
                         {tableRows}
                       </tbody>
                     </table>
+                  </div>
+                  <div class="card-footer clearfix">
+                    <Pagination
+                        innerClass="pagination pagination-sm float-right"
+                          activePage={this.state.activePage}
+                          itemsCountPerPage={10}
+                          totalItemsCount={this.state.totalCount}
+                          pageRangeDisplayed={5}
+                          itemClass="page-item"
+                          itemClassPrev="page-item"
+                          itemClassNext="page-item"                      
+                          itemClassFirst="page-item"
+                          itemClassLast="page-item"                      
+                          linkClass="page-link"
+                          linkClassFirst="page-link"                      
+                          linkClassPrev="page-link"
+                          linkClassNext="page-link"
+                          linkClassLast="page-link"
+                          onChange={this.handlePageChange.bind(this)}
+                        />      
                   </div>
                 </div>
               </div>

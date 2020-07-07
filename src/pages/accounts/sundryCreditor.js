@@ -8,7 +8,7 @@ class SundryCreditor extends Component {
     super(props);
     this.state = {
       data:null,
-      id_ledger_group:'',
+      id_ledger_group:'0',
       ledger: '',
       arrGroup: [],
       arrVouchers: [],
@@ -26,7 +26,7 @@ class SundryCreditor extends Component {
   loadGroup(){
     fetch(URL_LEDGER_GROUP_DT)
     .then(response => response.json())
-    .then(data => this.setState({ arrGroup: data }));
+    .then(data => this.setState({ arrGroup: [{id_ledger_group:0, name:"--SELECT--"},...data ] }));
   }
  
   loadSundryCreditors = (id_ledger_group) => {
@@ -91,7 +91,7 @@ class SundryCreditor extends Component {
                               <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Group</label>
-                                    <select class="form-control" onChange={this.onLedgerChange} value={this.state.id_ledger_group}>
+                                    <select class="form-control" onChange={()=>this.onLedgerChange} value={this.state.id_ledger_group}>
                                       {this.state.arrGroup.map((group) =>
                                         <option value={group.id_ledger_group}>{group.name}</option>)}
                                     </select>
@@ -115,7 +115,7 @@ class SundryCreditor extends Component {
                       <tfoot>
                         <th>Total</th>
                         <th></th>                      
-                        <th align="right" >{total}</th>
+                        <th align="right" >{total} CR</th>
                       </tfoot>
                     </table>
                   </div>
@@ -146,8 +146,8 @@ class TableRow extends React.Component {
     return (
       <tr>
         <td>{arrVoucher.account_head}</td>
-        <td>{arrVoucher.group}</td>
-        <td>{arrVoucher.closing_balance}</td>
+        <td>{arrVoucher.ledger_group}</td>
+        <td align="right" >{arrVoucher.closing_balance}</td>
       </tr>
     );
   }

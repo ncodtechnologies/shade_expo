@@ -141,7 +141,7 @@ class App extends Component {
                         <p>Cash Book</p>
                       </NavLink>
                     </li>
-          {/*           <li class="nav-item">
+                     <li class="nav-item">
                       <NavLink to={"/sundryCreditor"} activeClassName="active" className="nav-link">
                         <i class="far fa-circle nav-icon" />
                         <p>Sundry Creditor</p>
@@ -154,7 +154,7 @@ class App extends Component {
                         <p>Sundry Debtor</p>
                       </NavLink>
                     </li>
-            */}        </ul>
+                  </ul>
                 </li>
                 {/*       <li class="nav-item has-treeview menu-open">
                   <NavLink to={"/payroll"} activeClassName="active" className="nav-link">

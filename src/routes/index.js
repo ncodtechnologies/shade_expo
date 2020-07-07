@@ -21,12 +21,19 @@ import Notification from '../pages/notification';
 import NotificationCreate from '../pages/notificationCreate';
 
 export default function Routes() {
+  const routes = [
+    "invoicelist",
+    "roughInvoiceList",
+   ]
   return (
     <HashRouter>
       <Route path="/roughInvoiceCreate/:id_rough_invoice" component={RoughInvoiceCreate} />
       <Route path="/invoice/:id/:id_rough_invoice?" component={Invoice} />
+      {routes.includes("invoicelist") &&
       <Route path="/invoiceList" component={InvoiceList} />
+      } {routes.includes("roughInvoiceList") &&
       <Route path="/roughInvoiceList" component={RoughInvoiceList} />
+      }
       <Route path="/" exact component={InvoiceList} />
       <Route path="/voucher" exact component={Voucher} />
       <Route path="/payroll" exact component={Payroll} />

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_LEDGER_DT ,URL_LEDGER_REPORT_DT,URL_LEDGER_REPORT_OP} from '../constants';
+import Pagination from "react-js-pagination";
 
 class LedgerReport extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class LedgerReport extends Component {
       id_ledger:'',
       ledger: '',
       op:0,
+      activePage: 1,
+      totalCount:'',
       arrLedger: [],
       arrVouchers: [],
     }
@@ -26,8 +29,9 @@ class LedgerReport extends Component {
     const _dateFrom=this.formatDate(this.state.dateFrom);
     const _dateTo=this.formatDate(this.state.dateTo);
     const id_ledger=this.state.id_ledger;
+    const activePage=this.state.activePage;
     this.loadOp(_dateFrom,_dateTo,id_ledger);
-    this.loadVoucherList(_dateFrom,_dateTo,id_ledger);
+    this.loadVoucherList(_dateFrom,_dateTo,id_ledger,activePage);
     this.loadAccountHead();    
   }
   
@@ -36,18 +40,31 @@ class LedgerReport extends Component {
     .then(response => response.json())
     .then(data => this.setState({ arrLedger: data }));
   }
- 
-  loadVoucherList = (_dateFrom,_dateTo,id_ledger) => {
-    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
+
+  loadVoucherList = (_dateFrom,_dateTo,id_ledger,activePage) => {
+    fetch(URL_LEDGER_REPORT_DT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` + `/${activePage}` )
     .then(response => response.json())
     .then(data => {
       this.setState({
-            arrVouchers: data ,
+            arrVouchers: data.items ,
+            totalCount:data.totalCount
           })
         }
       );
     this.loadOp(_dateFrom,_dateTo,id_ledger);
   } 
+  
+  handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber}
+      , () => {
+        const activePage=this.state.activePage;        
+        const _dateFrom=this.formatDate(this.state.dateFrom);
+        const _dateTo=this.formatDate(this.state.dateTo);
+        const id_ledger=this.state.id_ledger; 
+        this.loadVoucherList(_dateFrom,_dateTo,id_ledger,activePage) 
+    });
+  }
   
   loadOp = (_dateFrom,_dateTo,id_ledger) => {
     fetch(URL_LEDGER_REPORT_OP + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_ledger}` )
@@ -120,6 +137,26 @@ formatDate = date => {
                 <div class="col-sm-6">
                   <h1>Ledger Report</h1>
                 </div>
+                <div class="col-sm-6">
+                <Pagination
+                    innerClass="pagination pagination-sm float-right"
+                      activePage={this.state.activePage}
+                      itemsCountPerPage={10}
+                      totalItemsCount={this.state.totalCount}
+                      pageRangeDisplayed={5}
+                      itemClass="page-item"
+                      itemClassPrev="page-item"
+                      itemClassNext="page-item"                      
+                      itemClassFirst="page-item"
+                      itemClassLast="page-item"                      
+                      linkClass="page-link"
+                      linkClassFirst="page-link"                      
+                      linkClassPrev="page-link"
+                      linkClassNext="page-link"
+                      linkClassLast="page-link"
+                      onChange={this.handlePageChange.bind(this)}
+                    />            
+                </div>
               </div>
             </div>
           </section>
@@ -180,7 +217,7 @@ formatDate = date => {
                                     <label>{ob}</label>
                                   </div>
                               </div>                           
-                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger)}>
+                                <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger,this.state.activePage)}>
                                    Search
                                 </button>
                             </div>

@@ -24,19 +24,10 @@ class LedgerGroup extends Component {
     //console.log(data)
   }
 
-  delRow = (rowIndex) => {
-    let _arrProducts = this.state.arrProducts;
-    _arrProducts.splice(rowIndex, 1);
-    this.setState({
-      arrProducts: _arrProducts
-    })
-  }
-
   render() {
     const tableRows = this.state.arrProducts.map((arrProduct, index) =>
       <TableRow
-      arrProduct={arrProduct}
-       
+      arrProduct={arrProduct}       
       />);
    
     return (
@@ -75,10 +66,8 @@ class LedgerGroup extends Component {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
     );
@@ -87,11 +76,6 @@ class LedgerGroup extends Component {
 
 
 class TableRow extends React.Component {
-
-
-  delRow = () => {
-    this.props.delRow(this.props.rowIndex);
-  }
 
   render() {
     let arrProduct = this.props.arrProduct;

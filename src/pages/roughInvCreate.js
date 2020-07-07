@@ -210,7 +210,6 @@ class App extends Component {
 
   handleChangePortLoad (e){
     this.setState({ port_load:e.target.value})
-    alert(e.target.value);
   }
 
   handleChangeInvoiceNo (e){

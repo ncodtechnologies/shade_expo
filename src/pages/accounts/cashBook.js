@@ -3,6 +3,7 @@ import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_CASHBOOK_OP, URL_CASHBOOK_CREDIT, URL_CASHBOOK_DEBIT } from '../constants';
 import { URL_LEDGER_DT,LEDGER_GROUPS} from '../constants';
+import Pagination from "react-js-pagination";
 
 class CashBook extends Component {
   constructor(props) {
@@ -14,6 +15,9 @@ class CashBook extends Component {
       id_ledger: '',
       ledger: '',
       op: '',
+      activePage: 1,
+      totalCountDebit:'',
+      totalCountCredit:'',
       arrLedger: [],
       arrCreditVouchers: [],
       arrDebitVouchers: []
@@ -29,8 +33,7 @@ class CashBook extends Component {
     this.loadAccountHead();
   }
 
-  loadAccountHead() {
-    
+  loadAccountHead() {    
     var id_ledger_group =  LEDGER_GROUPS.ACCOUNT;
     fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
       .then(response => response.json())
@@ -38,9 +41,9 @@ class CashBook extends Component {
     //console.log(data)
   }
 
-  loadCredit = (_dateFrom, _dateTo, id_account_head) => {
+  loadCredit = (_dateFrom, _dateTo, id_account_head,activePage) => {
     
-    fetch(URL_CASHBOOK_CREDIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`)
+    fetch(URL_CASHBOOK_CREDIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`+ `/${activePage}` )
       .then(response => response.json())
       .then(data => {
           this.setState({
@@ -50,12 +53,13 @@ class CashBook extends Component {
       );
   }
 
-  loadDebit = (_dateFrom, _dateTo, id_account_head) => {
-    fetch(URL_CASHBOOK_DEBIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`)
+  loadDebit = (_dateFrom, _dateTo, id_account_head,activePage) => {
+    fetch(URL_CASHBOOK_DEBIT + `/'${_dateFrom}'` + `/'${_dateTo}'` + `/${id_account_head}`+ `/${activePage}` )
       .then(response => response.json())
       .then(data => {
           this.setState({
-            arrDebitVouchers: data || []
+            arrDebitVouchers: data.items || [],
+            totalCountDebit:data.totalCountDebit
           })
         }
       );
@@ -119,9 +123,34 @@ class CashBook extends Component {
     const _dateFrom = this.formatDate(this.state.dateFrom);
     const _dateTo = this.formatDate(this.state.dateTo);
     const id_account_head = this.state.id_ledger;
-    this.loadCredit(_dateFrom, _dateTo, id_account_head);
-    this.loadDebit(_dateFrom, _dateTo, id_account_head);
+    const activePage=this.state.activePage;
+    this.loadCredit(_dateFrom, _dateTo, id_account_head,activePage);
+    this.loadDebit(_dateFrom, _dateTo, id_account_head,activePage);
     this.loadOp(_dateFrom, id_account_head);
+  }
+
+  handlePageChangeCredit = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber}
+      , () => {
+        const _dateFrom = this.formatDate(this.state.dateFrom);
+        const _dateTo = this.formatDate(this.state.dateTo);
+        const id_account_head = this.state.id_ledger;
+        const activePage=this.state.activePage;
+        this.loadCredit(_dateFrom, _dateTo, id_account_head,activePage);
+    });
+  }
+
+  handlePageChangeDebit = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber}
+      , () => {
+        const _dateFrom = this.formatDate(this.state.dateFrom);
+        const _dateTo = this.formatDate(this.state.dateTo);
+        const id_account_head = this.state.id_ledger;
+        const activePage=this.state.activePage;
+        this.loadDebit(_dateFrom, _dateTo, id_account_head,activePage);
+    });
   }
 
   render() {
@@ -206,16 +235,59 @@ class CashBook extends Component {
                             </th>
                           </tr>
                           <tr>
-                            <th colspan={6} >
+                            <th colspan={6} >                    
                               <div class="row" >
                                 <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Opening Balance :</label>
                                     <label>{this.state.op}</label>
-
+                                  </div>
+                                  </div>
+                              </div>
+                              <div class="row" >
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                  <Pagination
+                                    innerClass="pagination pagination-sm float-right"
+                                      activePage={this.state.activePage}
+                                      itemsCountPerPage={10}
+                                      totalItemsCount={this.state.totalCountDebit}
+                                      pageRangeDisplayed={5}
+                                      itemClass="page-item"
+                                      itemClassPrev="page-item"
+                                      itemClassNext="page-item"                      
+                                      itemClassFirst="page-item"
+                                      itemClassLast="page-item"                      
+                                      linkClass="page-link"
+                                      linkClassFirst="page-link"                      
+                                      linkClassPrev="page-link"
+                                      linkClassNext="page-link"
+                                      linkClassLast="page-link"
+                                      onChange={this.handlePageChangeDebit.bind(this)}
+                                    />      
                                   </div>
                                 </div>
-                              </div>
+                                <div class="col-sm-6">
+                                <Pagination
+                                    innerClass="pagination pagination-sm float-right"
+                                      activePage={this.state.activePage}
+                                      itemsCountPerPage={10}
+                                      totalItemsCount={this.state.totalCountCredit}
+                                      pageRangeDisplayed={5}
+                                      itemClass="page-item"
+                                      itemClassPrev="page-item"
+                                      itemClassNext="page-item"                      
+                                      itemClassFirst="page-item"
+                                      itemClassLast="page-item"                      
+                                      linkClass="page-link"
+                                      linkClassFirst="page-link"                      
+                                      linkClassPrev="page-link"
+                                      linkClassNext="page-link"
+                                      linkClassLast="page-link"
+                                      onChange={this.handlePageChangeCredit.bind(this)}
+                                    />      
+                                </div>
+                            </div>
                             </th>
                           </tr>
                         </thead>

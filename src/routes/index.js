@@ -22,18 +22,15 @@ import NotificationCreate from '../pages/notificationCreate';
 import Login from '../pages/login';
 import Users from '../pages/users';
 import UserCreate from '../pages/userCreate';
+import { createBrowserHistory } from "history";
 
 export default function Routes() {
- /* const [session, setSession] = useState(getSessionCookie());
-  useEffect(
-    () => {
-      setSession(getSessionCookie());
-    },
-    [session]
-  );
-*/
-  return (
-    <HashRouter>
+  const session = localStorage.getItem('ShadeUser') || ''
+  
+  const history = createBrowserHistory();
+  
+  return session != '' ? (
+    <HashRouter history={history}>
       <Route path="/roughInvoiceCreate/:id_rough_invoice" component={RoughInvoiceCreate} />
       <Route path="/invoice/:id/:id_rough_invoice?" component={Invoice} />
       <Route path="/invoiceList" component={InvoiceList} />
@@ -54,11 +51,14 @@ export default function Routes() {
       <Route path="/sundryDebtor" exact component={SundryDebtor} />   
       <Route path="/notification" exact component={Notification} />   
       <Route path="/notificationCreate" exact component={NotificationCreate} /> 
-      <Route path="/login" exact render={(props) => <Login  {...props}/>}/>
       <Route path="/users" exact component={Users} />
       <Route path="/userCreate/:id_user" exact component={UserCreate} />
     </HashRouter>
-  );
+  ) : (
+    <HashRouter>
+      <Route path="/" render={(props) => <Login  {...props}/>}/>
+    </HashRouter>
+  )
 }
 
 /*}

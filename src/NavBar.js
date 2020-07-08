@@ -10,6 +10,11 @@ class App extends Component {
 
     }
 
+    logOut() {
+      localStorage.clear();
+      window.location.reload();
+    }
+
     render() {
       return <div>
         
@@ -47,7 +52,14 @@ class App extends Component {
               </Link>
             </li>
           </ul>
-        </nav>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" onClick={()=> this.logOut()} >
+                Log Out
+              </a>
+            </li>
+          </ul>
+              </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
           <a href="index3.html" class="brand-link">

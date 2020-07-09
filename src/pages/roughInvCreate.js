@@ -630,7 +630,7 @@ class TableRow extends Component {
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
         <td align="right" ><input type="text" class="form-control"  value={invItem.box}  onChange={(e) => this.handleChangeBox(e)}  /></td>
-        <td  align="right"  >{total}</td>
+        <td  align="right"  >{Math.round(total*10)/10}</td>
         <td>
             <button type="button"  onClick={this.delRow}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>
@@ -671,7 +671,7 @@ class TableRowsAirway extends Component {
         </td>
         <td><input type="text" class="form-control" value={airwayItem.kg} onChange={(e) => this.handleChangeAirwayKg(e)} /></td>
         <td align="right" ><input type="text" class="form-control"  value={airwayItem.box}  onChange={(e) => this.handleChangeAirwayBox(e)}  /></td>
-        <td  align="right"  >{total}</td>
+        <td  align="right"  >{Math.round(total*10)/10}</td>
         <td>
             <button type="button"  onClick={this.delRowAirway}  class="btn btn-success"><i class="fas fa-trash"></i></button>
         </td>

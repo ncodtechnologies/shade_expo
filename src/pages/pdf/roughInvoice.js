@@ -131,7 +131,7 @@ export const PdfRoughInvoice = (props) => (
                 <Text style={styles.col1} >{getProductName(props.id_product,props.products)}</Text>
                 <Text style={styles.col2} >{props.box}</Text>
                 <Text style={styles.col2} >{props.kg}</Text> 
-                <Text style={styles.col3} >{total}</Text> 
+                <Text style={styles.col3} >{Math.round(total*10)/10}</Text> 
        </View>
       )
     }

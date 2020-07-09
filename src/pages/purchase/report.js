@@ -110,7 +110,7 @@ formatDate = date => {
                               </div>
                               <div class="col-sm-3">
                                   <div class="form-group">
-                                  <button type="button"  class="btn btn-block btn-success btn-flat" onClick={this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
+                                  <button type="button"  class="btn btn-block btn-success btn-flat" onClick={()=> this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo))}>
                                    Search
                                 </button>
                                   </div>

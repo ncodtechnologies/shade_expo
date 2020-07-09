@@ -137,26 +137,6 @@ formatDate = date => {
                 <div class="col-sm-6">
                   <h1>Ledger Report</h1>
                 </div>
-                <div class="col-sm-6">
-                <Pagination
-                    innerClass="pagination pagination-sm float-right"
-                      activePage={this.state.activePage}
-                      itemsCountPerPage={10}
-                      totalItemsCount={this.state.totalCount}
-                      pageRangeDisplayed={5}
-                      itemClass="page-item"
-                      itemClassPrev="page-item"
-                      itemClassNext="page-item"                      
-                      itemClassFirst="page-item"
-                      itemClassLast="page-item"                      
-                      linkClass="page-link"
-                      linkClassFirst="page-link"                      
-                      linkClassPrev="page-link"
-                      linkClassNext="page-link"
-                      linkClassLast="page-link"
-                      onChange={this.handlePageChange.bind(this)}
-                    />            
-                </div>
               </div>
             </div>
           </section>
@@ -245,6 +225,29 @@ formatDate = date => {
                       </tfoot>
                     </table>
                   </div>
+
+                  <div class="card-footer clearfix">
+                    <Pagination
+                        innerClass="pagination pagination-sm float-right"
+                          activePage={this.state.activePage}
+                          itemsCountPerPage={10}
+                          totalItemsCount={this.state.totalCount}
+                          pageRangeDisplayed={5}
+                          itemClass="page-item"
+                          itemClassPrev="page-item"
+                          itemClassNext="page-item"                      
+                          itemClassFirst="page-item"
+                          itemClassLast="page-item"                      
+                          linkClass="page-link"
+                          linkClassFirst="page-link"                      
+                          linkClassPrev="page-link"
+                          linkClassNext="page-link"
+                          linkClassLast="page-link"
+                          onChange={this.handlePageChange.bind(this)}
+                        /> 
+                  </div>
+
+
                 </div>
               </div>
             </div>

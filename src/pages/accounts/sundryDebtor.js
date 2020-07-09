@@ -91,7 +91,7 @@ class SundryDebtor extends Component {
                               <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Group</label>
-                                    <select class="form-control" onChange={()=>this.onLedgerChange} value={this.state.id_ledger_group}>
+                                    <select class="form-control" onChange={(e)=>this.onLedgerChange(e)} value={this.state.id_ledger_group}>
                                       {this.state.arrGroup.map((group) =>
                                         <option value={group.id_ledger_group}>{group.name}</option>)}
                                     </select>

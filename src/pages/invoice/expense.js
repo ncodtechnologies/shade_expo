@@ -325,7 +325,7 @@ class TableRow extends React.Component {
     }
 
     const description = (arrExpense.rate != "" && arrExpense.rate != 0) 
-                        ? `${(arrExpense.amount / arrExpense.rate)} x ${arrExpense.rate}`
+                        ? `${arrExpense.description} ${(arrExpense.amount / arrExpense.rate)} x ${arrExpense.rate}`
                         : arrExpense.description; 
 
     return (

@@ -62,8 +62,8 @@ const getProductName = (id, array) => {
   return newArray[0].name;
 } 
 
-const grandTotal = (items) => items.reduce((a, b) => +a + +(b.kg * b.box), 0);
-const boxTotal = (items) => items.reduce((a, b) => +a + +(b.box), 0);
+const grandTotal = (invItems) => invItems.reduce((a, b) => +a + +(b.kg * b.box), 0);
+const boxTotal = (invItems) => invItems.reduce((a, b) => +a + +(b.box), 0);
 
 // Create Document Component
 export const PdfAirway = (props) => (
@@ -117,9 +117,9 @@ export const PdfAirway = (props) => (
        </View>
       <View style={styles.tableData}>
               <Text style={styles.col1} ></Text>
-              <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{boxTotal(props.invItems)}</Text>
+              <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{boxTotal(props.airwayItems)}</Text>
               <Text style={[styles.col2,{fontFamily:"Roboto"}]} ></Text> 
-              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >{grandTotal(props.invItems)} KG</Text>      
+              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >{grandTotal(props.airwayItems)} KG</Text>      
       </View>
        <View style={styles.top}>
             </View>
@@ -135,7 +135,7 @@ export const PdfAirway = (props) => (
                 <Text style={styles.col1} >{getProductName(props.id_product,props.products)}</Text>
                 <Text style={styles.col2} >{props.box}</Text>
                 <Text style={styles.col2} >{props.kg}</Text> 
-                <Text style={styles.col3} >{total}</Text> 
+                <Text style={styles.col3} >{Math.round(total*10)/10}</Text> 
        </View>
       )
     }

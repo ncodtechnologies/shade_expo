@@ -92,7 +92,6 @@ class Expense extends Component {
         id_ledger_to:"",
         amount:"",
         description:"",
-        date: new Date(),
       });
     console.log(this.state.arrVouchers)
   }

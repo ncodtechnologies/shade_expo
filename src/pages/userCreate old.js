@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component,PropTypes  } from 'react';
 import Nav from '../NavBar';
 import { Link, Redirect } from 'react-router-dom';
 import {URL_USER_SAVE,URL_USER_EDIT} from './constants';
-import PropTypes from 'prop-types';
 import SimpleReactValidator from 'simple-react-validator';
+import Checkbox from './Checkbox'
+
+const items = [
+  'One',
+  'Two',
+  'Three',
+];
 
 class App extends Component {
 
@@ -15,22 +21,18 @@ class App extends Component {
       id_user: 0,
       username:'',
       password:'',
-      access:[],
+      access:'true',
       items: [],
-      accessList:[],
-      checkedList:'',
-      checkedItems: new Map(),
       hidediv: false,
       redirectToUsers : false,
       redirectToUsers : false,  
     }
-    this.handleChange          = this.handleChange.bind(this);
     this.handleChangeUsername  = this.handleChangeUsername.bind(this);
     this.handleChangePassword  = this.handleChangePassword.bind(this);
     this.handleChangeConfirm   = this.handleChangeConfirm.bind(this);
-    this.validator             = new SimpleReactValidator();
+    this.validator = new SimpleReactValidator();
   }
-  
+
   componentDidMount() {
     const id_user=this.props.match.params.id_user;
     if(id_user!=0)
@@ -41,39 +43,28 @@ class App extends Component {
   }
 
   loadUserDt = (id_user) => {
+
     fetch(URL_USER_EDIT + `/${id_user}`)
     .then(response => response.json())
     .then(data => 
       {
         if(data.length>0)
-
           this.setState(
               { 
                 username          : data[0].username , 
                 password          : data[0].password ,
-                confirm           : data[0].password ,
-                access            : data[0].access
               })
-              var list=data[0].access.split(",")
-
-              list.forEach(element => {
-               {
-                 const isChecked =true; 
-                 console.log(element)
-                 this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(element, isChecked) }));
-                }
-              
-              });
-
-      });
+      }
+    );
   }
-  
+ 
+ 
+
 saveUser = () => {
-  
-  if (this.validator.allValid()) {      
+  if (this.validator.allValid()) {  
+    
    const pass= this.state.password;
    const confirm = this.state.confirm;
-  
    if(pass == confirm)  
    {
     const requestOptions = {
@@ -83,9 +74,9 @@ saveUser = () => {
         username          : this.state.username ,
         password          : this.state.password ,
         confirm           : this.state.confirm,
-        access            : this.state.checkedList,
+        access            : this.state.access,
         id_user           : this.state.id_user,
-       })
+              })
   };
   fetch(URL_USER_SAVE, requestOptions)
       .then(response => {
@@ -101,25 +92,12 @@ saveUser = () => {
    {
     this.validator.showMessages();
     this.forceUpdate();
-  } 
+  }
+ 
 }
 
-  handleChange(e) {
-    const item = e.target.name;
-    const isChecked = e.target.checked;
-    this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
-    const map = this.state.checkedItems;    
-    
-    const accessList= Array.from(map).filter(accessItem => {
-      return accessItem[1] === true; 
-     })
-     
-    const result  = Array.from(accessList, x => x[0]); 
-    this.setState({checkedList:result.join()});
-}
-  
   handleChangeUsername (e){
-    this.setState({ username:e.target.value.toUpperCase()})
+    this.setState({ username:e.target.value})
   }
 
   handleChangePassword (e){
@@ -130,54 +108,35 @@ saveUser = () => {
     this.setState({ confirm:e.target.value})
   }
 
-  render() {
-    const checkboxes = [
-      {
-        key: '1',
-        label: 'Voucher ',        
-        name: 'Voucher',
-      },
-      {
-        key: '2',
-        label: 'Ledger Report',
-        name: 'Ledger Report',
-      },
-      {
-        key: '3',
-        label: 'Cash Book ',
-        name: 'Cash Book',
-      },      
-      {
-        key: '4',
-        label: 'Sundry Creditor ',
-        name: 'Sundry Creditor',
-      },      
-      {
-        key: '5',
-        label: 'Sundry Debtor ',
-        name: 'Sundry Debtor',
-      },      
-      {
-        key: '5',
-        label: 'Stock Report ',
-        name: 'Stock Report',
-      },      
-      {
-        key: '5',
-        label: 'Notification ',
-        name: 'Notification',
-      },
-    ];
-    const Checkbox = ({ type = 'checkbox', name, checked = false, onChange }) => (
-      <input name={name}  type={type} checked={checked} onChange={onChange} />
-    );
-    Checkbox.propTypes = {
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string,
-      checked: PropTypes.bool,
-      onChange: PropTypes.func.isRequired,
+  toggleCheckbox = label => {
+    if (this.selectedCheckboxes.has(label)) {
+      this.selectedCheckboxes.delete(label);
+    } else {
+      this.selectedCheckboxes.add(label);
     }
-    
+  }
+
+  handleFormSubmit = formSubmitEvent => {
+    formSubmitEvent.preventDefault();
+
+    for (const checkbox of this.selectedCheckboxes) {
+      console.log(checkbox, 'is selected.');
+    }
+  }
+
+  createCheckbox = label => (
+    <Checkbox
+            label={label}
+            handleCheckboxChange={this.toggleCheckbox}
+            key={label}
+        />
+  )
+
+  createCheckboxes = () => (
+    items.map(this.createCheckbox)
+  )
+  render() {
+   
     const { redirect, redirectToUsers } = this.state;
 
     if (redirect) {
@@ -203,6 +162,7 @@ saveUser = () => {
               </div>
             </div>
           </section>
+
           <div class="content">
             <div class="container-fluid">
               <div class="row">
@@ -240,30 +200,9 @@ saveUser = () => {
                         </div>
                         <div class="row">
                           <div class="col-sm-12"> 
-                            <div class="text-danger mr-1" id="results" hidden = {!this.state.hidediv}>
-                              Confirm password didn't match.
+                            <div class="form-group" id="results" hidden = {!this.state.hidediv}>
+                              Confirm password do not match
                             </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label>Access</label> 
-                              <React.Fragment>
-                                {
-                                  checkboxes.map(item => (
-                                    <div>
-                                      <label key={item.key}>
-                                      <Checkbox name={item.name} checked={this.state.checkedItems.get(item.name)} onChange={this.handleChange} />
-                                      &nbsp;&nbsp;{item.name}
-                                      
-                                      </label>
-                                    </div>
-                                  ))
-                                }
-                               
-                              </React.Fragment>
-                              </div>
                           </div>
                         </div>
                         <div class="row">
@@ -275,6 +214,11 @@ saveUser = () => {
                             </div>
                           </div>
                         </div>
+                        <form onSubmit={this.handleFormSubmit}>
+              {this.createCheckboxes()}
+
+              <button className="btn btn-default" type="submit">Save</button>
+            </form>
                       </form>
                     </div>
                   </div>
@@ -289,3 +233,5 @@ saveUser = () => {
 }
 
 export default App;
+
+

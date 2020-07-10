@@ -1,4 +1,4 @@
-const BASE_URL = "http://198.12.251.14:3000/";
+const BASE_URL = "http://localhost:3000/";
 
 export const URL_LOGIN              = `${BASE_URL}login/login`;
 export const URL_USER_SAVE          = `${BASE_URL}login/users`;

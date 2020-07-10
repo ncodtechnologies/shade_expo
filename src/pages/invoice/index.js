@@ -293,7 +293,7 @@ class Invoice extends Component {
   
   //form onChangeFunctions
   handleChangeInvoiceNo (e){
-    this.setState({ invoice_no:e.target.value})
+    this.setState({ invoice_no:e.target.value.toUpperCase()})
   }
 
   handleChangeDate = date => this.setState({ date })

@@ -213,7 +213,7 @@ class App extends Component {
   }
 
   handleChangeInvoiceNo (e){
-    this.setState({ invoice_no:e.target.value})
+    this.setState({ invoice_no:e.target.value.toUpperCase()})
   }
 
   handleChangeConsignee (e){

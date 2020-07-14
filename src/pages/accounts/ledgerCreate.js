@@ -109,7 +109,7 @@ class Expense extends Component {
   }
 
   onNameChange(event) {
-    this.setState({ name: event.target.value })
+    this.setState({ name: event.target.value.toUpperCase() })
   }
 
   onIdChange(event) {

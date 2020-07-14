@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "08c08d61620f31828a91",
-    "url": "/static/js/main.08c08d61.chunk.js"
+    "revision": "b1a59ac25520327f01b5",
+    "url": "/static/js/main.b1a59ac2.chunk.js"
   },
   {
     "revision": "9c36692a2d8e1292c66e",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/static/media/Roboto-BoldItalic.5b44818d.ttf"
   },
   {
-    "revision": "55279c312a50c5cf104a627f237e908d",
+    "revision": "6aca76ae5c2d3cb05c779833820dca4d",
     "url": "/index.html"
   }
 ];

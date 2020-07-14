@@ -155,7 +155,7 @@ export const PdfInvoice = (props) => (
               <Text style={styles.col1} ></Text>
               <Text style={styles.col2} ></Text>
               <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{kgTotal(props.invItems)} kg</Text> 
-              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >$ {grandTotal(props.invItems)}</Text>      
+              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >$ {Math.round(grandTotal(props.invItems)*10)/10}</Text>      
       </View>
       <View style={styles.tableData}>
         <Text style={styles.colFull} >US Dollar {converter.toWords(grandTotal(props.invItems))} Only</Text>   
@@ -173,7 +173,7 @@ export const PdfInvoice = (props) => (
             <View style={styles.sectionBottomRight}>
               <View style={styles.box}>
                   <Text style={styles.left}>SUBTOTAL</Text>
-                  <Text style={styles.rightBottom}>$ {grandTotal(props.invItems)}</Text>
+                  <Text style={styles.rightBottom}>$ {Math.round(grandTotal(props.invItems)*10)/10}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>DISCOUNT</Text>
@@ -181,7 +181,7 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>NET TOTAL</Text>
-                  <Text style={styles.rightBottom}>$ {grandTotal(props.invItems)-props.discount}</Text>
+                  <Text style={styles.rightBottom}>$ {Math.round(grandTotal(props.invItems)*10)/10-props.discount}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>OLD BALANCE </Text>
@@ -189,7 +189,7 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.leftBalance}>BALANCE</Text>
-                  <Text style={styles.rightBalance}>$ {grandTotal(props.invItems)-props.discount}</Text>
+                  <Text style={styles.rightBalance}>$ {Math.round(grandTotal(props.invItems)*10)/10-props.discount}</Text>
               </View>
            </View>
             

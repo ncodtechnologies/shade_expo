@@ -686,7 +686,7 @@ class Invoice extends Component {
                       <th>Total</th>
                       <th>{kgTotal}</th>
                       <th></th>
-                      <th align="right">$ {grandTotal}</th>
+                      <th align="right">$ {Math.round(grandTotal*10)/10}</th>
                       <th />
                     </tfoot>
                   </table>

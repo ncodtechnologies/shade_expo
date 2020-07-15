@@ -109,7 +109,7 @@ export const PdfInvoice = (props) => (
             </View>
        </View>
        <View style={styles.container2}>
-            <View style={styles.section}>
+            <View style={styles.section3rd}>
                 <Text style={styles.dataTitle}>Country of origin of goods:</Text>
                 <Text style={styles.address}>{getPlaceName(props.country_origin,props.places)}</Text>
                 <Text style={styles.dataTitle}>Place of receipt by pre_carrier:</Text>
@@ -120,16 +120,18 @@ export const PdfInvoice = (props) => (
                     <Text style={styles.address}>{props.other}</Text>
                     <Text style={styles.dataTitle}>Buyer(If other than consignee):</Text>
                     <Text style={styles.address}>{props.buyer}</Text>
+            </View>
+            <View style={styles.section3rd}>
                     <Text style={styles.dataTitle}>Terms of delivery & payment:</Text>
                     <Text style={styles.address}>{props.pre_carriage}</Text>
                     <Text style={styles.dataTitle}>AWB No:</Text>
                     <Text style={styles.address}>{props.receipt_place}</Text>
+                    <Text style={styles.dataTitle}>Country of final destination:</Text>
+                    <Text style={styles.address}>{getPlaceName(props.country_final,props.places)}</Text>
+                    <Text style={styles.dataTitle}>Pre_carriage by:</Text>
+                    <Text style={styles.address}>{props.pre_carriage}</Text>
             </View>
-            <View style={styles.section}>
-             <Text style={styles.dataTitle}>Country of final destination:</Text>
-                <Text style={styles.address}>{getPlaceName(props.country_final,props.places)}</Text>
-                <Text style={styles.dataTitle}>Pre_carriage by:</Text>
-                <Text style={styles.address}>{props.pre_carriage}</Text>
+            <View style={styles.section3rd}>
                  <Text style={styles.dataTitle}>Port of loading:</Text>
                     <Text style={styles.address}>{getPortName(props.port_load,props.airports)}</Text>
                     <Text style={styles.dataTitle}>Marks & No.s:</Text>
@@ -160,7 +162,7 @@ export const PdfInvoice = (props) => (
       <View style={styles.tableData}>
         <Text style={styles.colFull} >US Dollar {converter.toWords(grandTotal(props.invItems))} Only</Text>   
       </View>
-      <View style={styles.container3}>
+      <View style={styles.container3} wrap={false} >
             <View style={styles.section}>
               <Text style={styles.bank}>Bank Detail{props.bill_to}</Text>
               <Text style={styles.address}>{`Account Name: MARIA INTERNATIONAL (PVT) LTD
@@ -245,6 +247,12 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal:10,
     width:'50%',
+  },
+  section3rd: {    
+    margin: 10,
+    padding: 10,
+    paddingHorizontal:10,
+    width:'30%',
   },
   sectionRow: {    
     flexDirection:'column',

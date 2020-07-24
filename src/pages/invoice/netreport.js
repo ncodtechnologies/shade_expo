@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_CONV_RATE, URL_NET_PACK_TOT, URL_NET_FREIGHT } from '../constants';
+import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_DT, URL_NET_PACK_TOT, URL_NET_FREIGHT, URL_UPD_PURCHASE } from '../constants';
+import loader from '../../assets/loading.gif'
 
 class NetReport extends Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class NetReport extends Component {
         other_exp:'',
         freight:0,
         packing:0,
-        conversion_rate:0
+        conversion_rate:0,
+        purchase:0,
+        loadingPur: false,
     }
   }
    
@@ -17,10 +20,13 @@ class NetReport extends Component {
     const id_invoice=this.props.id_invoice;
     this.loadSalesTotal(id_invoice);
     this.loadOtherExp(id_invoice);
-    this.loadConversionRate(id_invoice);
+    this.loadInvoiceDt(id_invoice);
     this.loadPackTotal(id_invoice);
     this.loadFreightTotal(id_invoice);
-    
+  }
+
+  handleChangePurchase (e){
+    this.setState({ purchase:e.target.value})
   }
 
   loadSalesTotal(id_invoice){
@@ -47,12 +53,29 @@ class NetReport extends Component {
     .then(data => this.setState({ freight: data[0].amount }));
   }
 
-  loadConversionRate(id_invoice){
-    fetch(URL_INVOICE_CONV_RATE +  `/${id_invoice}`)
+  loadInvoiceDt(id_invoice){
+    fetch(URL_INVOICE_DT +  `/${id_invoice}`)
     .then(response => response.json())
-    .then(data => this.setState({ conversion_rate: data[0].conversion_rate }));
+    .then(data => this.setState({
+       conversion_rate: data[0].conversion_rate,
+       purchase: data[0].purchase
+      }));
   }
 
+  updInvoice = () => {
+    this.setState({loadingPur: true})
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+                  id_invoice        : this.props.id_invoice,
+                  purchase          : this.state.purchase,
+                })
+    };
+    fetch(URL_UPD_PURCHASE, requestOptions)
+      .then(response => this.setState({ loadingPur: false }))
+      .catch(err => this.setState({ loadingPur: false }))
+  }
   render() {
     return (
       <div >
@@ -67,15 +90,15 @@ class NetReport extends Component {
                     <table class="table">
                       <tbody><tr>
                         <th style={{width:"50%"}} >Sales Total:</th>
-                        <td>$ {Math.round(this.state.sales_total)}</td>
+                        <td align="right" >$ {Math.round(this.state.sales_total)}</td>
                       </tr>
                       <tr>
                         <th>Total :</th>
-                        <td>$ {Math.round(this.state.sales_total)}</td>
+                        <td align="right" >$ {Math.round(this.state.sales_total)}</td>
                       </tr>
                       <tr>
                         <th>Total : (Rate: {this.state.conversion_rate})</th>
-                        <td>Rs {Math.round(this.state.sales_total*this.state.conversion_rate*100)/100}</td>
+                        <td align="right" >Rs {Math.round(this.state.sales_total*this.state.conversion_rate*100)/100}</td>
                       </tr>
                     </tbody></table>
                   </div>
@@ -87,20 +110,37 @@ class NetReport extends Component {
                     <table class="table">
                       <tbody>
                       <tr>
+                        <th style={{width:"50%"}} >Purchase:</th>
+                        <td>
+                        <div class="input-group input-group-sm">
+                          <input type="text" style={{textAlign:"right"}} class="form-control" onChange={e => this.handleChangePurchase(e)} value={this.state.purchase} />
+                          <span class="input-group-append">
+                            <button type="button" class="btn btn-info btn-flat" onClick={()=>this.updInvoice()} >
+                              {!this.state.loadingPur ?
+                              <i class="fas fa-check"></i>
+                              :
+                              <img src={loader} style={{width:15,height:15}} />
+                              }
+                            </button>
+                          </span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
                         <th style={{width:"50%"}} >Freight Expenses:</th>
-                        <td>{this.state.freight}</td>
+                        <td align="right" >{this.state.freight}</td>
                       </tr>
                       <tr>
                         <th style={{width:"50%"}} >Packing Expenses:</th>
-                        <td>{this.state.packing}</td>
+                        <td align="right" >{this.state.packing}</td>
                       </tr>
                       <tr>
                         <th>Other Expenses</th>
-                        <td>{this.state.other_exp}</td>
+                        <td align="right" >{this.state.other_exp}</td>
                       </tr>
                       <tr>
                         <th>Total</th>
-                        <td>{this.state.freight  + this.state.packing + this.state.other_exp}</td>
+                        <td align="right" >{parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0)}</td>
                       </tr>
                     </tbody></table>
                   </div>

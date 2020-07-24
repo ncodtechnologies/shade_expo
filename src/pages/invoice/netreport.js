@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_CONV_RATE } from '../constants';
+import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_CONV_RATE, URL_NET_PACK_TOT, URL_NET_FREIGHT } from '../constants';
 
 class NetReport extends Component {
   constructor(props) {
@@ -18,6 +18,8 @@ class NetReport extends Component {
     this.loadSalesTotal(id_invoice);
     this.loadOtherExp(id_invoice);
     this.loadConversionRate(id_invoice);
+    this.loadPackTotal(id_invoice);
+    this.loadFreightTotal(id_invoice);
     
   }
 
@@ -31,6 +33,18 @@ class NetReport extends Component {
     fetch(URL_NET_OTHER_EXP +  `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ other_exp: data[0].tot }));
+  }
+
+  loadPackTotal(id_invoice){
+    fetch(URL_NET_PACK_TOT +  `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => this.setState({ packing: data[0].amount }));
+  }
+
+  loadFreightTotal(id_invoice){
+    fetch(URL_NET_FREIGHT +  `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => this.setState({ freight: data[0].amount }));
   }
 
   loadConversionRate(id_invoice){
@@ -53,11 +67,11 @@ class NetReport extends Component {
                     <table class="table">
                       <tbody><tr>
                         <th style={{width:"50%"}} >Sales Total:</th>
-                        <td>$ {this.state.sales_total}</td>
+                        <td>$ {Math.round(this.state.sales_total)}</td>
                       </tr>
                       <tr>
                         <th>Total :</th>
-                        <td>$ {this.state.sales_total}</td>
+                        <td>$ {Math.round(this.state.sales_total)}</td>
                       </tr>
                       <tr>
                         <th>Total : (Rate: {this.state.conversion_rate})</th>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT } from '../constants';
+import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT, URL_PACK_PACKINGLIST_GRP_BY } from '../constants';
 
 class Packing extends Component {
   constructor(props) {
@@ -8,6 +8,7 @@ class Packing extends Component {
       LabourItems:[],
       packItems: [],
       ExpenseItems:[],
+      packItemsGrp:[],
     }   
   }
   
@@ -16,6 +17,7 @@ class Packing extends Component {
     this.loadInvLabourItem(id_invoice);
     this.loadInvPackingExp(id_invoice);
     this.loadInvPackingList(id_invoice);
+    this.loadInvPackingListGrpBy(id_invoice);
   }
 
   loadInvLabourItem = (id_invoice) => {
@@ -28,6 +30,11 @@ class Packing extends Component {
     .then(response => response.json())
     .then(data => this.setState({ packItems: data }));
   }
+  loadInvPackingListGrpBy = (id_invoice) => {
+    fetch(URL_PACK_PACKINGLIST_GRP_BY + `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => this.setState({ packItemsGrp: data }));
+  }
   loadInvPackingExp = (id_invoice) => {
     fetch(URL_PACK_PACKINGEXP_DT + `/${id_invoice}`)
     .then(response => response.json())
@@ -36,6 +43,11 @@ class Packing extends Component {
   render() {
     const tableRowsPacking = this.state.packItems.map((packItem, index) =>
       <TableRowPacking
+      packItem={packItem} rowIndex={index}
+      />
+    );
+    const tableRowsPackingGrpBy = this.state.packItemsGrp.map((packItem, index) =>
+      <TableRowPackingGrpBy
       packItem={packItem} rowIndex={index}
       />
     );
@@ -69,18 +81,21 @@ class Packing extends Component {
                     <table class="table">
                       <thead>                       
                         <tr>
-                          <th style={{ width: '20%' }} >No</th>
+                          <th style={{ width: '20%' }} >Pack No</th>
                           <th style={{ width: '50%' }}>Items</th>
-                          <th style={{ width: '30%' }}>Kg</th>
+                          <th style={{ width: '30%',textAlign: "right" }}>Kg</th>
                         </tr>
                       </thead>
                       <tbody>
                         {tableRowsPacking}
                       </tbody>
                       <tfoot>
-                        <th></th>
-                        <th>Net Weight</th>
-                        <th align="right">{grandTotalPacking}</th>
+                        <tr>
+                          <th></th>
+                          <th>Net Weight</th>
+                          <th style={{ textAlign: "right" }}>{grandTotalPacking}</th>
+                        </tr>
+                        {tableRowsPackingGrpBy}
                       </tfoot>
                     </table>
                   </div>
@@ -98,7 +113,7 @@ class Packing extends Component {
                       <thead>                       
                         <tr>
                           <th style={{ width: '50%' }}>Name</th>
-                          <th style={{ width: '50%' }}>Amount</th>
+                          <th style={{ width: '50%',textAlign: "right"  }}>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -106,7 +121,7 @@ class Packing extends Component {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
-                        <th align="right" >{grandTotalLabour}</th>
+                        <th style={{ textAlign: "right" }} >{grandTotalLabour}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -116,23 +131,29 @@ class Packing extends Component {
             <div class="row">
               <div class="col-lg-12">
               <div class="card-header">
-                <h3 class="card-title">Other Expenses</h3>                
+                <h3 class="card-title">Packing Items</h3>                
               </div>
                 <div class="card card-info">
                   <div class="card-body p-0">
                     <table class="table">
                       <thead>                       
                         <tr>
-                          <th style={{ width: '50%' }}>Expense</th>
-                          <th style={{ width: '50%' }}>Amount</th>
+                          <th style={{ width: '30%' }}>Item</th>
+                          <th style={{ width: '20%', textAlign: "right" }}>Qty</th>
+                          <th style={{ width: '20%', textAlign: "right" }}>Price</th>
+                          <th style={{ width: '30%', textAlign: "right" }}>Amount</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {tableRowsExpense}
+                        { tableRowsExpense }
                       </tbody>
                       <tfoot>
-                        <th>Total</th>
-                        <th align="right" >{grandTotalExpense}</th>
+                        <tr>
+                          <th>Total</th>
+                          <th></th>
+                          <th></th>
+                          <th  style={{ textAlign: "right" }} >{grandTotalExpense}</th>
+                        </tr>
                       </tfoot>
                     </table>
                   </div>
@@ -156,7 +177,21 @@ class TableRowPacking extends React.Component {
       <tr>
         <td>{packItem.pack_no}</td>
         <td>{packItem.name}</td>
-        <td>{packItem.kg}</td>
+        <td align="right" >{packItem.kg}</td>
+      </tr>
+    );
+  }
+}
+
+class TableRowPackingGrpBy extends React.Component {
+  render() {
+    let packItem = this.props.packItem;
+
+    return (
+      <tr>
+        <th>{packItem.pack_no}</th>
+        <th>{packItem.name}</th>
+        <th  style={{ textAlign: "right" }}  >{packItem.kg}</th>
       </tr>
     );
   }
@@ -169,7 +204,7 @@ class TableRowLabour extends React.Component {
     return (
       <tr>
         <td>{LabourItem.name}</td>
-        <td>{LabourItem.amount}</td>
+        <td align="right" >{LabourItem.amount}</td>
       </tr>
     );
   }
@@ -182,7 +217,9 @@ class TableRowsExpense extends React.Component {
     return (
       <tr>
         <td>{ExpenseItem.name}</td>
-        <td>{ExpenseItem.amount}</td>
+        <td align="right" >{ExpenseItem.qty}</td>
+        <td align="right" >{ExpenseItem.selling_price}</td>
+        <td align="right" >{ExpenseItem.amount}</td>
       </tr>
     );
   }

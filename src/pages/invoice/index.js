@@ -930,7 +930,7 @@ class App extends Component {
                   {this.props.match.params.id == 0 ? <div /> : 
                   <div class="tab-pane fade" id="custom-tabs-three-packing" role="tabpanel" aria-labelledby="custom-tabs-three-packing-tab">
                     {this.state.currentTab == 4 ? 
-                     <Packing  id_invoice={this.props.match.params.id} {...this.props} />
+                     <Packing  id_invoice={this.props.match.params.id} invoice_no={this.state.invoice_no} {...this.props} />
                      :
                        <div />
                      }

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT, URL_PACK_PACKINGLIST_GRP_BY } from '../constants';
 
+import { PDFViewer } from '@react-pdf/renderer';
+import { PdfPackingList } from '../pdf/packingList';
+
 class Packing extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +12,7 @@ class Packing extends Component {
       packItems: [],
       ExpenseItems:[],
       packItemsGrp:[],
+      showPdf: false,
     }   
   }
   
@@ -99,9 +103,41 @@ class Packing extends Component {
                       </tfoot>
                     </table>
                   </div>
+
+                  <div class="card-footer">
+                    <button onClick={()=>this.setState({ showPdf:true }) } type="button" class="btn btn-primary float-right">
+                      Print
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
+
+
+
+            {this.state.showPdf && 
+            <div class="row">
+              <div class="col-lg-12">
+              <div class="card card-info">
+                      <div class="card-header">
+                        <h3 class="card-title">Pdf Viewer</h3>
+                        <div class="card-tools">
+                          <button type="button" onClick={()=>this.setState({showPdf: false})} class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                          </button>
+                        </div>
+                  </div>
+                <div class="card-body">
+                  <div class="row">
+                    <PDFViewer style={{width:"100%", height: 500}} >
+                      <PdfPackingList packItems={this.state.packItems} invoice_no={this.props.invoice_no} />
+                    </PDFViewer>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            }
+
             <div class="row">
               <div class="col-lg-12">
               <div class="card-header">

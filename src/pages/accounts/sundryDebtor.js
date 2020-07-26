@@ -12,15 +12,27 @@ class SundryDebtor extends Component {
       ledger: '',
       arrGroup: [],
       arrVouchers: [],
+      rates: [],
     }
     
     this.onLedgerChange = this.onLedgerChange.bind(this);
+    this.changeRate = this.changeRate.bind(this);
   }
   
   componentDidMount() {
     const id_ledger_group=this.state.id_ledger_group;
     this.loadSundryCreditors(id_ledger_group);
     this.loadGroup();
+  }
+
+  changeRate(account_head, rate) {
+    var _rates = this.state.rates;
+    var res =  this.state.arrVouchers.filter(function(item) {
+      return item.account_head == account_head;
+    });
+    const index = this.state.arrVouchers.indexOf(res[0]);
+    _rates[index] = rate
+    this.setState({ rates : _rates });
   }
   
   loadGroup(){
@@ -56,9 +68,15 @@ class SundryDebtor extends Component {
     const tableRows = this.state.arrVouchers.map((arrVoucher, index) =>
       <TableRow
       arrVoucher={arrVoucher}
+      rate={this.state.rates[index]}
+      changeRate={this.changeRate}
       />);
-
-    const total = this.state.arrVouchers.reduce((a, b) => +a + +(b.closing_balance), 0);
+    const rates = this.state.rates;
+    const total = this.state.arrVouchers.reduce((a, b, index) => 
+    {
+      const rate = rates[index] || 1;
+      return +a + +(b.closing_balance*rate)
+    }, 0);
   
     return (
       
@@ -104,9 +122,10 @@ class SundryDebtor extends Component {
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '35%' }}>Account Head</th>
-                          <th style={{ width: '30%' }}>Group</th>
-                          <th style={{ width: '30%' }}>Closing Balance</th>
+                          <th style={{ width: '35%' }}>Name</th>
+                          <th style={{ width: '25%' }}>Group</th>
+                          <th style={{ width: '15%' }}>Conv Rate</th>
+                          <th style={{ width: '20%' }}>Closing Balance</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,7 +135,8 @@ class SundryDebtor extends Component {
                         <tr>
                         <th>Total</th>
                         <th></th>                      
-                        <th align="right" >{(-1)*total} DR</th>
+                        <th></th>                      
+                        <th style={{textAlign: "right"}} >{(-1)*Math.round(total)} DR</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -140,16 +160,21 @@ class TableRow extends React.Component {
     this.props.delRow(this.props.rowIndex);
   }
 
+  handleChangeRate(account_head, e) {
+    this.props.changeRate(account_head, e.target.value);
+  }
+
+
   render() {
     let arrVoucher = this.props.arrVoucher;
-    
-   
+    const rate = this.props.rate || 1;
 
     return (
       <tr>
         <td>{arrVoucher.account_head}</td>
         <td>{arrVoucher.ledger_group}</td>
-        <td align="right" >{(-1)*arrVoucher.closing_balance}</td>
+        <td><input type="text" style={{textAlign: "right", width:100}} onChange={e => this.handleChangeRate(arrVoucher.account_head, e)} value={this.props.rate} /></td>
+        <td align="right" >{(-1)*Math.round(arrVoucher.closing_balance)}</td>
       </tr>
     );
   }

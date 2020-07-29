@@ -174,7 +174,7 @@ class TableRow extends React.Component {
         <td>{arrVoucher.account_head}</td>
         <td>{arrVoucher.ledger_group}</td>
         <td><input type="text" style={{textAlign: "right", width:100}} onChange={e => this.handleChangeRate(arrVoucher.account_head, e)} value={this.props.rate} /></td>
-        <td align="right" >{(-1)*Math.round(arrVoucher.closing_balance)}</td>
+        <td align="right" >{(-1)*Math.round(arrVoucher.closing_balance*rate)}</td>
       </tr>
     );
   }

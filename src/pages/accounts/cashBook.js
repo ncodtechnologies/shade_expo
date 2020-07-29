@@ -245,7 +245,7 @@ class CashBook extends Component {
                                   </div>
                               </div>
                               <div class="row" >
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                   <Pagination
                                     innerClass="pagination pagination-sm float-right"
@@ -267,7 +267,7 @@ class CashBook extends Component {
                                     />      
                                   </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                 <Pagination
                                     innerClass="pagination pagination-sm float-right"
                                       activePage={this.state.activePage}

@@ -294,7 +294,7 @@ class CashBook extends Component {
                         <tbody></tbody>
                       </table>
                       <div class="row" >
-                       <div class="col-sm-6">
+                       <div class="col-md-6">
                        <div class="card card-warning">
                        <div class="card-body">
                       <table class="table">
@@ -317,7 +317,7 @@ class CashBook extends Component {
                       </div>
                       </div>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-md-6">
                     <div class="card card-warning">
                       <div class="card-body">
                           <table class="table">

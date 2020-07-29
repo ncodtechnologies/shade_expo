@@ -40,7 +40,7 @@ class LedgerGroup extends Component {
       //if(data.totalCount.length>0)
       this.setState({
         arrLedgers  : data.items,
-        totalCount  : data.totalCount
+        totalCount  : data.totalCount,
        })
     });
   }

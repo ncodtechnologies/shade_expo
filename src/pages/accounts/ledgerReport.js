@@ -16,6 +16,8 @@ class LedgerReport extends Component {
       op:0,
       activePage: 1,
       totalCount:'',
+      receiptTotal:0,
+      paymentTotal:0,
       arrLedger: [],
       arrVouchers: [],
     }
@@ -47,7 +49,9 @@ class LedgerReport extends Component {
     .then(data => {
       this.setState({
             arrVouchers: data.items ,
-            totalCount:data.totalCount
+            totalCount:data.totalCount,
+            receiptTotal: data.receipt,
+            paymentTotal: data.payment,
           })
         }
       );
@@ -121,7 +125,7 @@ formatDate = date => {
 
     const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
-    const _cb = (-1*this.state.op) + paymentTotal - receiptTotal;
+    const _cb = (-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal;
     const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
     const ob = this.state.op >= 0 ? `${this.state.op} CR` : `${-1*this.state.op} DR`;
 
@@ -219,8 +223,8 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th align="right">{paymentTotal}</th>
-                        <th align="right">{receiptTotal}</th>
+                        <th align="right">{this.state.paymentTotal}</th>
+                        <th align="right">{this.state.receiptTotal}</th>
                         <th align="right" >{cb}</th>
                       </tfoot>
                     </table>

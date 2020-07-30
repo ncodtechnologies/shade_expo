@@ -225,7 +225,7 @@ formatDate = date => {
                         <th></th>
                         <th align="right">{this.state.paymentTotal}</th>
                         <th align="right">{this.state.receiptTotal}</th>
-                        <th align="right" >{cb}</th>
+                        <th align="right" >{Math.round(cb)}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -278,8 +278,8 @@ class TableRow extends React.Component {
         <td>{arrVoucher.date}</td>
         <td>{arrVoucher.type}</td>
         <td >{arrVoucher.narration}</td>
-        <td >{arrVoucher.payment}</td>
-        <td >{arrVoucher.receipt}</td>
+        <td >{Math.round(arrVoucher.payment)}</td>
+        <td >{Math.round(arrVoucher.receipt)}</td>
         <td ></td>
       </tr>
     );

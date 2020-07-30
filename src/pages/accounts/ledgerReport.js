@@ -198,7 +198,7 @@ formatDate = date => {
                             <div class="col-sm-6">
                                   <div class="form-group float-right">
                                     <label>Opening Balance :</label>
-                                    <label>{ob}</label>
+                                    <label>{Math.round(ob)}</label>
                                   </div>
                               </div>                           
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger,this.state.activePage)}>

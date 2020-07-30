@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { URL_PACK_LABOUR_DT, URL_PACK_PACKINGLIST_DT,URL_PACK_PACKINGEXP_DT, URL_PACK_PACKINGLIST_GRP_BY } from '../constants';
+import { URL_INVOICE_DT , URL_LEDGER_DT, LEDGER_GROUPS} from '../constants';
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { PdfPackingList } from '../pdf/packingList';
@@ -13,6 +14,15 @@ class Packing extends Component {
       ExpenseItems:[],
       packItemsGrp:[],
       showPdf: false,
+      invoice_no: '',
+      date: '',
+      consigner: '',
+      consignee: '',
+      consigner_address: '',
+      consignee_address: '',
+      awb_no: '',
+      consigners : [],
+      consignees : [],
     }   
   }
   
@@ -22,6 +32,9 @@ class Packing extends Component {
     this.loadInvPackingExp(id_invoice);
     this.loadInvPackingList(id_invoice);
     this.loadInvPackingListGrpBy(id_invoice);
+    this.loadInvoiceDt(id_invoice);
+    this.loadConsignees();
+    this.loadConsigners();
   }
 
   loadInvLabourItem = (id_invoice) => {
@@ -43,6 +56,48 @@ class Packing extends Component {
     fetch(URL_PACK_PACKINGEXP_DT + `/${id_invoice}`)
     .then(response => response.json())
     .then(data => this.setState({ ExpenseItems: data }));
+  }
+
+  loadInvoiceDt = (id_invoice) => {
+
+    fetch(URL_INVOICE_DT + `/${id_invoice}`)
+    .then(response => response.json())
+    .then(data => 
+      {
+        if(data.length>0)
+        this.setState(
+              { 
+                invoice_no        : data[0].invoice_no ,
+                date              : data[0].date , 
+                consigner         : data[0].consigner ,
+                consignee         : data[0].consignee ,
+                consigner_address : data[0].consigner_address ,
+                consignee_address : data[0].consignee_address ,
+                awb_no            : data[0].awb_no ,
+              }, () => {
+            });
+            }
+    );
+  }
+
+  loadConsigners() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNER;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consigners : [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
+  }
+
+  loadConsignees() {
+    var id_ledger_group =  LEDGER_GROUPS.CONSIGNEE;
+    fetch(`${URL_LEDGER_DT}/${id_ledger_group}`)
+      .then(response => response.json())
+      .then(data => {
+        if(data.length>0)
+          this.setState({ consignees: [{id_account_head:0, account_head:"--SELECT--"},...data ] })
+      });
   }
   render() {
     const tableRowsPacking = this.state.packItems.map((packItem, index) =>
@@ -129,7 +184,7 @@ class Packing extends Component {
                 <div class="card-body">
                   <div class="row">
                     <PDFViewer style={{width:"100%", height: 500}} >
-                      <PdfPackingList packItems={this.state.packItems} invoice_no={this.props.invoice_no} />
+                      <PdfPackingList {...this.state} />
                     </PDFViewer>
                   </div>
                 </div>

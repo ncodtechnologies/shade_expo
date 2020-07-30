@@ -128,19 +128,19 @@ class NetReport extends Component {
                       </tr>
                       <tr>
                         <th style={{width:"50%"}} >Freight Expenses:</th>
-                        <td align="right" >{this.state.freight}</td>
+                        <td align="right" >{Math.round(this.state.freight)}</td>
                       </tr>
                       <tr>
                         <th style={{width:"50%"}} >Packing Expenses:</th>
-                        <td align="right" >{this.state.packing}</td>
+                        <td align="right" >{Math.round(this.state.packing)}</td>
                       </tr>
                       <tr>
                         <th>Other Expenses</th>
-                        <td align="right" >{this.state.other_exp}</td>
+                        <td align="right" >{Math.round(this.state.other_exp)}</td>
                       </tr>
                       <tr>
                         <th>Total</th>
-                        <td align="right" >{parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0)}</td>
+                        <td align="right" >{Math.round(parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0))}</td>
                       </tr>
                     </tbody></table>
                   </div>

@@ -198,7 +198,7 @@ formatDate = date => {
                             <div class="col-sm-6">
                                   <div class="form-group float-right">
                                     <label>Opening Balance :</label>
-                                    <label>{Math.round(ob)}</label>
+                                    <label>{Math.round(parseInt(ob))||0}</label>
                                   </div>
                               </div>                           
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger,this.state.activePage)}>
@@ -223,9 +223,9 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th align="right">{this.state.paymentTotal}</th>
-                        <th align="right">{this.state.receiptTotal}</th>
-                        <th align="right" >{Math.round(cb)}</th>
+                        <th align="right">{Math.round(parseInt(this.state.paymentTotal))||0}</th>
+                        <th align="right">{Math.round(parseInt(this.state.receiptTotal))||0}</th>
+                        <th align="right" >{Math.round(parseInt(cb))}</th>
                       </tfoot>
                     </table>
                   </div>
@@ -278,8 +278,8 @@ class TableRow extends React.Component {
         <td>{arrVoucher.date}</td>
         <td>{arrVoucher.type}</td>
         <td >{arrVoucher.narration}</td>
-        <td >{Math.round(arrVoucher.payment)}</td>
-        <td >{Math.round(arrVoucher.receipt)}</td>
+        <td >{Math.round(parseInt(arrVoucher.payment))||0}</td>
+        <td >{Math.round(parseInt(arrVoucher.receipt))||0}</td>
         <td ></td>
       </tr>
     );

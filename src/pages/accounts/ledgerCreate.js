@@ -59,16 +59,13 @@ class Expense extends Component {
       this.setState({
         id         : data[0].id_ledger_group , 
         name       : data[0].account_head , 
-        op         : data[0].opening_balance ,
+        op         : data[0].opening_balance > 0 ? data[0].opening_balance : -1* data[0].opening_balance ,
         address    : data[0].address ,
         phone      : data[0].phone ,
+        crdr       : data[0].opening_balance > 0 ? "Cr" : "Dr"
         })
         }
       );
-      if(this.state.op<0)
-      this.setState({crdr : 'Dr'});
-      else
-      this.setState({crdr : 'Dr'});
   }  
 
   saveLedger = () => {
@@ -80,7 +77,7 @@ class Expense extends Component {
                   id              : this.state.id ,
                   name            : this.state.name ,
                   code            : this.state.code ,
-                  op              : this.state.crdr == "cr" ? this.state.op : -1*this.state.op ,
+                  op              : this.state.crdr == "Cr" ? this.state.op : -1*this.state.op ,
                   address         : this.state.address ,
                   phone           : this.state.phone ,
                   id_account_head : this.props.match.params.id_ledger,
@@ -171,7 +168,7 @@ class Expense extends Component {
                                   <div class="form-group">
                                     <label>Name</label>
                                     <input type="text" value={this.state.name} onChange={this.onNameChange} class="form-control" />
-                                    {this.validator.message('name', this.state.name, 'required|alpha_num_space')}
+                                    {this.validator.message('name', this.state.name, 'required')}
                                  </div>
                               </div>
                               <div class="col-sm-5">
@@ -208,7 +205,7 @@ class Expense extends Component {
                                   <label>&nbsp;</label> 
                                   <select class="form-control" onChange={this.onCrdrChange} value={this.state.crdr}>
                                   {this.state.types.map(column => (
-                                    <option value={column.Id}>
+                                    <option value={column.Type}>
                                       {column.Type}
                                     </option>
                                   ))}

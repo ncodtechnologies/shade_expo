@@ -125,9 +125,10 @@ formatDate = date => {
 
     const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
-    const _cb = (-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal;
+    const _cb = parseInt((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal) || 0;
     const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
-    const ob = this.state.op >= 0 ? `${this.state.op} CR` : `${-1*this.state.op} DR`;
+    let ob = parseInt(this.state.op) || 0;
+    ob = ob >= 0 ? `${ob} CR` : `${-1*ob} DR`;
 
     return (
       
@@ -198,7 +199,7 @@ formatDate = date => {
                             <div class="col-sm-6">
                                   <div class="form-group float-right">
                                     <label>Opening Balance :</label>
-                                    <label>{Math.round(parseInt(ob))||0}</label>
+                                    <label>{ob}</label>
                                   </div>
                               </div>                           
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadVoucherList(this.formatDate(this.state.dateFrom),this.formatDate(this.state.dateTo),this.state.id_ledger,this.state.activePage)}>
@@ -225,7 +226,7 @@ formatDate = date => {
                         <th></th>
                         <th align="right">{Math.round(parseInt(this.state.paymentTotal))||0}</th>
                         <th align="right">{Math.round(parseInt(this.state.receiptTotal))||0}</th>
-                        <th align="right" >{Math.round(parseInt(cb))}</th>
+                        <th align="right" >{cb}</th>
                       </tfoot>
                     </table>
                   </div>

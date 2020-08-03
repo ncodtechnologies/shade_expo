@@ -104,7 +104,7 @@ class LedgerGroup extends Component {
                               <div class="col-sm-4">
                                   <div class="form-group">
                                   <label>Group</label>
-                                    <select class="form-control" onChange={this.onLedgerGroupChange} value={this.state.ledgerGroup}>
+                                    <select class="form-control" onChange={(e)=>this.onLedgerGroupChange(e)} value={this.state.ledgerGroup}>
                                     <option value=''>All</option>
                                       {this.state.arrLedgerGroup.map((types) =>
                                         <option value={types.id_ledger_group}>{types.name}</option>)}

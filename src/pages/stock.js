@@ -77,6 +77,7 @@ class Stock extends Component {
       />);
 
     const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.rate*b.stock), 0);
+    const stockTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.stock), 0);
 
     return (
       
@@ -131,7 +132,7 @@ class Stock extends Component {
                       </tbody>
                       <tfoot>
                         <th>Total</th>
-                        <th></th>
+                        <th align="right" >{stockTotal}</th>
                         <th></th>
                         <th align="right" >{grandTotal}</th>
                       </tfoot>
@@ -158,8 +159,8 @@ class TableRow extends React.Component {
 
     return (
       <tr>
-        <td>{arrVoucher.product} {arrVoucher.unit}</td>
-        <td>{arrVoucher.stock}</td>
+        <td>{arrVoucher.product}</td>
+        <td>{arrVoucher.stock} {arrVoucher.unit}</td>
         <td>{arrVoucher.rate}</td>
         <td>{arrVoucher.rate*arrVoucher.stock}</td>
       </tr>

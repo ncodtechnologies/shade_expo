@@ -20,7 +20,9 @@ class CashBook extends Component {
       totalCountCredit:'',
       arrLedger: [],
       arrCreditVouchers: [],
-      arrDebitVouchers: []
+      arrDebitVouchers: [],
+      totalDebit: 0,
+      totalCredit: 0,
     }
 
     this.onLedgerChange = this.onLedgerChange.bind(this);
@@ -47,7 +49,9 @@ class CashBook extends Component {
       .then(response => response.json())
       .then(data => {
           this.setState({
-            arrCreditVouchers: data || []
+            arrCreditVouchers: data.items || [],
+            totalCountCredit:data.totalCountCredit,
+            totalCredit: data.totalCredit,
           })
       }
       );
@@ -59,7 +63,8 @@ class CashBook extends Component {
       .then(data => {
           this.setState({
             arrDebitVouchers: data.items || [],
-            totalCountDebit:data.totalCountDebit
+            totalCountDebit:data.totalCountDebit,
+            totalDebit: data.totalDebit,
           })
         }
       );
@@ -163,8 +168,8 @@ class CashBook extends Component {
         arrVoucher={arrVoucher}
       />);
 
-    const creditTotal = this.state.arrCreditVouchers.reduce((a, b) => +a + +(b.credit), 0);
-    const debitTotal = this.state.arrDebitVouchers.reduce((a, b) => +a + +(b.debit), 0);
+    const creditTotal = this.state.totalCredit;
+    const debitTotal = this.state.totalDebit;
     const balance     = this.state.op + debitTotal - creditTotal;
     return (
 
@@ -300,8 +305,9 @@ class CashBook extends Component {
                       <table class="table">
                         <thead>
                           <tr>
-                            <th style={{ width: '40%' }}>Name</th>
-                            <th style={{ width: '35%' }}>Particulars</th>
+                            <th style={{ width: '15%' }}>Date</th>
+                            <th style={{ width: '30%' }}>Name</th>
+                            <th style={{ width: '30%' }}>Particulars</th>
                             <th style={{ width: '25%' }}>Debit</th>
                           </tr>
                         </thead>
@@ -310,6 +316,7 @@ class CashBook extends Component {
                         </tbody>
                         <tfoot>
                           <th>Total</th>
+                          <th></th>
                           <th></th>
                           <th align="right" >{debitTotal}</th>
                         </tfoot>
@@ -323,8 +330,9 @@ class CashBook extends Component {
                           <table class="table">
                             <thead>
                               <tr>
-                                <th style={{ width: '40%' }}>Name</th>
-                                <th style={{ width: '35%' }}>Particulars</th>
+                                <th style={{ width: '15%' }}>Date</th>
+                                <th style={{ width: '30%' }}>Name</th>
+                                <th style={{ width: '30%' }}>Particulars</th>
                                 <th style={{ width: '25%' }}>Credit</th>
                               </tr>
                             </thead>
@@ -333,6 +341,7 @@ class CashBook extends Component {
                             </tbody>
                             <tfoot>
                               <th>Total</th>
+                              <th></th>
                               <th></th>
                               <th align="right" >{creditTotal}</th>
                             </tfoot>
@@ -373,6 +382,7 @@ class TableDebitRows extends React.Component {
 
     return (
       <tr>
+        <td>{arrVoucher.date}</td>
         <td>{arrVoucher.name}</td>
         <td>{arrVoucher.narration}</td>
         <td>{arrVoucher.debit}</td>
@@ -393,6 +403,7 @@ class TableCreditRow extends React.Component {
 
     return (
       <tr>
+        <td>{arrCredit.date}</td>
         <td>{arrCredit.name}</td>
         <td>{arrCredit.narration}</td>
         <td>{arrCredit.credit}</td>

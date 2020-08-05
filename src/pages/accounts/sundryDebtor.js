@@ -13,12 +13,17 @@ class SundryDebtor extends Component {
       arrGroup: [],
       arrVouchers: [],
       rates: [],
+      date: new Date()
     }
     
     this.onLedgerChange = this.onLedgerChange.bind(this);
     this.changeRate = this.changeRate.bind(this);
   }
   
+  onDateChange = date => {
+    this.setState({ date })
+  }
+
   componentDidMount() {
     const id_ledger_group=this.state.id_ledger_group;
     this.loadSundryCreditors(id_ledger_group);
@@ -42,7 +47,8 @@ class SundryDebtor extends Component {
   }
  
   loadSundryCreditors = (id_ledger_group) => {
-    fetch(URL_SUNDRY_DEBTOR  + `/${id_ledger_group}` )
+    const date = this.formatDate(this.state.date);
+    fetch(URL_SUNDRY_DEBTOR  + `/${id_ledger_group}/'${date}'` )
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -52,6 +58,20 @@ class SundryDebtor extends Component {
       );
   } 
 
+
+  formatDate = date => {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
   delRow = (rowIndex) => {
     let _arrVouchers = this.state.arrVouchers;
     _arrVouchers.splice(rowIndex, 1);
@@ -114,7 +134,18 @@ class SundryDebtor extends Component {
                                         <option value={group.id_ledger_group}>{group.name}</option>)}
                                     </select>
                                   </div>
-                              </div>                           
+                              </div>   
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>Date</label>
+                                    <DatePicker
+                                      className={"form-control"}
+                                      onChange={this.onDateChange}
+                                      value={this.state.date}
+                                      format={"dd/MM/yyyy"}
+                                    />
+                                  </div>
+                                </div>                         
                                 <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadSundryCreditors(this.state.id_ledger_group)}>
                                    Search
                                 </button>

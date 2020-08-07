@@ -3,6 +3,8 @@ import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_LEDGER_DT ,URL_LEDGER_REPORT_DT,URL_LEDGER_REPORT_OP} from '../constants';
 import Pagination from "react-js-pagination";
+import Voucher from './voucher'
+import { Link } from 'react-router-dom'
 
 class LedgerReport extends Component {
   constructor(props) {
@@ -273,7 +275,7 @@ class TableRow extends React.Component {
 
   render() {
     let arrVoucher = this.props.arrVoucher;
-
+    const date = arrVoucher.date.split("/").reverse().join("-");
     return (
       <tr>
         <td>{arrVoucher.date}</td>
@@ -281,7 +283,11 @@ class TableRow extends React.Component {
         <td >{arrVoucher.narration}</td>
         <td >{Math.round(parseInt(arrVoucher.payment))||0}</td>
         <td >{Math.round(parseInt(arrVoucher.receipt))||0}</td>
-        <td ></td>
+        <td align="right" >
+          {arrVoucher.vchr_type == "1" && 
+            <Link to={`./voucher/${date}/${arrVoucher.type}`} render={(props) => <Voucher />} ><i class="fas fa-edit"></i> </Link> 
+          }
+        </td>
       </tr>
     );
   }

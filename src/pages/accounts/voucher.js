@@ -39,17 +39,28 @@ class Expense extends Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.validator = new SimpleReactValidator();
   }
-
   
   componentDidMount() {
-    const date_ = this.formatDate(this.state.date);
-    const type_ = this.state.type;
+    let date = this.props.match.params.date;
+    let type = this.props.match.params.type;
+
+    if(date)
+      this.setState({
+        date: new Date(date),
+        type
+      })
+    else
+    {
+      date = this.formatDate(this.state.date);
+      type = this.state.type;
+    }
+    
     this.loadAccountHead();
-    this.loadVoucherList(date_,type_);
+    this.loadVoucherList(date,type);
   }
 
   loadAccountHead(){
-    
+
     var id_ledger_group_from = LEDGER_GROUPS.ACCOUNT;
     var id_ledger_group_to = -1 * LEDGER_GROUPS.ACCOUNT;
 

@@ -8,6 +8,7 @@ import Payroll from '../pages/payroll';
 import Ledger from '../pages/accounts/ledger';
 import Voucher from '../pages/accounts/voucher';
 import LedgerReport from '../pages/accounts/ledgerReport';
+import LedgerReportPdf from '../pages/accounts/ledgerReportPdf';
 import LedgerCreate from '../pages/accounts/ledgerCreate';
 import LedgerGroup from '../pages/accounts/ledgerGroup';
 import CashBook from '../pages/accounts/cashBook';
@@ -36,9 +37,10 @@ export default function Routes() {
       <Route path="/invoiceList" component={InvoiceList} />
       <Route path="/roughInvoiceList" component={RoughInvoiceList} />
       <Route path="/" exact component={InvoiceList} />
-      <Route path="/voucher" exact component={Voucher} />
+      <Route path="/voucher/:date?/:type?" exact component={Voucher} />
       <Route path="/payroll" exact component={Payroll} />
       <Route path="/ledgerReport" exact component={LedgerReport} />
+      <Route path="/ledgerReportPdf/:id_account_head/:from_date/:to_date" exact component={LedgerReportPdf} />
       <Route path="/ledger" exact component={Ledger} />
       <Route path="/ledgerCreate/:id_ledger" exact component={LedgerCreate} />
       <Route path="/ledgerGroup" exact component={LedgerGroup} />

@@ -252,6 +252,9 @@ formatDate = date => {
                           linkClassLast="page-link"
                           onChange={this.handlePageChange.bind(this)}
                         /> 
+                        <button onClick={()=> {window.open(`./#/ledgerReportPdf/${this.state.id_ledger}/${this.formatDate(this.state.dateFrom)}/${this.formatDate(this.state.dateTo)}/`, '_blank')}} type="submit" class="btn btn-primary">
+                          Print
+                        </button>
                   </div>
 
 

@@ -7,7 +7,16 @@ import Documents from './documents'
 import Packing from './packing'
 import FrightExp from './frightExp'
 import SimpleReactValidator from 'simple-react-validator';
-import { URL_INVOICE_SAVE,URL_INVOICE_DT ,URL_PRODUCT_DT, URL_LEDGER_EDIT_DT, URL_LEDGER_DT, LEDGER_GROUPS, URL_ROUGH_INVOICE_DT} from '../constants';
+import { 
+  URL_INVOICE_SAVE,
+  URL_INVOICE_DT,
+  URL_PRODUCT_DT, 
+  URL_LEDGER_EDIT_DT, 
+  URL_LEDGER_DT, 
+  LEDGER_GROUPS, 
+  URL_ROUGH_INVOICE_DT,
+  URL_LEDGER_REPORT_OP
+} from '../constants';
 import { Redirect } from 'react-router-dom'
 import { PdfInvoice } from '../pdf/invoice';
 import { PDFViewer } from '@react-pdf/renderer';
@@ -56,6 +65,7 @@ class Invoice extends Component {
       narration:'',
       arrProducts:[],
       invItems: [],
+      op_bal : 0,
       places: [
         { Id_place: 0, Place: '--Select--' },
         { Id_place: 1, Place: 'INDIA' },
@@ -102,6 +112,19 @@ class Invoice extends Component {
 
     if(id_invoice!=0)
       this.loadInvoiceDt(id_invoice);
+  }
+
+  loadOpeningBal() {
+    const date = this.formatDate(this.state.date);
+    const id_consignee = this.state.consignee;
+    fetch(`${URL_LEDGER_REPORT_OP}/'${date}'/'${date}'/${id_consignee}`)
+    .then(response => response.json())
+    .then(data => { 
+      if(data.length > 0)
+        this.setState({  
+          op_bal : -1*data[0].opening_bal,
+        })
+    });
   }
 
   loadRoughInvoice(id) {
@@ -195,6 +218,7 @@ class Invoice extends Component {
                 invItems          : data[0].items || []
               }, () => {
                 this.props.setInvoiceNo(this.state.invoice_no);
+                this.loadOpeningBal();
             });
             }
     );

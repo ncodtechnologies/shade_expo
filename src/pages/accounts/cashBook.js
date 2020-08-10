@@ -308,7 +308,7 @@ class CashBook extends Component {
                             <th style={{ width: '15%' }}>Date</th>
                             <th style={{ width: '30%' }}>Name</th>
                             <th style={{ width: '30%' }}>Particulars</th>
-                            <th style={{ width: '25%' }}>Debit</th>
+                            <th style={{ width: '25%' }}>Receipt</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -333,7 +333,7 @@ class CashBook extends Component {
                                 <th style={{ width: '15%' }}>Date</th>
                                 <th style={{ width: '30%' }}>Name</th>
                                 <th style={{ width: '30%' }}>Particulars</th>
-                                <th style={{ width: '25%' }}>Credit</th>
+                                <th style={{ width: '25%' }}>Payment</th>
                               </tr>
                             </thead>
                             <tbody>

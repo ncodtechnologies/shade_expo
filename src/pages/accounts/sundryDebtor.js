@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import { URL_LEDGER_GROUP_DT ,URL_SUNDRY_DEBTOR} from '../constants';
+import { PdfSundryDr } from '../pdf/sundryDebtor';
+import { PDFViewer } from '@react-pdf/renderer';
 
 class SundryDebtor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showPdf: false,
       data:null,
       id_ledger_group:'0',
       ledger: '',
@@ -172,9 +175,41 @@ class SundryDebtor extends Component {
                       </tfoot>
                     </table>
                   </div>
+
+                  <div class="card-footer">
+                        <button onClick={()=>this.setState({ showPdf:true }) } type="submit" class="btn btn-primary float-right">
+                          Print
+                        </button>
+                  </div>
+
                 </div>
               </div>
             </div>
+
+
+            {this.state.showPdf && 
+              <div class="row">
+                <div class="col-lg-12">
+                <div class="card card-info">
+                        <div class="card-header">
+                          <h3 class="card-title">Pdf Viewer</h3>
+                          <div class="card-tools">
+                            <button type="button" onClick={()=>this.setState({showPdf: false})} class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                    </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <PDFViewer style={{width:"100%", height: 500}} >
+                        <PdfSundryDr arrVouchers={this.state.arrVouchers} date={this.formatDate(this.state.date)} />
+                      </PDFViewer>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              }
+
           </div>
         </div>
       </div>

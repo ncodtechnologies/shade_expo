@@ -5,10 +5,14 @@ import SimpleReactValidator from 'simple-react-validator';
 import { URL_STOCK_REPORT } from './constants';
 import { URL_PRODUCT_DT } from './constants';
 
+import { PdfStock } from './pdf/stockReport';
+import { PDFViewer } from '@react-pdf/renderer';
+
 class Stock extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showPdf: false,
       data:null,
       id_product:'',
       type:'',
@@ -138,9 +142,39 @@ class Stock extends Component {
                       </tfoot>
                     </table>
                   </div>
+
+                  <div class="card-footer">
+                        <button onClick={()=>this.setState({ showPdf:true }) } type="submit" class="btn btn-primary float-right">
+                          Print
+                        </button>
+                  </div>
                 </div>
               </div>
             </div>
+
+
+            {this.state.showPdf && 
+              <div class="row">
+                <div class="col-lg-12">
+                <div class="card card-info">
+                        <div class="card-header">
+                          <h3 class="card-title">Pdf Viewer</h3>
+                          <div class="card-tools">
+                            <button type="button" onClick={()=>this.setState({showPdf: false})} class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                            </button>
+                          </div>
+                    </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <PDFViewer style={{width:"100%", height: 500}} >
+                        <PdfStock arrVouchers={this.state.arrVouchers} />
+                      </PDFViewer>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              }
 
           </div>
         </div>

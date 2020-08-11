@@ -355,6 +355,11 @@ class CashBook extends Component {
                         <div class="card card-info">
                           <div class="card-footer">
                             <label>Balance : {balance}</label>
+                            <button 
+                                onClick={()=> {window.open(`./#/cashBookPdf/${this.state.id_ledger}/${this.formatDate(this.state.dateFrom)}/${this.formatDate(this.state.dateTo)}/`, '_blank')}} 
+                                type="submit" class="btn btn-primary float-right">
+                              Print
+                            </button>
                           </div>
                         </div>
                       </div>

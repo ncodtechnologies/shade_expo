@@ -12,6 +12,7 @@ import LedgerReportPdf from '../pages/accounts/ledgerReportPdf';
 import LedgerCreate from '../pages/accounts/ledgerCreate';
 import LedgerGroup from '../pages/accounts/ledgerGroup';
 import CashBook from '../pages/accounts/cashBook';
+import CashBookPdf from '../pages/accounts/cashBookPdf';
 import SundryCreditor from '../pages/accounts/sundryCreditor';
 import SundryDebtor from '../pages/accounts/sundryDebtor';
 import Product from '../pages/product';
@@ -45,6 +46,7 @@ export default function Routes() {
       <Route path="/ledgerCreate/:id_ledger" exact component={LedgerCreate} />
       <Route path="/ledgerGroup" exact component={LedgerGroup} />
       <Route path="/cashBook" exact component={CashBook} />
+      <Route path="/cashBookPdf/:id_account_head/:from_date/:to_date" exact component={CashBookPdf} />
       <Route path="/product" exact component={Product} />
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />

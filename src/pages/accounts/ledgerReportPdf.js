@@ -121,28 +121,32 @@ class LedgerReportPdf extends Component {
 
               <View style={styles.tableRow}>
                 <Text style={[styles.col1, styles.bold]} >DATE</Text>
-                <Text style={[styles.col2, styles.bold]} >NARRATION</Text>
-                <Text style={[styles.col3, styles.bold]} >DEBIT</Text>
-                <Text style={[styles.col4, styles.bold]} >CREDIT</Text>
+                <Text style={[styles.col2, styles.bold]} >TYPE</Text>
+                <Text style={[styles.col3, styles.bold]} >NARRATION</Text>
+                <Text style={[styles.col4, styles.bold]} >DEBIT</Text>
+                <Text style={[styles.col5, styles.bold]} >CREDIT</Text>
               </View>
               <View style={styles.tableRow}>
                 <Text style={styles.col1} ></Text>
-                <Text style={styles.col2} >Opening Balance</Text>
-                <Text style={styles.col3} >{ob < 0 && -1*ob}</Text>
-                <Text style={styles.col4} >{ob > 0 && ob}</Text>
+                <Text style={styles.col2} ></Text>
+                <Text style={styles.col3} >Opening Balance</Text>
+                <Text style={styles.col4} >{ob < 0 && -1*ob}</Text>
+                <Text style={styles.col5} >{ob > 0 && ob}</Text>
               </View>
               {tableRows}
               <View style={styles.tableRow}>
                 <Text style={styles.col1} ></Text>
-                <Text style={[styles.col2,styles.bold]} >Total</Text>
-                <Text style={[styles.col3,styles.bold]} >{paymentTotal}</Text>
-                <Text style={[styles.col4,styles.bold]} >{receiptTotal}</Text>
+                <Text style={[styles.col2,styles.bold]} ></Text>
+                <Text style={[styles.col3,styles.bold]} >Total</Text>
+                <Text style={[styles.col4,styles.bold]} >{paymentTotal}</Text>
+                <Text style={[styles.col5,styles.bold]} >{receiptTotal}</Text>
               </View>
               <View style={styles.tableRow}>
                 <Text style={styles.col1} ></Text>
-                <Text style={[styles.col2,styles.bold]} >Closing Balance</Text>
-                <Text style={[styles.col3,styles.bold]} >{cb > 0 && cb + " DR"}</Text>
-                <Text style={[styles.col4,styles.bold]} >{cb < 0 && (-1*cb) + " CR"}</Text>
+                <Text style={[styles.col2,styles.bold]} ></Text>
+                <Text style={[styles.col3,styles.bold]} >Closing Balance</Text>
+                <Text style={[styles.col4,styles.bold]} >{cb > 0 && cb + " DR"}</Text>
+                <Text style={[styles.col5,styles.bold]} >{cb < 0 && (-1*cb) + " CR"}</Text>
               </View>
             </View>
           </Page>
@@ -164,9 +168,10 @@ class TableRow extends React.Component {
     return (
       <View style={styles.tableRow}>
         <Text style={styles.col1} >{arrVoucher.date}</Text>
-        <Text style={styles.col2} >{arrVoucher.narration}</Text>
-        <Text style={styles.col3} >{Math.round(parseInt(arrVoucher.payment))||0}</Text>
-        <Text style={styles.col4} >{Math.round(parseInt(arrVoucher.receipt))||0}</Text>
+        <Text style={styles.col2} >{arrVoucher.type}</Text>
+        <Text style={styles.col3} >{arrVoucher.narration}</Text>
+        <Text style={styles.col4} >{Math.round(parseInt(arrVoucher.payment))||0}</Text>
+        <Text style={styles.col5} >{Math.round(parseInt(arrVoucher.receipt))||0}</Text>
       </View>
     );
   }
@@ -182,19 +187,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   col1: {
-    width: "20%",
+    width: "15%",
     fontSize:10,
   },
   col2: {
-    width: "50%",
+    width: "10%",
     fontSize:10,
   },
   col3: {
-    width: "15%",
+    width: "45%",
     fontSize:10,
-    textAlign: "right",
   },
   col4: {
+    width: "15%",
+    textAlign: "right",
+    fontSize:10,
+  },
+  col5: {
     width: "15%",
     textAlign: "right",
     fontSize:10,

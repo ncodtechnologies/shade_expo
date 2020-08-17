@@ -70,6 +70,7 @@ export const PdfPackingList = (props) => (
           props.packItems.map((packItem, index) =>
             <TableRow 
               {...packItem}
+              _pack_no = {(index>0) ? props.packItems[index].pack_no == props.packItems[index-1].pack_no : false}
             />
           )
           }
@@ -82,7 +83,7 @@ export const PdfPackingList = (props) => (
   const TableRow = (props) => { 
       return (
         <View style={styles.tableData}>
-                <Text style={[styles.col1,props.bold && styles.bold, props.head && styles.tableHeader]} >{props.pack_no}</Text>
+                <Text style={[styles.col1,props.bold && styles.bold, props.head && styles.tableHeader]} >{!props._pack_no ? props.pack_no : "-"}</Text>
                 <Text style={[styles.col2,props.bold && styles.bold, props.head && styles.tableHeader]} >{props.name}</Text>
                 <Text style={[styles.col3,props.bold && styles.bold, props.head && styles.tableHeader]} >{props.kg}</Text> 
        </View>

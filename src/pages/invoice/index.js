@@ -79,10 +79,10 @@ class Invoice extends Component {
         { Id_place: 3, Place: 'KERALA' },
       ],
       statusTypes: [
-        { status: 'Waiting Approval' },
-        { status: 'Packing' },
-        { status: 'Shipped' },
-        { status: 'Cancelled' },
+         'Waiting Approval',
+         'Packing',
+         'Shipped',
+         'Cancelled' 
       ],
       airports:[
         { Id_Port: 0, Port: '--Select--' },
@@ -270,7 +270,7 @@ class Invoice extends Component {
                   items             : this.state.invItems,
                   id_invoice        : this.props.id_invoice,
                   conversion_rate   : this.state.conversion_rate,
-                  status            : this.state.status,
+                  status            : this.state.status || this.state.statusTypes[0],
                   discount          : this.state.discount,
                   narration         : this.state.narration,
                 })
@@ -757,8 +757,8 @@ class Invoice extends Component {
                     <label>Status</label>
                     <select class="form-control" onChange={e => this.handleChangeStatus(e)} value={this.state.status}>
                       {this.state.statusTypes.map(column => (
-                        <option value={column.status}>
-                          {column.status}
+                        <option value={column}>
+                          {column}
                         </option>
                       ))}
                     </select>
@@ -842,7 +842,7 @@ class TableRow extends Component {
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
         <td><input type="text" class="form-control" value={invItem.box} onChange={(e) => this.handleChangeBox(e)} /></td>
-        <td align="right" >{Math.round(total*10)/10}</td>
+        <td align="right" >{Math.round(total*100)/100}</td>
         <td>
           <button type="button" onClick={this.delRow} class="btn btn-block btn-outline-danger btn-flat"><i class="fas fa-trash"></i></button>
         </td>

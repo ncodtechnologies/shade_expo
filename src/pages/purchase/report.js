@@ -68,6 +68,7 @@ formatDate = date => {
       />);
 
     const grandTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.amount), 0);
+    const qtyTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.quantity), 0);
 
     return (
       
@@ -146,7 +147,7 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th></th>
+                        <th align="right" >{qtyTotal}</th>
                         <th align="right" >{grandTotal}</th>
                         <th></th>
                       </tfoot>

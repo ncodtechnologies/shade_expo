@@ -63,6 +63,7 @@ class Invoice extends Component {
       status:'Waiting Approval',
       discount: '',
       narration:'',
+      freight_code: '',
       arrProducts:[],
       invItems: [],
       op_bal : 0,
@@ -215,6 +216,7 @@ class Invoice extends Component {
                 status            : data[0].status ,
                 discount          : data[0].discount,
                 narration         : data[0].narration,
+                freight_code      : data[0].freight_code,
                 invItems          : data[0].items || []
               }, () => {
                 this.props.setInvoiceNo(this.state.invoice_no);
@@ -273,6 +275,7 @@ class Invoice extends Component {
                   status            : this.state.status || this.state.statusTypes[0],
                   discount          : this.state.discount,
                   narration         : this.state.narration,
+                  freight_code      : this.state.freight_code,
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
@@ -400,6 +403,9 @@ class Invoice extends Component {
   }
   handleChangeNarration (e){
     this.setState({ narration:e.target.value})
+  }
+  handleChangeFreightCode (e){
+    this.setState({ freight_code:e.target.value})
   }
   //table onChangeFunctions
 
@@ -767,6 +773,10 @@ class Invoice extends Component {
                   <div class="col-md-4">
                     <label>Conversion Rate</label>
                     <input type="text" onChange={e => this.handleChangeConversionRate(e)} value={this.state.conversion_rate} class="form-control" />    
+                  </div>
+                  <div class="col-md-4">
+                    <label>Frieght Code</label>
+                    <input type="text" onChange={e => this.handleChangeFreightCode(e)} value={this.state.freight_code} class="form-control" />    
                   </div>
                 </div>
               </div>

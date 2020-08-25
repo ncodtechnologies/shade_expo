@@ -140,10 +140,13 @@ class NetReport extends Component {
                       </tr>
                       <tr>
                         <th>Total</th>
-                        <td align="right" >{Math.round(parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0))}</td>
+                        <td align="right" >{Math.round((parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0))*100)/100}</td>
                       </tr>
                     </tbody></table>
                   </div>
+                </div>
+                <div class="row" style={{fontWeight: "bold", alignItems: "center", textAlign: "center", borderWidth: 1, margin: "auto", textDecorationLine: "underline"}} >
+                  Net amount: {Math.round((this.state.sales_total*this.state.conversion_rate) - (parseInt(this.state.freight || 0)  + parseInt(this.state.packing || 0) + parseInt(this.state.other_exp || 0) + parseInt(this.state.purchase || 0)))}
                 </div>
           </div>
         </div>

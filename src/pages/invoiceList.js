@@ -104,11 +104,11 @@ class App extends Component {
                       <table class="table">
                         <thead>
                           <tr>
-                            <th style={{ width: '10%' }}>Inv. No</th>
-                            <th style={{ width: '25%' }}>Date</th>
-                            <th style={{ width: '25%' }}>Consignee</th>
-                            <th style={{ width: '20%' }}>Status</th>
-                            <th style={{ width: '15%' }}></th>
+                            <th style={{ width: '20%' }}>Inv. No</th>
+                            <th style={{ width: '15%' }}>Date</th>
+                            <th style={{ width: '30%' }}>Consignee</th>
+                            <th style={{ width: '15%' }}>Status</th>
+                            <th style={{ width: '5%' }}></th>
                           </tr>
                         </thead>
                         <tbody>

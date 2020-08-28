@@ -240,11 +240,10 @@ const styles = StyleSheet.create({
   },   
   container3: {
     flexDirection: 'row',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
   },
   section: {    
-    margin: 10,
-    padding: 10,
+    marginTop: 10,
     paddingHorizontal:10,
     width:'50%',
   },

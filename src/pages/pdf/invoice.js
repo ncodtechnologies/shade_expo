@@ -187,11 +187,11 @@ export const PdfInvoice = (props) => (
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>OLD BALANCE </Text>
-                  <Text style={styles.rightBottom}>$ {Math.round(props.op_bal)}</Text>
+                  <Text style={styles.rightBottom}>$ {Math.round(props.op_bal*100)/100}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.leftBalance}>BALANCE</Text>
-                  <Text style={styles.rightBalance}>$ {Math.round(props.op_bal) + Math.round(grandTotal(props.invItems)*10)/10-props.discount}</Text>
+                  <Text style={styles.rightBalance}>$ {Math.round(((Math.round(props.op_bal*100)/100) + Math.round(grandTotal(props.invItems)*10)/10-props.discount)*100)/100}</Text>
               </View>
            </View>
             

@@ -179,7 +179,7 @@ class Expense extends Component {
                                       {this.state.arrLedgerGroup.map((types) =>
                                         <option value={types.id_ledger_group}>{types.name}</option>)}
                                     </select> 
-                                    {this.validator.message('id', this.state.id, 'required|alpha_num_space')}
+                                    {this.validator.message('ledger group', this.state.id, 'required|alpha_num_space')}
  
                                   </div>
                               </div>
@@ -202,7 +202,6 @@ class Expense extends Component {
                               </div>
                               <div class="col-sm-2">
                                   <div class="form-group">
-                                  <label>&nbsp;</label> 
                                   <select class="form-control" onChange={this.onCrdrChange} value={this.state.crdr}>
                                   {this.state.types.map(column => (
                                     <option value={column.Type}>

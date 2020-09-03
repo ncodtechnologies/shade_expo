@@ -75,9 +75,10 @@ class CashBook extends Component {
       .then(response => response.json())
       .then(data => {
           this.setState({
-            op: data ? data[0].balance : 0
+            op: data[0].balance ? data[0].balance : 0
           })
       }
+
       );
       
   }
@@ -103,7 +104,6 @@ class CashBook extends Component {
         const _dateTo = this.formatDate(this.state.dateTo);
       }
     );
-
   }
 
   onDateToChange = dateTo => {
@@ -168,8 +168,8 @@ class CashBook extends Component {
         arrVoucher={arrVoucher}
       />);
 
-    const creditTotal = this.state.totalCredit;
-    const debitTotal = this.state.totalDebit;
+    const creditTotal = this.state.arrCreditVouchers.reduce((a, b) => +a + +(b.credit), 0);
+    const debitTotal = this.state.arrDebitVouchers.reduce((a, b) => +a + +(b.debit), 0);
     const balance     = this.state.op + debitTotal - creditTotal;
     return (
 

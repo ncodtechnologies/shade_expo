@@ -62,10 +62,12 @@ class Expense extends Component {
 
   loadVoucherList = (date_) => {
     fetch(URL_PAYROLL_DT + `/'${date_}'` )
-    .then(response => response.json())
+    .then(response => response.json())   
     .then(data => {
-      if(data.length>0)
       this.setState({
+        id_ledger:'',
+        type:'',
+        amount:'',
         arrVouchers: data ,
         })
         }
@@ -89,6 +91,7 @@ class Expense extends Component {
       .then(response => response.json());
       const date_=this.formatDate(this.state.date);
       this.loadVoucherList(date_);
+      this.setState({amount:''});
     } 
     else
      {
@@ -193,16 +196,18 @@ formatDate = date => {
                                       {this.state.arrLedger.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
-                                    {this.validator.message('id_ledger', this.state.id_ledger, 'required|numeric')}
+                                    {this.validator.message('name', this.state.id_ledger, 'required|numeric')}
                                   </div>
                               </div>
                               <div class="col-sm-4">
                                   <div class="form-group">
                                     <label>Type</label>
                                     <select class="form-control" onChange={this.onTypeChange} value={this.state.type}>
+                                    <option>--Select--</option>
                                       {this.state.arrType.map((types) =>
                                         <option value={types.type}>{types.type}</option>)}
                                     </select>
+                                    
                                   </div>
                               </div>
                               <div class="col-sm-4">
@@ -221,10 +226,10 @@ formatDate = date => {
                           </th>
                         </tr>
                         <tr>
-                          <th style={{ width: '40%' }}>Name</th>
+                          <th style={{ width: '45%' }}>Name</th>
                           <th style={{ width: '30%' }}>Type</th>
                           <th style={{ width: '30%' }}>Amount</th>
-                          <th>hi</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>

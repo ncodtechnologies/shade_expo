@@ -216,7 +216,7 @@ formatDate = date => {
                                     ))}
                                   </select>
                                   {this.validator.message(
-                                    "id_ledger_to",
+                                    "ledger",
                                     this.state.id_ledger_to,
                                     "required|numeric"
                                   )}

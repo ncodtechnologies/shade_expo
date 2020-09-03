@@ -27,8 +27,8 @@ import UserCreate from '../pages/userCreate';
 import { createBrowserHistory } from "history";
 
 export default function Routes() {
-  const session = localStorage.getItem('ShadeUser') || ''
-  
+  //const session = localStorage.getItem('ShadeUser') || ''
+  const session='abcd';
   const history = createBrowserHistory();
   
   return session != '' ? (

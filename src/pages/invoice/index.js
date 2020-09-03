@@ -15,7 +15,8 @@ import {
   URL_LEDGER_DT, 
   LEDGER_GROUPS, 
   URL_ROUGH_INVOICE_DT,
-  URL_LEDGER_REPORT_OP
+  URL_LEDGER_REPORT_OP,
+  URL_INVOICE_SEARCH_LIST
 } from '../constants';
 import { Redirect } from 'react-router-dom'
 import { PdfInvoice } from '../pdf/invoice';
@@ -25,7 +26,6 @@ class Invoice extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       showPdf: false,
       arrInv:[],
@@ -44,7 +44,7 @@ class Invoice extends Component {
       consignee: "",
       consignee_name: "",
       consigner_address: this.props.data && this.props.data.consigner_address,
-      consignee_address:'',
+      consignee_address:"",
       other:'',
       buyer:'',
       country_origin:'',
@@ -118,6 +118,7 @@ class Invoice extends Component {
   loadOpeningBal() {
     const date = this.formatDate(this.state.date);
     const id_consignee = this.state.consignee;
+    if(id_consignee=='') return;
     fetch(`${URL_LEDGER_REPORT_OP}/'${date}'/'${date}'/${id_consignee}`)
     .then(response => response.json())
     .then(data => { 
@@ -653,8 +654,8 @@ class Invoice extends Component {
                             <label>Port of discharge</label>
                             <select class="form-control" onChange={e => this.handleChangePortDischarge(e)} value={this.state.port_discharge}>
                               {this.state.dischargePlaces.map(column => (
-                                <option value={column.Id_port}>
-                                  {column.Port}
+                                <option value={column.Id_place}>
+                                  {column.Place}
                                 </option>
                               ))}
                             </select>

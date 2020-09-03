@@ -282,7 +282,7 @@ delVoucher = (id_account_voucher) => {
                                       {this.state.arrLedgerFrom.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
-                                    {this.validator.message('id_ledger_from', this.state.id_ledger_from, 'required|numeric')}
+                                    {this.validator.message('from', this.state.id_ledger_from, 'required|numeric')}
                                   </div>
                               </div>
                               <div class="col-sm-6">
@@ -293,7 +293,7 @@ delVoucher = (id_account_voucher) => {
                                       {this.state.arrLedgerTo.map((ledger) =>
                                         <option value={ledger.id_account_head}>{ledger.account_head}</option>)}
                                     </select>
-                                    {this.validator.message('id_ledger_to', this.state.id_ledger_to, 'required|numeric')}
+                                    {this.validator.message('to', this.state.id_ledger_to, 'required|numeric')}
                                   </div>
                               </div>
                             </div>

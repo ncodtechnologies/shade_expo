@@ -86,23 +86,28 @@ class App extends Component {
   }
   
   onFilter() {
-    const showFilter = this.state.activePage;
     this.setState({ 
       invoice_no:"",
-      show: !this.state.show } ,
+      show: true } ,
       () => {      
       const from        = this.state.dateFrom;
       const to          = this.state.dateTo;
       const invoice_no  = this.state.invoice_no;
-      const show        = this.state.show;
       const activePage  = this.state.activePage;
-      if(show == false)
-      this.loadInvoiceList(activePage)
-      if(show == true)
       this.loadInvoiceSearchList(this.formatDate(from), this.formatDate(to), activePage, invoice_no)        
-
-}) 
+   }) 
   }
+  
+  removeFilter() {
+    this.setState({ 
+      invoice_no:"",
+      show: false } ,
+      () => {      
+      const activePage  = this.state.activePage;
+      this.loadInvoiceList(activePage)    
+   }) 
+  }
+ 
 
   onInvoiceNoChange(event) {
     this.setState({ invoice_no: event.target.value.toUpperCase() }
@@ -161,19 +166,12 @@ class App extends Component {
           <div class="content">
             <div class="container-fluid">
               <div class="row">
-                
+              {show &&
                 <div class="col-lg-12">
                   <div class="card card-info">
-                  {show &&  <div class="card-body">
-                  <div class="card-header">
-                  <div class="card-tools">
-                        <Link to={'./invoice/0'} >
-                          <button type="submit" class="btn btn-block btn-success btn-flat">Create</button>
-                        </Link>
-                      </div> 
-                      
-                </div>
-                 
+                   <div class="card-body">
+                     <button type="button"  class="btn btn float-right" onClick={() => this.removeFilter()} data-card-widget="remove"><i class="fas fa-times"></i>
+                     </button>       
                       <div class="row" >
                         <div class="col-sm-6">
                           <div class="form-group">
@@ -221,9 +219,9 @@ class App extends Component {
                         </div>
 
                       </div>
-                    </div>}
+                    </div>
                   </div>
-                </div>
+                </div>}
               </div>
               <div class="row">
                 <div class="col-lg-12">
@@ -236,7 +234,7 @@ class App extends Component {
                         </Link>
                       </div>                     
                       <div class="card-tools">
-                        <button type="button" onClick={() =>this.onFilter()} class="btn btn-block btn-success btn-flat">
+                        <button type="button" onClick={() =>this.onFilter()} class="btn btn-block btn-success btn-flat ">
                           Filter
                         </button>
                       </div>

@@ -45,7 +45,8 @@ class App extends Component {
   }
 
   loadInvoiceSearchList(from, to, activePage, invoice_no) {
-    const no=invoice_no !='' ? invoice_no : null ;
+    const no=invoice_no !='' ? invoice_no.replace("/","_") : null ;
+
     fetch(`${URL_INVOICE_SEARCH_LIST}/${from}/${to}/${activePage}/${no}`)
       .then(response => response.json())
       .then(data => this.setState({
@@ -64,9 +65,9 @@ class App extends Component {
         const show        = this.state.show;
         const activePage  = this.state.activePage;
         if(show == false)
-        this.loadInvoiceList(activePage)
+          this.loadInvoiceList(activePage)
         if(show == true)
-        this.loadInvoiceSearchList(this.formatDate(from), this.formatDate(to), activePage, invoice_no)        
+          this.loadInvoiceSearchList(this.formatDate(from), this.formatDate(to), activePage, invoice_no)        
         
       });
   }

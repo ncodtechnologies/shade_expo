@@ -40,16 +40,13 @@ class Expense extends Component {
 
   delPayroll = (id_payroll) => {
     fetch(URL_PAYROLL_DEL + `/${id_payroll}` )
-    .then(response => response.json())
-    .then(data => {
-      if(data.length>0)
-      this.setState({
-        arrVouchers: data ,
-        })
-        }
-      );
-      const date=this.formatDate(this.state.date);
-      this.loadVoucherList(date);
+    .then(response => 
+      {
+        response.json()
+        const date=this.formatDate(this.state.date);
+        this.loadVoucherList(date);
+      })
+    
   }
 
   loadAccountHead(){    
@@ -88,9 +85,11 @@ class Expense extends Component {
               })
   };
   fetch(URL_PAYROLL_SAVE, requestOptions)
-      .then(response => response.json());
-      const date_=this.formatDate(this.state.date);
-      this.loadVoucherList(date_);
+      .then(response => {
+        response.json();
+        const date_=this.formatDate(this.state.date);
+        this.loadVoucherList(date_);
+      });
       this.setState({amount:''});
     } 
     else

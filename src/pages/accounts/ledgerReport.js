@@ -127,9 +127,9 @@ formatDate = date => {
 
     const receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
-    const _cb = parseInt((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal) || 0;
+    const _cb = Math.round(((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal)*100)/100 || 0;
     const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
-    let ob = parseInt(this.state.op) || 0;
+    let ob = Math.round(this.state.op*100)/100 || 0;
     ob = ob >= 0 ? `${ob} CR` : `${-1*ob} DR`;
 
     return (
@@ -226,8 +226,8 @@ formatDate = date => {
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th align="right">{Math.round(parseInt(this.state.paymentTotal))||0}</th>
-                        <th align="right">{Math.round(parseInt(this.state.receiptTotal))||0}</th>
+                        <th align="right">{Math.round(this.state.paymentTotal*100)/100 || 0}</th>
+                        <th align="right">{Math.round(this.state.receiptTotal*100)/100 || 0}</th>
                         <th align="right" >{cb}</th>
                       </tfoot>
                     </table>
@@ -284,8 +284,8 @@ class TableRow extends React.Component {
         <td>{arrVoucher.date}</td>
         <td>{arrVoucher.type}</td>
         <td >{arrVoucher.narration}</td>
-        <td >{Math.round(parseInt(arrVoucher.payment))||0}</td>
-        <td >{Math.round(parseInt(arrVoucher.receipt))||0}</td>
+        <td >{Math.round(arrVoucher.payment*100)/100 || 0}</td>
+        <td >{Math.round(arrVoucher.receipt*100)/100 || 0}</td>
         <td align="right" >
           {arrVoucher.vchr_type == "1" && 
             <Link to={`./voucher/${date}/${arrVoucher.type}`} render={(props) => <Voucher />} ><i class="fas fa-edit"></i> </Link> 

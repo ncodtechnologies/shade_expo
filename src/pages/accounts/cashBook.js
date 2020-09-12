@@ -168,8 +168,8 @@ class CashBook extends Component {
         arrVoucher={arrVoucher}
       />);
 
-    const creditTotal = this.state.arrCreditVouchers.reduce((a, b) => +a + +(b.credit), 0);
-    const debitTotal = this.state.arrDebitVouchers.reduce((a, b) => +a + +(b.debit), 0);
+    const creditTotal = this.state.totalCredit;
+    const debitTotal = this.state.totalDebit;
     const balance     = this.state.op + debitTotal - creditTotal;
     return (
 

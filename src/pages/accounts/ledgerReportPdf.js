@@ -85,7 +85,7 @@ class LedgerReportPdf extends Component {
     var receiptTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.receipt), 0);
     var paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
 
-    const _cb = parseInt((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal) || 0;
+    const _cb = Math.round(((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal)*100)/100 || 0;
     const cb = _cb;
     let ob = parseInt(this.state.op) || 0;
 
@@ -170,8 +170,8 @@ class TableRow extends React.Component {
         <Text style={styles.col1} >{arrVoucher.date}</Text>
         <Text style={styles.col2} >{arrVoucher.type}</Text>
         <Text style={styles.col3} >{arrVoucher.narration}</Text>
-        <Text style={styles.col4} >{Math.round(parseInt(arrVoucher.payment))||0}</Text>
-        <Text style={styles.col5} >{Math.round(parseInt(arrVoucher.receipt))||0}</Text>
+        <Text style={styles.col4} >{Math.round(arrVoucher.payment*100)/100 ||0}</Text>
+        <Text style={styles.col5} >{Math.round(arrVoucher.receipt*100)/100 ||0}</Text>
       </View>
     );
   }

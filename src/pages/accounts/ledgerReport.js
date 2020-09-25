@@ -129,6 +129,7 @@ formatDate = date => {
     const paymentTotal = this.state.arrVouchers.reduce((a, b) => +a + +(b.payment), 0);
     const _cb = Math.round(((-1*this.state.op) + this.state.paymentTotal - this.state.receiptTotal)*100)/100 || 0;
     const cb = _cb >= 0 ? `${_cb} DR` : `${-1*_cb} CR`;
+    
     let ob = Math.round(this.state.op*100)/100 || 0;
     ob = ob >= 0 ? `${ob} CR` : `${-1*ob} DR`;
 
@@ -255,9 +256,7 @@ formatDate = date => {
                         <button onClick={()=> {window.open(`./#/ledgerReportPdf/${this.state.id_ledger}/${this.formatDate(this.state.dateFrom)}/${this.formatDate(this.state.dateTo)}/`, '_blank')}} type="submit" class="btn btn-primary">
                           Print
                         </button>
-                  </div>
-
-
+                     </div>
                 </div>
               </div>
             </div>

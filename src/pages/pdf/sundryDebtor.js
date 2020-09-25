@@ -70,10 +70,13 @@ export const PdfSundryDr = (props) => (
   );
  
   const TableRow = (props) => { 
+    let arrVoucher = this.props.arrVoucher;
+    const rate = this.props.rate || 1;
+
       return (
         <View style={styles.tableData}>
                 <Text style={styles.col1} >{props.account_head}</Text>
-                <Text style={styles.col2} >{(-1)*Math.round(props.closing_balance)}</Text> 
+                <Text style={styles.col2} >{(-1)*Math.round(arrVoucher.closing_balance*rate)}</Text> 
        </View>
       )
     }

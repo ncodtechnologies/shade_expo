@@ -1,4 +1,4 @@
-const BASE_URL = "http://198.12.251.14:3000/";
+const BASE_URL = "http://localhost:3000/";
 
 export const URL_LOGIN              = `${BASE_URL}login/login`;
 export const URL_USER_SAVE          = `${BASE_URL}login/users`;
@@ -53,6 +53,8 @@ export const URL_CASHBOOK_OP        = `${BASE_URL}accounts/cashBookOp`;
 export const URL_CASHBOOK_CREDIT    = `${BASE_URL}accounts/cashBookCredit`;
 export const URL_CASHBOOK_DEBIT     = `${BASE_URL}accounts/cashBookDebit`;
 export const URL_PRODUCT_DT         = `${BASE_URL}product/product`;
+export const URL_SUPPLIER_DT        = `${BASE_URL}sales/supplier`;
+export const URL_SALES_REPORT       = `${BASE_URL}sales/salesReport`;
 export const URL_STOCK_REPORT       = `${BASE_URL}product/stockReport`;
 export const URL_PURCHASE_REPORT_DT = `${BASE_URL}purchase/purchaseReport`;
 export const URL_PURCHASE_VOUCHER_DT= `${BASE_URL}purchase/purchaseVoucher`;

@@ -18,6 +18,7 @@ import SundryDebtor from '../pages/accounts/sundryDebtor';
 import Product from '../pages/product';
 import PurchaseVoucher from '../pages/purchase/voucher';
 import PurchaseReport from '../pages/purchase/report';
+import SalesReport from '../pages/salesReport';
 import StockReport from '../pages/stock';
 import Notification from '../pages/notification';
 import NotificationCreate from '../pages/notificationCreate';
@@ -50,6 +51,7 @@ export default function Routes() {
       <Route path="/product" exact component={Product} />
       <Route path="/purchaseVoucher/:voucher_no" exact component={PurchaseVoucher} />
       <Route path="/purchaseReport" exact component={PurchaseReport} />
+      <Route path="/salesReport" exact component={SalesReport} />
       <Route path="/stockReport" exact component={StockReport} />
       <Route path="/sundryCreditor" exact component={SundryCreditor} />
       <Route path="/sundryDebtor" exact component={SundryDebtor} />   

@@ -14,6 +14,7 @@ class Expense extends Component {
       code: '',
       id:'',
       name:'',
+      title:'',
       op:'',
       crdr:'',
       address:'',
@@ -27,6 +28,7 @@ class Expense extends Component {
     }
     
     this.onNameChange = this.onNameChange.bind(this);
+    this.onTitleChange=this.onTitleChange.bind(this);
     this.onIdChange = this.onIdChange.bind(this);
     this.onOpChange = this.onOpChange.bind(this);
     this.onAddressChange = this.onAddressChange.bind(this);
@@ -38,12 +40,12 @@ class Expense extends Component {
   
   componentDidMount() {
     this.loadLedgerGroup();
-    const id_ledger=this.props.match.params.id_ledger;
-   
+    const id_ledger=this.props.match.params.id_ledger;   
     if(id_ledger!=0){
     this.loadLedger(id_ledger);
     }
   }
+
   loadLedgerGroup(){
     fetch(URL_LEDGER_GROUP_DT)
     .then(response => response.json())
@@ -59,6 +61,7 @@ class Expense extends Component {
       this.setState({
         id         : data[0].id_ledger_group , 
         name       : data[0].account_head , 
+        title      : data[0].title ,
         op         : data[0].opening_balance > 0 ? data[0].opening_balance : -1* data[0].opening_balance ,
         address    : data[0].address ,
         phone      : data[0].phone ,
@@ -76,6 +79,7 @@ class Expense extends Component {
         body: JSON.stringify({ 
                   id              : this.state.id ,
                   name            : this.state.name ,
+                  title           : this.state.title ,
                   code            : this.state.code ,
                   op              : this.state.crdr == "Cr" ? this.state.op : -1*this.state.op ,
                   address         : this.state.address ,
@@ -107,6 +111,9 @@ class Expense extends Component {
 
   onNameChange(event) {
     this.setState({ name: event.target.value.toUpperCase() })
+  }
+  onTitleChange(event) {
+    this.setState({ title: event.target.value })
   }
 
   onIdChange(event) {
@@ -171,6 +178,15 @@ class Expense extends Component {
                                     {this.validator.message('name', this.state.name, 'required')}
                                  </div>
                               </div>
+                              <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" value={this.state.title} onChange={this.onTitleChange} class="form-control" />
+                                    {this.validator.message('title', this.state.title, 'required')}
+                                 </div>
+                              </div>
+                              </div>
+                            <div class="row" >
                               <div class="col-sm-5">
                                   <div class="form-group">
                                     <label>Ledger Group</label>
@@ -191,8 +207,7 @@ class Expense extends Component {
                                     </Link>
                                   </div>
                               </div>
-                            </div>
-                            <div class="row" >
+                           
                               
                               <div class="col-sm-4">
                                   <div class="form-group">
@@ -210,19 +225,19 @@ class Expense extends Component {
                                   ))}
                                 </select>
                              </div>
+
                               </div>  
+                              </div>
+                            <div class="row" >
                               <div class="col-sm-6">
                               <div class="form-group">
                                 <label>Phone</label>
                                 <input type="text" value={this.state.phone} onChange={this.onPhoneChange} class="form-control" />
                               </div>
-                          </div>
-                              
-                            </div>
+                          </div>                             
                            
-                            <div class="row">
                            
-                              <div class="col-sm-12">
+                              <div class="col-sm-6">
                                   <div class="form-group">
                                     <label>Address</label>
                                     <textarea multiline={true} type="text" value={this.state.address} onChange={this.onAddressChange} class="form-control" />

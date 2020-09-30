@@ -70,8 +70,8 @@ export const PdfSundryDr = (props) => (
   );
  
   const TableRow = (props) => { 
-    let arrVoucher = this.props.arrVoucher;
-    const rate = this.props.rate || 1;
+    let arrVoucher = props;
+    const rate = props.rate || 1;
 
       return (
         <View style={styles.tableData}>

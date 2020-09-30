@@ -70,7 +70,7 @@ export const PdfSundryCr = (props) => (
   );
  
   const TableRow = (props) => { 
-    let arrVoucher = props.arrVoucher;
+    let arrVoucher = props;
     const rate = props.rate || 1;
       return (
         

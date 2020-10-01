@@ -21,6 +21,7 @@ const TableRows = (props) => {
       props.arrVouchers.map((arrVoucher, index) =>
       <TableRow 
         {...arrVoucher}
+        rate={props.rates[index]}
       />
     )
     )

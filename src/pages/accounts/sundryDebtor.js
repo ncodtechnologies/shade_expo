@@ -201,7 +201,7 @@ class SundryDebtor extends Component {
                   <div class="card-body">
                     <div class="row">
                       <PDFViewer style={{width:"100%", height: 500}} >
-                        <PdfSundryDr arrVouchers={this.state.arrVouchers} date={this.formatDate(this.state.date)} />
+                        <PdfSundryDr arrVouchers={this.state.arrVouchers} rates={this.state.rates} date={this.formatDate(this.state.date)} />
                       </PDFViewer>
                     </div>
                   </div>

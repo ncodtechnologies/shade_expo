@@ -1,0 +1,261 @@
+import React, { Component } from 'react';
+import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_DT, URL_NET_PACK_TOT, URL_NET_FREIGHT, URL_UPD_PURCHASE } from './constants';
+import { URL_PL_PURCHASE, URL_PL_SALES, URL_PL_EXPENSES, URL_PL_INCOME, URL_PL_PAYROLL, 
+  URL_PL_INV_PACK_EXP, URL_PL_INV_FREIGHT_EXP, URL_PL_INV_OTHER_EXP } from './constants';
+import DatePicker from 'react-date-picker';
+import Nav from '../NavBar';
+
+class ProfitLoss extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+        fromDate: this.formatDate(new Date),
+        toDate: this.formatDate(new Date),
+        purchase_total:'',
+        sales_total:'',
+        income: [],
+        expense: [],
+        payroll: '',
+        inv_packing_exp : '',
+        inv_freight_exp: 0,
+        inv_other_exp: '',
+        dateFrom: new Date(),
+        dateTo: new Date(),
+    }
+    this.onDateFromChange = this.onDateFromChange.bind(this);
+    this.onDateToChange = this.onDateToChange.bind(this);
+  }
+   
+  loadReport() {
+    this.loadSalesTotal();
+    this.loadIncome();
+
+    this.loadPurchaseTotal();
+    this.loadExp();
+    this.loadPayroll();
+    this.loadInvPackingExp();
+  //  this.loadInvFreightExp();
+    this.loadInvOtherExp();
+  }
+
+  handleChangePurchase (e){
+    this.setState({ purchase:e.target.value})
+  }
+
+  loadPurchaseTotal(){
+    fetch(URL_PL_PURCHASE +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ purchase_total: data[0].totalPurchase }));
+  }
+
+  loadSalesTotal(){
+    fetch(URL_PL_SALES +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ sales_total: data[0].totalSales }));
+  }
+
+  loadExp(){
+    fetch(URL_PL_EXPENSES +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ expense: data }));
+  }
+
+  loadIncome(){
+    fetch(URL_PL_INCOME +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ income: data }));
+  }
+
+  loadPayroll(){
+    fetch(URL_PL_PAYROLL +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ payroll: data[0].amount }));
+  }
+
+  loadInvPackingExp(){
+    fetch(URL_PL_INV_PACK_EXP+  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ inv_packing_exp: data[0].amount }));
+  }
+
+  loadInvFreightExp(){
+    fetch(URL_PL_INV_FREIGHT_EXP +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ inv_freight_exp: data[0].amount }));
+  }
+
+  loadInvOtherExp(){
+    fetch(URL_PL_INV_OTHER_EXP +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    .then(response => response.json())
+    .then(data => this.setState({ inv_other_exp: data[0].amount }));
+  }
+
+  onDateFromChange = dateFrom => {
+    this.setState({ fromDate: this.formatDate(dateFrom), dateFrom })
+   
+  }
+  onDateToChange = dateTo => {
+    this.setState({ toDate: this.formatDate(dateTo), dateTo });
+   
+  }
+
+formatDate = date => {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+
+  render() {
+    const totalInc = this.state.sales_total + this.state.income.reduce((a, b) => +a + +(b.amount), 0);
+
+    const totalExp = this.state.purchase_total
+                   + this.state.expense.reduce((a, b) => +a + +(b.amount), 0)
+                   + this.state.payroll
+                   + this.state.inv_packing_exp
+                   + this.state.inv_freight_exp
+                   + this.state.inv_other_exp;
+
+    return (
+      <div class="wrapper" >
+      <Nav />
+      <div class="content-wrapper">
+
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Profit & Loss</h1>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+
+            <div class="card card-info" style={{width: "100%"}} >
+                  <div class="card-body p-0">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                        <th  >
+                            <div class="row" >
+                                  <div class="form-group">
+                                    <label>From</label>
+                                    <DatePicker
+                                      className={"form-control"}
+                                      onChange={this.onDateFromChange}
+                                      value={this.state.dateFrom}
+                                      format={"dd/MM/yyyy"}
+                                    />
+                                  </div>
+                              
+                                  <div class="form-group">
+                                    <label>To</label>
+                                    <DatePicker
+                                      className={"form-control"}
+                                      onChange={this.onDateToChange}
+                                      value={this.state.dateTo}
+                                      format={"dd/MM/yyyy"}
+                                    />
+                                  </div>  
+                                  <div class="col-md-4">  
+                                    <label>&nbsp;</label>            
+                                    <button type="button"  class="btn btn-block btn-success btn-flat" onClick={() =>this.loadReport()}>
+                                      Search
+                                    </button>
+                                  </div>   
+                            </div>
+                          </th>
+                          </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-6">
+                  <p class="lead">Income</p>
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody><tr>
+                        <th style={{width:"50%"}} >Sales Total:</th>
+                        <td align="right" >{Math.round(this.state.sales_total)}</td>
+                      </tr>
+                      {this.state.income.map((item,index) => (
+                      <tr>
+                        <th>{item.name} :</th>
+                        <td align="right" >{Math.round(item.amount)}</td>
+                      </tr>
+                      ))}
+                      <tr>
+                        <th>Total :</th>
+                        <td align="right" >{Math.round(totalInc)}</td>
+                      </tr>
+                    </tbody></table>
+                  </div>
+                </div>
+            <div class="col-6">
+                  <p class="lead">Expenses</p>
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                      <tr>
+                        <th style={{width:"50%"}} >Purchase:</th>
+                        <td align="right" >{Math.round(this.state.purchase_total)}</td>
+                      </tr>
+                      {this.state.expense.map((item,index) => (
+                      <tr>
+                        <th>{item.name} :</th>
+                        <td align="right" >{Math.round(item.amount)}</td>
+                      </tr>
+                      ))}
+                      <tr>
+                        <th style={{width:"50%"}} >Payroll:</th>
+                        <td align="right" >{Math.round(this.state.payroll)}</td>
+                      </tr>
+                      <tr>
+                        <th>Invoice Packing Expenses</th>
+                        <td align="right" >{Math.round(this.state.inv_packing_exp)}</td>
+                      </tr>
+                    {/*  <tr>
+                        <th>Invoice Freight Expenses</th>
+                        <td align="right" >{Math.round(this.state.inv_freight_exp)}</td>
+                      </tr>
+                    */}   <tr>
+                        <th>Invoice Other Expenses</th>
+                        <td align="right" >{Math.round(this.state.inv_other_exp)}</td>
+                      </tr>
+                      <tr>
+                        <th>Total</th>
+                        <td align="right" >{Math.round(totalExp*100)/100}</td>
+                      </tr>
+                    </tbody></table>
+                  </div>
+                </div>
+                <div class="row" style={{fontWeight: "bold", alignItems: "center", textAlign: "center", borderWidth: 1, margin: "auto", textDecorationLine: "underline"}} >
+                  Net Profit/Loss: {Math.round(totalInc-totalExp)}
+                </div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+    );
+  }
+}
+
+export default ProfitLoss;

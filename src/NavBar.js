@@ -174,6 +174,12 @@ class App extends Component {
                         <p>Sundry Debtor</p>
                       </NavLink>
                     </li>
+                    <li class="nav-item">
+                      <NavLink to={"/profit"} activeClassName="active" className="nav-link">
+                        <i class="far fa-circle nav-icon" />
+                        <p>Profil & Loss</p>
+                      </NavLink>
+                    </li>
                   </ul>
                 </li>
                 <li class="nav-item has-treeview menu-open">

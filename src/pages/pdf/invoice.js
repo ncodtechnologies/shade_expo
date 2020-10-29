@@ -27,13 +27,13 @@ const TableRows = (props) => {
     )
   }
 
-const getLedgerName = (id, array) => {
+const getLedgerName = (id, array, field) => {
   if(id==0) return ""
   var newArray = array.filter(function (el) {
     return el.id_account_head == id
   });
   if(newArray.length == 0) return "";
-  return newArray[0].account_head;
+  return field == "name" ? newArray[0].account_head : newArray[0].title;
 } 
 
 const getPlaceName = (id, array) => {
@@ -99,12 +99,12 @@ export const PdfInvoice = (props) => (
        <View style={[styles.container2,{borderBottom:1, borderColor:"#ccc"}]}>
             <View style={styles.section}>
               <Text style={styles.addressTitle}>BILL TO</Text>
-              <Text style={styles.address}>{getLedgerName(props.consigner,props.consigners)}</Text>
+              <Text style={styles.address}>{getLedgerName(props.consigner,props.consigners, "name")}</Text>
               <Text style={styles.address}>{props.consigner_address}</Text>
             </View>
             <View style={styles.section}>
               <Text style={styles.addressTitle}>CONSIGNEE {props.bill_to}</Text>
-              <Text style={styles.address}>{getLedgerName(props.consignee,props.consignees)}</Text>
+              <Text style={styles.address}>{getLedgerName(props.consignee,props.consignees, "title")}</Text>
               <Text style={styles.address}>{props.consignee_address}</Text>
             </View>
        </View>

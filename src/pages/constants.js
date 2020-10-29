@@ -63,6 +63,15 @@ export const URL_PURCHASE_VHR_EXP   = `${BASE_URL}purchase/purchaseVoucherExpens
 export const URL_NOTIFICATION       = `${BASE_URL}notification/notification`;
 export const URL_NOTIFICATION_LIST  = `${BASE_URL}notification/notification`;
 export const URL_NOTIFICATION_DEL   = `${BASE_URL}notification/notificationDel`;
+
+export const URL_PL_PURCHASE        = `${BASE_URL}statement/totalPurchase`;  
+export const URL_PL_SALES           = `${BASE_URL}statement/totalSales`;  
+export const URL_PL_EXPENSES        = `${BASE_URL}statement/expenses`;  
+export const URL_PL_INCOME          = `${BASE_URL}statement/income`;  
+export const URL_PL_PAYROLL         = `${BASE_URL}statement/payroll`;  
+export const URL_PL_INV_PACK_EXP    = `${BASE_URL}statement/invoicePackingExp`;  
+export const URL_PL_INV_FREIGHT_EXP = `${BASE_URL}statement/invoiceFreightExp`;  
+export const URL_PL_INV_OTHER_EXP   = `${BASE_URL}statement/invoiceOtherExp`;  
  
 export const LEDGER_GROUPS = {
     DESKTOP_ACCOUNT : 1,

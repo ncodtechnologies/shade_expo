@@ -15,6 +15,7 @@
     "react-dom": "^16.4.1",
     "react-form-input-validation": "^2.0.3",
     "react-js-pagination": "^3.0.3",
+    "react-json-csv": "^2.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^2.1.1",
     "react-validation": "^3.0.7",

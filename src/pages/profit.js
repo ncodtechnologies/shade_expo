@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { URL_NET_SALES_TOT,URL_NET_OTHER_EXP,URL_INVOICE_DT, URL_NET_PACK_TOT, URL_NET_FREIGHT, URL_UPD_PURCHASE } from './constants';
 import { URL_PL_PURCHASE, URL_PL_SALES, URL_PL_EXPENSES, URL_PL_INCOME, URL_PL_PAYROLL, 
   URL_PL_INV_PACK_EXP, URL_PL_INV_FREIGHT_EXP, URL_PL_INV_OTHER_EXP } from './constants';
+  import { URL_PL_PURCHASE_DT, URL_PL_SALES_DT, URL_PL_EXPENSES_DT, URL_PL_INCOME_DT, URL_PL_PAYROLL_DT, 
+    URL_PL_INV_PACK_EXP_DT, URL_PL_INV_FREIGHT_EXP_DT, URL_PL_INV_OTHER_EXP_DT } from './constants';
 import DatePicker from 'react-date-picker';
 import Nav from '../NavBar';
+import {
+  JsonToCsv,
+  useJsonToCsv
+} from 'react-json-csv';
 
 class ProfitLoss extends Component {
   constructor(props) {
@@ -113,6 +118,18 @@ formatDate = date => {
   return [year, month, day].join('-');
 }
 
+exportCSV ({filename, fields, url}){
+  const { saveAsCsv } = useJsonToCsv();
+  const style = {
+    padding: "5px"
+  };
+
+  fetch(url +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+  .then(response => response.json())
+  .then(data => data && saveAsCsv({ data, fields, filename }));
+  
+}
+
 
   render() {
     const totalInc = this.state.sales_total + this.state.income.reduce((a, b) => +a + +(b.amount), 0);
@@ -191,7 +208,16 @@ formatDate = date => {
                     <table class="table">
                       <tbody><tr>
                         <th style={{width:"50%"}} >Sales Total:</th>
-                        <td align="right" >{Math.round(this.state.sales_total)}</td>
+                        <td align="right" >{Math.round(this.state.sales_total)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Sales Detail",
+                            fields: {
+                              "date": "Date",
+                              "sales": "Sales"
+                            },
+                            url: URL_PL_SALES_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                       {this.state.income.map((item,index) => (
                       <tr>
@@ -214,21 +240,59 @@ formatDate = date => {
                       <tbody>
                       <tr>
                         <th style={{width:"50%"}} >Purchase:</th>
-                        <td align="right" >{Math.round(this.state.purchase_total)}</td>
+                        <td align="right" >
+                          {Math.round(this.state.purchase_total)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Purchase Detail",
+                            fields: {
+                              "date": "Date",
+                              "purchase": "Purchase"
+                            },
+                            url: URL_PL_PURCHASE_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                       {this.state.expense.map((item,index) => (
                       <tr>
                         <th>{item.name} :</th>
-                        <td align="right" >{Math.round(item.amount)}</td>
+                        <td align="right" >{Math.round(item.amount)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Income Details",
+                            fields: {
+                              "date": "Date",
+                              "name": "Group",
+                              "amount": "Total"
+                            },
+                            url: URL_PL_INCOME_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                       ))}
                       <tr>
                         <th style={{width:"50%"}} >Payroll:</th>
-                        <td align="right" >{Math.round(this.state.payroll)}</td>
+                        <td align="right" >{Math.round(this.state.payroll)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Payroll Details",
+                            fields: {
+                              "date": "Date",
+                              "amount": "Total"
+                            },
+                            url: URL_PL_PAYROLL_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                       <tr>
                         <th>Invoice Packing Expenses</th>
-                        <td align="right" >{Math.round(this.state.inv_packing_exp)}</td>
+                        <td align="right" >{Math.round(this.state.inv_packing_exp)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Invoice Packing Details",
+                            fields: {
+                              "invoice_no": "Invoice",
+                              "amount": "Total"
+                            },
+                            url: URL_PL_INV_PACK_EXP_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                     {/*  <tr>
                         <th>Invoice Freight Expenses</th>
@@ -236,7 +300,16 @@ formatDate = date => {
                       </tr>
                     */}   <tr>
                         <th>Invoice Other Expenses</th>
-                        <td align="right" >{Math.round(this.state.inv_other_exp)}</td>
+                        <td align="right" >{Math.round(this.state.inv_other_exp)}
+                          <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
+                            filename: "Invoice Other Details",
+                            fields: {
+                              "invoice_no": "Invoice",
+                              "amount": "Total"
+                            },
+                            url: URL_PL_INV_OTHER_EXP_DT
+                          })} ><i class="fas fa-edit"></i> </a>
+                        </td>
                       </tr>
                       <tr>
                         <th>Total</th>

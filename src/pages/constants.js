@@ -73,6 +73,15 @@ export const URL_PL_INV_PACK_EXP    = `${BASE_URL}statement/invoicePackingExp`;
 export const URL_PL_INV_FREIGHT_EXP = `${BASE_URL}statement/invoiceFreightExp`;  
 export const URL_PL_INV_OTHER_EXP   = `${BASE_URL}statement/invoiceOtherExp`;  
  
+export const URL_PL_PURCHASE_DT        = `${BASE_URL}statement/totalPurchaseDt`;  
+export const URL_PL_SALES_DT           = `${BASE_URL}statement/totalSalesDt`;  
+export const URL_PL_EXPENSES_DT        = `${BASE_URL}statement/expensesDt`;  
+export const URL_PL_INCOME_DT          = `${BASE_URL}statement/incomeDt`;  
+export const URL_PL_PAYROLL_DT         = `${BASE_URL}statement/payrollDt`;  
+export const URL_PL_INV_PACK_EXP_DT    = `${BASE_URL}statement/invoicePackingExpDt`;  
+export const URL_PL_INV_FREIGHT_EXP_DT = `${BASE_URL}statement/invoiceFreightExpDt`;  
+export const URL_PL_INV_OTHER_EXP_DT   = `${BASE_URL}statement/invoiceOtherExpDt`;  
+
 export const LEDGER_GROUPS = {
     DESKTOP_ACCOUNT : 1,
     SUPPLIER : 2,

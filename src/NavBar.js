@@ -180,6 +180,12 @@ class App extends Component {
                         <p>Profil & Loss</p>
                       </NavLink>
                     </li>
+                    <li class="nav-item">
+                      <NavLink to={"/balanceSheet"} activeClassName="active" className="nav-link">
+                        <i class="far fa-circle nav-icon" />
+                        <p>Balance Sheet</p>
+                      </NavLink>
+                    </li>
                   </ul>
                 </li>
                 <li class="nav-item has-treeview menu-open">

@@ -82,6 +82,12 @@ export const URL_PL_INV_PACK_EXP_DT    = `${BASE_URL}statement/invoicePackingExp
 export const URL_PL_INV_FREIGHT_EXP_DT = `${BASE_URL}statement/invoiceFreightExpDt`;  
 export const URL_PL_INV_OTHER_EXP_DT   = `${BASE_URL}statement/invoiceOtherExpDt`;  
 
+//Balance Sheet
+export const URL_BS_DEBTORS            = `${BASE_URL}statement/sundryDebtor`;  
+export const URL_BS_CREDITORS          = `${BASE_URL}statement/sundryCreditor`;  
+export const URL_BS_CASH_BAL           = `${BASE_URL}statement/cashBal`;  
+export const URL_BS_STOCK              = `${BASE_URL}statement/stockReport`;  
+
 export const LEDGER_GROUPS = {
     DESKTOP_ACCOUNT : 1,
     SUPPLIER : 2,

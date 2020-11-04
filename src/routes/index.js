@@ -26,6 +26,7 @@ import Login from '../pages/login';
 import Users from '../pages/users';
 import UserCreate from '../pages/userCreate';
 import ProfitLoss from '../pages/profit';
+import BalanceSheet from '../pages/balance_sheet';
 import TestCSV from '../pages/csv/test';
 import { createBrowserHistory } from "history";
 
@@ -62,6 +63,7 @@ export default function Routes() {
       <Route path="/users" exact component={Users} />
       <Route path="/userCreate/:id_user" exact component={UserCreate} />
       <Route path="/profit" exact component={ProfitLoss} />
+      <Route path="/balanceSheet" exact component={BalanceSheet} />
       <Route path="/csv" exact component={TestCSV} />
     </HashRouter>
   ) : (

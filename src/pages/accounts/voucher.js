@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Nav from '../../NavBar';
 import DatePicker from 'react-date-picker';
 import SimpleReactValidator from 'simple-react-validator';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 import { URL_VOUCHER_SAVE, URL_VOUCHER_DT ,URL_VOUCHER_DEL} from '../constants';
 import { URL_LEDGER_BY_GROUP, LEDGER_GROUPS } from '../constants';
@@ -141,14 +143,26 @@ else
 }
 
 delVoucher = (id_account_voucher) => {
-    
-  fetch(URL_VOUCHER_DEL + `/${id_account_voucher}` )
-  .then(response => { 
-    response.json();
-    const _date=this.formatDate(this.state.date);
-    this.loadVoucherList(_date,this.state.type);
-  })
-    //this.loadVoucherList(date);
+  confirmAlert({
+    title: 'Delete',
+    message: 'Are you sure?',
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: () => {
+          fetch(URL_VOUCHER_DEL + `/${id_account_voucher}` )
+          .then(response => { 
+            response.json();
+            const _date=this.formatDate(this.state.date);
+            this.loadVoucherList(_date,this.state.type);
+          })
+        }
+      },
+      {
+        label: 'No',
+      }
+    ]
+  });
 }
  formatDate = date => {
   var d = new Date(date),

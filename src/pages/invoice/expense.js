@@ -3,6 +3,8 @@ import DatePicker from 'react-date-picker';
 import { URL_EXPENSE_SAVE, URL_EXPENSE_DT } from '../constants';
 import { URL_LEDGER_DT,URL_EXPENSE_DEL ,LEDGER_GROUPS} from '../constants';
 import SimpleReactValidator from 'simple-react-validator';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 class Expense extends Component {
   constructor(props) {
@@ -56,18 +58,33 @@ formatDate = date => {
 
 
   delExpense = (id_account_voucher) => {
-    
-    fetch(URL_EXPENSE_DEL + `/${id_account_voucher}` )
-    .then(response => response.json())
-    .then(data => {
-      if(data.length>0)
-      this.setState({
-        arrExpenses: data ,
-        })
+
+  confirmAlert({
+    title: 'Delete',
+    message: 'Are you sure?',
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: () => {
+          fetch(URL_EXPENSE_DEL + `/${id_account_voucher}` )
+          .then(response => response.json())
+          .then(data => {
+            if(data.length>0)
+            this.setState({
+              arrExpenses: data ,
+              })
+              }
+            );
+            const id_invoice = this.props.id_invoice;
+            this.loadExpenseList(id_invoice);
         }
-      );
-      const id_invoice = this.props.id_invoice;
-      this.loadExpenseList(id_invoice);
+      },
+      {
+        label: 'No',
+      }
+    ]
+  });
+    
   }
 
   loadAccountHead(){

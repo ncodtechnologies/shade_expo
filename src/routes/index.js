@@ -31,8 +31,7 @@ import TestCSV from '../pages/csv/test';
 import { createBrowserHistory } from "history";
 
 export default function Routes() {
-  //const session = localStorage.getItem('ShadeUser') || ''
-  const session='abcd';
+  const session = localStorage.getItem('ShadeUser') || ''
   const history = createBrowserHistory();
   
   return session != '' ? (

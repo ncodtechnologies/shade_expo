@@ -10,9 +10,11 @@ export default class App extends Component {
       username: '',
       password: '',
       error: false,
+      year: '2021'
     }
     this.handleChangeUsername  = this.handleChangeUsername.bind(this);
     this.handleChangePassword  = this.handleChangePassword.bind(this);
+    this.onYearChange  = this.onYearChange.bind(this);
   }
 
   login = () => { 
@@ -31,6 +33,7 @@ export default class App extends Component {
         {
           this.setState({error: false})
           localStorage.setItem('ShadeUser', data[0].id_user);
+          localStorage.setItem('ShadeYear', this.state.year);
           window.location.reload();
         }
         else
@@ -43,6 +46,10 @@ export default class App extends Component {
   }
   handleChangePassword (e){
     this.setState({ password:e.target.value})
+  }
+
+  onYearChange(event) {
+    this.setState({ year: event.target.value })
   }
   
   componentDidMount() {
@@ -77,7 +84,13 @@ export default class App extends Component {
                   <span class="fas fa-lock"></span>
                 </div>
               </div>
-            </div>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" onChange={this.onYearChange} value={this.state.year}>
+                    <option value="2020" >2020</option>
+                    <option value="2021" >2021</option>
+                  </select>
+                </div>
             <div class="row">
               <div class="col-8">
                 <div class="icheck-primary">

@@ -97,6 +97,7 @@ class Invoice extends Component {
         { Id_Port: 1, Port: 'COIMBATORE' },
       ],
       btnSaveText: "Save Invoice",
+      currency: "USD"
     }
     this.handleChangeDate=this.handleChangeDate.bind(this);
     this.handleChangeBuyerDate=this.handleChangeBuyerDate.bind(this);
@@ -218,7 +219,8 @@ class Invoice extends Component {
                 discount          : data[0].discount,
                 narration         : data[0].narration,
                 freight_code      : data[0].freight_code,
-                invItems          : data[0].items || []
+                invItems          : data[0].items || [],
+                currency          : data[0].currency || "USD"
               }, () => {
                 this.props.setInvoiceNo(this.state.invoice_no);
                 this.loadOpeningBal();
@@ -277,6 +279,7 @@ class Invoice extends Component {
                   discount          : this.state.discount,
                   narration         : this.state.narration,
                   freight_code      : this.state.freight_code,
+                  currency          : this.state.currency
                 })
     };
     fetch(URL_INVOICE_SAVE, requestOptions)
@@ -399,6 +402,9 @@ class Invoice extends Component {
   handleChangeStatus (e){
     this.setState({ status:e.target.value})
   }
+  handleChangeCurrency (e){
+    this.setState({ currency:e.target.value})
+  }
   handleChangeDiscount (e){
     this.setState({ discount:e.target.value})
   }
@@ -473,6 +479,8 @@ class Invoice extends Component {
         products={this.state.products}
       />
     );
+
+    const currencies = ['ALL','AFN','ARS','AWG','AED','AZN','BSD','BBD','BDT','BYR','BZD','BMD','BOB','BAM','BWP','BGN','BRL','BND','KHR','CAD','KYD','CLP','CNY','COP','CRC','HRK','CUP','CZK','DKK','DOP','XCD','EGP','SVC','EEK','EUR','FKP','FJD','GHC','GIP','GTQ','GGP','GYD','HNL','HKD','HUF','ISK','INR','IDR','IRR','IMP','ILS','JMD','JPY','JEP','KZT','KPW','KRW','KGS','LAK','LVL','LBP','LRD','LTL','MKD','MYR','MUR','MXN','MNT','MZN','NAD','NPR','ANG','NZD','NIO','NGN','NOK','OMR','PKR','PAB','PYG','PEN','PHP','PLN','QAR','RON','RUB','SHP','SAR','RSD','SCR','SGD','SBD','SOS','ZAR','LKR','SEK','CHF','SRD','SYP','TWD','THB','TTD','TRY','TRL','TVD','UAH','GBP','USD','UYU','UZS','VEF','VND','YER','ZWD'];
 
     const grandTotal = this.state.invItems.reduce((a, b) => +a + +(b.kg * b.box), 0);
     const boxTotal = this.state.invItems.reduce((a, b) => +a + +(b.box), 0);
@@ -760,7 +768,7 @@ class Invoice extends Component {
               <div class="card-body">
                 <div class="row">
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label>Status</label>
                     <select class="form-control" onChange={e => this.handleChangeStatus(e)} value={this.state.status}>
                       {this.state.statusTypes.map(column => (
@@ -771,11 +779,22 @@ class Invoice extends Component {
                     </select>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
+                    <label>Status</label>
+                    <select class="form-control" onChange={e => this.handleChangeCurrency(e)} value={this.state.currency}>
+                      {currencies.map(column => (
+                        <option value={column}>
+                          {column}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div class="col-md-3">
                     <label>Conversion Rate</label>
                     <input type="text" onChange={e => this.handleChangeConversionRate(e)} value={this.state.conversion_rate} class="form-control" />    
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label>Frieght Code</label>
                     <input type="text" onChange={e => this.handleChangeFreightCode(e)} value={this.state.freight_code} class="form-control" />    
                   </div>

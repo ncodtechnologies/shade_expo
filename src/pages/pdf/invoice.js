@@ -157,10 +157,10 @@ export const PdfInvoice = (props) => (
               <Text style={styles.col1} ></Text>
               <Text style={styles.col2} ></Text>
               <Text style={[styles.col2,{fontFamily:"Roboto"}]} >{kgTotal(props.invItems)} kg</Text> 
-              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >$ {Math.round(grandTotal(props.invItems)*10)/10}</Text>      
+              <Text style={[styles.col3,{fontFamily:"Roboto"}]} >{Math.round(grandTotal(props.invItems)*10)/10} {props.currency}</Text>      
       </View>
       <View style={styles.tableData}>
-        <Text style={styles.colFull} >US Dollar {converter.toWords(grandTotal(props.invItems))} Only</Text>   
+        <Text style={styles.colFull} >{props.currency} {converter.toWords(grandTotal(props.invItems))} Only</Text>   
       </View>
       <View style={styles.container3} wrap={false} >
             <View style={styles.section}>
@@ -175,23 +175,23 @@ export const PdfInvoice = (props) => (
             <View style={styles.sectionBottomRight}>
               <View style={styles.box}>
                   <Text style={styles.left}>SUBTOTAL</Text>
-                  <Text style={styles.rightBottom}>$ {Math.round(grandTotal(props.invItems)*10)/10}</Text>
+                  <Text style={styles.rightBottom}>{Math.round(grandTotal(props.invItems)*10)/10} {props.currency}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>DISCOUNT</Text>
-                  <Text style={styles.rightBottom}>$ {props.discount}</Text>
+                  <Text style={styles.rightBottom}>{props.discount} {props.currency}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>NET TOTAL</Text>
-                  <Text style={styles.rightBottom}>$ {Math.round(grandTotal(props.invItems)*10)/10-props.discount}</Text>
+                  <Text style={styles.rightBottom}>{Math.round(grandTotal(props.invItems)*10)/10-props.discount} {props.currency}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.left}>OLD BALANCE </Text>
-                  <Text style={styles.rightBottom}>$ {Math.round(props.op_bal*100)/100}</Text>
+                  <Text style={styles.rightBottom}>{Math.round(props.op_bal*100)/100} {props.currency}</Text>
               </View>
               <View style={styles.box}>
                   <Text style={styles.leftBalance}>BALANCE</Text>
-                  <Text style={styles.rightBalance}>$ {Math.round(((Math.round(props.op_bal*100)/100) + Math.round(grandTotal(props.invItems)*10)/10-props.discount)*100)/100}</Text>
+                  <Text style={styles.rightBalance}>{Math.round(((Math.round(props.op_bal*100)/100) + Math.round(grandTotal(props.invItems)*10)/10-props.discount)*100)/100} {props.currency}</Text>
               </View>
            </View>
             

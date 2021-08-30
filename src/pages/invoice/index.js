@@ -712,7 +712,7 @@ class Invoice extends Component {
                       <tr>
                         <th>Description of goods</th>
                         <th style={{ width: "10%" }}>Kg</th>
-                        <th style={{ width: "15%" }}>Amount(USD)</th>
+                        <th style={{ width: "15%" }}>Amount</th>
                         <th style={{ width: "10%" }}>Total</th>
                         <th style={{ width: "10%" }} />
                       </tr>
@@ -725,7 +725,7 @@ class Invoice extends Component {
                       <th>Total</th>
                       <th>{kgTotal}</th>
                       <th></th>
-                      <th align="right">$ {Math.round(grandTotal*10)/10}</th>
+                      <th align="right">{Math.round(grandTotal*10)/10}</th>
                       <th />
                     </tfoot>
                   </table>
@@ -780,7 +780,7 @@ class Invoice extends Component {
                   </div>
 
                   <div class="col-md-3">
-                    <label>Status</label>
+                    <label>Currency</label>
                     <select class="form-control" onChange={e => this.handleChangeCurrency(e)} value={this.state.currency}>
                       {currencies.map(column => (
                         <option value={column}>

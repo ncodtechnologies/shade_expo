@@ -145,7 +145,7 @@ class App extends Component {
                   <Pagination
                     innerClass="pagination pagination-sm float-right"
                     activePage={this.state.activePage}
-                    itemsCountPerPage={10}
+                    itemsCountPerPage={20}
                     totalItemsCount={this.state.totalCount}
                     pageRangeDisplayed={5}
                     itemClass="page-item"

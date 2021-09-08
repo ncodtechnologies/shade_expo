@@ -124,6 +124,8 @@ exportCSV ({filename, fields, url}){
     padding: "5px"
   };
 
+  alert(url +  `/'${this.state.fromDate}'/'${this.state.toDate}'`);
+
   fetch(url +  `/'${this.state.fromDate}'/'${this.state.toDate}'`)
   .then(response => response.json())
   .then(data => data && saveAsCsv({ data, fields, filename }));
@@ -256,15 +258,16 @@ exportCSV ({filename, fields, url}){
                       <tr>
                         <th>{item.name} :</th>
                         <td align="right" >{Math.round(item.amount)}
+                        {index == 0 &&
                           <a style={{padding: 5}} href="javascript:void(0);" onClick={()=>this.exportCSV({
-                            filename: "Income Details",
+                            filename: "Expenses",
                             fields: {
                               "date": "Date",
                               "name": "Group",
                               "amount": "Total"
                             },
-                            url: URL_PL_INCOME_DT
-                          })} ><i class="fas fa-edit"></i> </a>
+                            url: URL_PL_EXPENSES_DT
+                          })} ><i class="fas fa-edit"></i> </a>}
                         </td>
                       </tr>
                       ))}

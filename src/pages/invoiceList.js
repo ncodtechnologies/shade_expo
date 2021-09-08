@@ -127,7 +127,7 @@ class App extends Component {
       <TableRow
         delRow={this.delRow}
         invItem={invItem} rowIndex={index}
-
+        activePage={this.state.activePage}
       />
     );
     const { show } = this.state;
@@ -244,6 +244,7 @@ class App extends Component {
                       <table class="table">
                         <thead>
                           <tr>
+                            <th style={{ width: 20 }}>Sl No</th>
                             <th style={{ width: '20%' }}>Inv. No</th>
                             <th style={{ width: '15%' }}>Date</th>
                             <th style={{ width: '30%' }}>Consignee</th>
@@ -255,6 +256,7 @@ class App extends Component {
                           {tableRows}
                         </tbody>
                         <tfoot>
+                          <td></td>
                           <td></td>
                           <td></td>
                           <td></td>
@@ -308,6 +310,7 @@ class TableRow extends React.Component {
     let invItem = this.props.invItem;
     return (
       <tr>
+        <td>{((this.props.activePage-1)*20) + this.props.rowIndex+1}</td>
         <td>{invItem.invoice_no}</td>
         <td>{invItem.date}</td>
         <td>{invItem.consignee}</td>

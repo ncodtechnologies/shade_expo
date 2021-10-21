@@ -90,11 +90,11 @@ class NetReport extends Component {
                     <table class="table">
                       <tbody><tr>
                         <th style={{width:"50%"}} >Sales Total:</th>
-                        <td align="right" >$ {Math.round(this.state.sales_total)}</td>
+                        <td align="right" >$ {Math.round(this.state.sales_total*1000)/1000}</td>
                       </tr>
                       <tr>
                         <th>Total :</th>
-                        <td align="right" >$ {Math.round(this.state.sales_total)}</td>
+                        <td align="right" >$ {Math.round(this.state.sales_total*1000)/1000}</td>
                       </tr>
                       <tr>
                         <th>Total : (Rate: {this.state.conversion_rate})</th>

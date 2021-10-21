@@ -19,6 +19,7 @@ class Expense extends Component {
       arrVouchers: [],
       arrType:[
               {type:'Allowance'},
+              {type:'Commission'},
               {type:'Salary'},
               {type:'Loan'}
             ]

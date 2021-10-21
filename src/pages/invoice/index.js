@@ -734,9 +734,9 @@ class Invoice extends Component {
                     </tbody>
                     <tfoot>
                       <th>Total</th>
-                      <th>{kgTotal}</th>
+                      <th>{Math.round(kgTotal*100)/100}</th>
                       <th></th>
-                      <th align="right">{Math.round(grandTotal*10)/10}</th>
+                      <th align="right">{Math.round(grandTotal*1000)/1000}</th>
                       <th />
                     </tfoot>
                   </table>
@@ -883,7 +883,7 @@ class TableRow extends Component {
         </td>
         <td><input type="text" class="form-control" value={invItem.kg} onChange={(e) => this.handleChangeKg(e)} /></td>
         <td><input type="text" class="form-control" value={invItem.box} onChange={(e) => this.handleChangeBox(e)} /></td>
-        <td align="right" >{Math.round(total*100)/100}</td>
+        <td align="right" >{Math.round(total*1000)/1000}</td>
         <td>
           <button type="button" onClick={this.delRow} class="btn btn-block btn-outline-danger btn-flat"><i class="fas fa-trash"></i></button>
         </td>

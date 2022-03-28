@@ -11,6 +11,8 @@ import {
   URL_PL_INV_DISC,
   URL_PL_DISC_INC,
   URL_PL_DISC_EXP,
+  URL_PL_LOCAL_SALES,
+  URL_PL_LOCAL_SALES_DR,
 } from "./constants";
 import {
   URL_PL_PURCHASE_DT,
@@ -34,6 +36,7 @@ class ProfitLoss extends Component {
       toDate: this.formatDate(new Date()),
       purchase_total: "",
       sales_total: "",
+      local_sales_total: "",
       inv_discount: "",
       discount_inc: "",
       discount_exp: "",
@@ -52,6 +55,7 @@ class ProfitLoss extends Component {
 
   loadReport() {
     this.loadSalesTotal();
+    this.loadLocalSalesTotal();
     this.loadIncome();
     this.loadDiscountInc();
 
@@ -79,6 +83,16 @@ class ProfitLoss extends Component {
     fetch(URL_PL_SALES + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
       .then((response) => response.json())
       .then((data) => this.setState({ sales_total: data[0].totalSales }));
+  }
+
+  loadLocalSalesTotal() {
+    fetch(
+      URL_PL_LOCAL_SALES + `/'${this.state.fromDate}'/'${this.state.toDate}'`
+    )
+      .then((response) => response.json())
+      .then((data) =>
+        this.setState({ local_sales_total: data[0].totalLocalSales })
+      );
   }
 
   loadInvoiceDiscount() {
@@ -177,6 +191,7 @@ class ProfitLoss extends Component {
   render() {
     const totalInc =
       this.state.sales_total +
+      this.state.local_sales_total +
       this.state.discount_inc +
       this.state.income.reduce((a, b) => +a + +b.amount, 0);
 
@@ -273,6 +288,28 @@ class ProfitLoss extends Component {
                                     sales: "Sales",
                                   },
                                   url: URL_PL_SALES_DT,
+                                })
+                              }
+                            >
+                              <i class="fas fa-edit"></i>{" "}
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th style={{ width: "50%" }}>Local Sales:</th>
+                          <td align="right">
+                            {Math.round(this.state.local_sales_total)}
+                            <a
+                              style={{ padding: 5 }}
+                              href="javascript:void(0);"
+                              onClick={() =>
+                                this.exportCSV({
+                                  filename: "Local Sales Detail",
+                                  fields: {
+                                    date: "Date",
+                                    sales: "Sales",
+                                  },
+                                  url: URL_PL_LOCAL_SALES_DR,
                                 })
                               }
                             >

@@ -68,6 +68,7 @@ export const URL_NOTIFICATION_DEL = `${BASE_URL}notification/notificationDel`;
 
 export const URL_PL_PURCHASE = `${BASE_URL}statement/totalPurchase`;
 export const URL_PL_SALES = `${BASE_URL}statement/totalSales`;
+export const URL_PL_LOCAL_SALES = `${BASE_URL}statement/totalLocalSales`;
 export const URL_PL_EXPENSES = `${BASE_URL}statement/expenses`;
 export const URL_PL_INCOME = `${BASE_URL}statement/income`;
 export const URL_PL_PAYROLL = `${BASE_URL}statement/payroll`;
@@ -79,6 +80,7 @@ export const URL_PL_DISC_INC = `${BASE_URL}statement/totalDiscountIncome`;
 export const URL_PL_DISC_EXP = `${BASE_URL}statement/totalDiscountExpense`;
 
 export const URL_PL_PURCHASE_DT = `${BASE_URL}statement/totalPurchaseDt`;
+export const URL_PL_LOCAL_SALES_DR = `${BASE_URL}statement/totalLocalSalesDt`;
 export const URL_PL_SALES_DT = `${BASE_URL}statement/totalSalesDt`;
 export const URL_PL_EXPENSES_DT = `${BASE_URL}statement/expensesDt`;
 export const URL_PL_INCOME_DT = `${BASE_URL}statement/incomeDt`;

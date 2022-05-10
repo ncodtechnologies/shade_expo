@@ -34,7 +34,7 @@ class BalanceSheet extends Component {
     super(props);
     this.state = {
       fromDate: "2020-01-01",
-      toDate: this.formatDate(new Date()),
+      toDate: new Date(),
       purchase_total: "",
       sales_total: "",
       income: [],
@@ -87,38 +87,54 @@ class BalanceSheet extends Component {
   }
 
   loadPurchaseTotal() {
-    fetch(URL_PL_PURCHASE + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      URL_PL_PURCHASE +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ purchase_total: data[0].totalPurchase }));
   }
 
   loadSalesTotal() {
-    fetch(URL_PL_SALES + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      URL_PL_SALES +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ sales_total: data[0].totalSales }));
   }
 
   loadExp() {
-    fetch(URL_PL_EXPENSES + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      URL_PL_EXPENSES +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ expense: data }));
   }
 
   loadIncome() {
-    fetch(URL_PL_INCOME + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      URL_PL_INCOME +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ income: data }));
   }
 
   loadPayroll() {
-    fetch(URL_PL_PAYROLL + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      URL_PL_PAYROLL +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ payroll: data[0].amount }));
   }
 
   loadInvPackingExp() {
     fetch(
-      URL_PL_INV_PACK_EXP + `/'${this.state.fromDate}'/'${this.state.toDate}'`
+      URL_PL_INV_PACK_EXP +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
     )
       .then((response) => response.json())
       .then((data) => this.setState({ inv_packing_exp: data[0].amount }));
@@ -127,7 +143,7 @@ class BalanceSheet extends Component {
   loadInvFreightExp() {
     fetch(
       URL_PL_INV_FREIGHT_EXP +
-        `/'${this.state.fromDate}'/'${this.state.toDate}'`
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
     )
       .then((response) => response.json())
       .then((data) => this.setState({ inv_freight_exp: data[0].amount }));
@@ -135,14 +151,17 @@ class BalanceSheet extends Component {
 
   loadInvOtherExp() {
     fetch(
-      URL_PL_INV_OTHER_EXP + `/'${this.state.fromDate}'/'${this.state.toDate}'`
+      URL_PL_INV_OTHER_EXP +
+        `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
     )
       .then((response) => response.json())
       .then((data) => this.setState({ inv_other_exp: data[0].amount }));
   }
 
   onDateFromChange = (dateFrom) => {
-    this.setState({ fromDate: this.formatDate(dateFrom), dateFrom });
+    this.setState({ toDate: dateFrom }, () => {
+      this.loadReport();
+    });
   };
 
   onDateToChange = (dateTo) => {
@@ -162,7 +181,7 @@ class BalanceSheet extends Component {
   }
 
   loadSundryDebtors = () => {
-    const date = this.state.toDate;
+    const date = this.formatDate(this.state.toDate);
     fetch(URL_BS_DEBTORS + `/${0}/'${date}'`)
       .then((response) => response.json())
       .then((data) => {
@@ -173,7 +192,7 @@ class BalanceSheet extends Component {
   };
 
   loadSundryCreditors = () => {
-    const date = this.state.toDate;
+    const date = this.formatDate(this.state.toDate);
     fetch(URL_BS_CREDITORS + `/${0}/'${date}'`)
       .then((response) => response.json())
       .then((data) => {
@@ -184,13 +203,17 @@ class BalanceSheet extends Component {
   };
 
   loadCashAccBal() {
-    fetch(URL_BS_CASH_BAL + `/'${this.state.fromDate}'/'${10004}'`)
+    fetch(
+      URL_BS_CASH_BAL + `/'${this.formatDate(this.state.toDate)}'/'${10004}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ cash_acc: data[0].balance }));
   }
 
   loadICICIAccBal() {
-    fetch(URL_BS_CASH_BAL + `/'${this.state.fromDate}'/'${10003}'`)
+    fetch(
+      URL_BS_CASH_BAL + `/'${this.formatDate(this.state.toDate)}'/'${10003}'`
+    )
       .then((response) => response.json())
       .then((data) => this.setState({ icici_acc: data[0].balance }));
   }
@@ -225,7 +248,9 @@ class BalanceSheet extends Component {
       padding: "5px",
     };
 
-    fetch(url + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+    fetch(
+      url + `/'${this.state.fromDate}'/'${this.formatDate(this.state.toDate)}'`
+    )
       .then((response) => response.json())
       .then((data) => data && saveAsCsv({ data, fields, filename }));
   }
@@ -287,6 +312,17 @@ class BalanceSheet extends Component {
           <div class="content"></div>
 
           <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Date</label>
+                <DatePicker
+                  className={"form-control"}
+                  onChange={this.onDateFromChange}
+                  value={this.state.toDate}
+                  format={"dd/MM/yyyy"}
+                />
+              </div>
+            </div>
             <div class="col-md-6">
               <div class="card card-info">
                 <div class="card-body p-0">

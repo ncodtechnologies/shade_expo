@@ -49,6 +49,9 @@ class BalanceSheet extends Component {
       debtors: [],
       rates: [],
       creditors: [],
+      asset_ledgers: [],
+      liabilites_ledgers: [],
+
       cash_acc: 0,
       icici_acc: 0,
       fish_stock: 0,
@@ -202,6 +205,28 @@ class BalanceSheet extends Component {
       });
   };
 
+  loadAssetLedgers = () => {
+    const date = this.formatDate(this.state.toDate);
+    fetch(URL_BS_DEBTORS + `/${12}/'${date}'`)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          asset_ledgers: data,
+        });
+      });
+  };
+
+  loadLiabilityLedgers = () => {
+    const date = this.formatDate(this.state.toDate);
+    fetch(URL_BS_CREDITORS + `/${13}/'${date}'`)
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          liabilites_ledgers: data,
+        });
+      });
+  };
+
   loadCashAccBal() {
     fetch(
       URL_BS_CASH_BAL + `/'${this.formatDate(this.state.toDate)}'/'${10004}'`
@@ -268,7 +293,10 @@ class BalanceSheet extends Component {
       this.state.inv_freight_exp +
       this.state.inv_other_exp;
 
-    const tableRowsDebt = this.state.debtors.map((arrVoucher, index) => (
+    const tableRowsDebt = [
+      ...this.state.debtors,
+      ...this.state.asset_ledgers,
+    ].map((arrVoucher, index) => (
       <TableRowDebt
         arrVoucher={arrVoucher}
         rate={this.state.rates[index]}
@@ -276,19 +304,28 @@ class BalanceSheet extends Component {
       />
     ));
     const rates = this.state.rates;
-    const totalDebt = this.state.creditors.reduce((a, b, index) => {
+    const totalDebt = [
+      ...this.state.creditors,
+      ...this.state.liabilites_ledgers,
+    ].reduce((a, b, index) => {
       const rate = rates[index] || 1;
       return +a + +(b.closing_balance * rate);
     }, 0);
 
-    const tableRowsCredit = this.state.creditors.map((arrVoucher, index) => (
+    const tableRowsCredit = [
+      ...this.state.creditors,
+      ...this.state.liabilites_ledgers,
+    ].map((arrVoucher, index) => (
       <TableRowCredit arrVoucher={arrVoucher} changeRate={this.changeRate} />
     ));
     const totalCredit =
-      this.state.debtors.reduce((a, b, index) => {
-        const rate = 1;
-        return +a + +(b.closing_balance * rate);
-      }, 0) +
+      [...this.state.debtors, ...this.state.asset_ledgers].reduce(
+        (a, b, index) => {
+          const rate = 1;
+          return +a + +(b.closing_balance * rate);
+        },
+        0
+      ) +
       this.state.cash_acc +
       this.state.icici_acc +
       this.state.fish_stock +

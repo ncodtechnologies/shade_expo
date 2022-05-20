@@ -13,6 +13,7 @@ import {
   URL_PL_DISC_EXP,
   URL_PL_LOCAL_SALES,
   URL_PL_LOCAL_SALES_DR,
+  URL_PL_OTHER_INCOME,
 } from "./constants";
 import {
   URL_PL_PURCHASE_DT,
@@ -46,6 +47,7 @@ class ProfitLoss extends Component {
       inv_packing_exp: "",
       inv_freight_exp: 0,
       inv_other_exp: "",
+      other_income: "",
       dateFrom: new Date(),
       dateTo: new Date(),
     };
@@ -67,6 +69,7 @@ class ProfitLoss extends Component {
     this.loadInvOtherExp();
     this.loadDiscountExp();
     this.loadInvoiceDiscount();
+    this.loadOtherIncome();
   }
 
   handleChangePurchase(e) {
@@ -93,6 +96,14 @@ class ProfitLoss extends Component {
       .then((data) =>
         this.setState({ local_sales_total: data[0].totalLocalSales })
       );
+  }
+
+  loadOtherIncome() {
+    fetch(
+      URL_PL_OTHER_INCOME + `/'${this.state.fromDate}'/'${this.state.toDate}'`
+    )
+      .then((response) => response.json())
+      .then((data) => this.setState({ other_income: data[0].other_income }));
   }
 
   loadInvoiceDiscount() {
@@ -193,6 +204,7 @@ class ProfitLoss extends Component {
       this.state.sales_total +
       this.state.local_sales_total +
       this.state.discount_inc +
+      this.state.other_income +
       this.state.income.reduce((a, b) => +a + +b.amount, 0);
 
     const totalExp =
@@ -321,6 +333,12 @@ class ProfitLoss extends Component {
                           <th style={{ width: "50%" }}>Discount Income:</th>
                           <td align="right">
                             {Math.round(this.state.discount_inc)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <th style={{ width: "50%" }}>Other Income:</th>
+                          <td align="right">
+                            {Math.round(this.state.other_income)}
                           </td>
                         </tr>
                         {this.state.income.map((item, index) => (

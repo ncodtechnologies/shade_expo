@@ -1,5 +1,5 @@
 const year = localStorage.getItem("ShadeYear") || "2020";
-const BASE_URL = `http://198.12.251.14:3000/${year}/`;
+const BASE_URL = `http://68.178.161.183:3000/${year}/`;
 
 export const URL_LOGIN = `${BASE_URL}login/login`;
 export const URL_USER_SAVE = `${BASE_URL}login/users`;

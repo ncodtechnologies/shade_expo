@@ -124,7 +124,7 @@ class Expense extends Component {
           id_ledger_from: this.state.id_ledger_from,
           id_ledger_to: this.state.id_ledger_to,
           description: this.state.description,
-          rate: this.state.rate,
+          rate: parseFloat(this.state.rate) || 0,
           amount:
             (parseFloat(this.state.amount) || 0) +
             (parseFloat(this.state.discount) || 0),

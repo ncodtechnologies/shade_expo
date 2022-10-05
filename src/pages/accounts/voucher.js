@@ -128,7 +128,7 @@ class Expense extends Component {
           amount:
             (parseFloat(this.state.amount) || 0) +
             (parseFloat(this.state.discount) || 0),
-          discount: this.state.discount,
+          discount: parseFloat(this.state.discount) || 0,
           type: this.state.type,
           voucher_no: this.state.voucher_no,
           id_invoice: this.state.id_invoice,

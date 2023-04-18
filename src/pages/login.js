@@ -9,7 +9,7 @@ export default class App extends Component {
       username: "",
       password: "",
       error: false,
-      year: "2022",
+      year: "2023",
     };
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -100,6 +100,7 @@ export default class App extends Component {
                     <option value="2020">2020</option>
                     <option value="2021">2021</option>
                     <option value="2022">2022</option>
+                    <option value="2023">2023</option>
                   </select>
                 </div>
                 <div class="row">

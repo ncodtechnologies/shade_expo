@@ -75,6 +75,7 @@ export const URL_PL_PAYROLL = `${BASE_URL}statement/payroll`;
 export const URL_PL_INV_PACK_EXP = `${BASE_URL}statement/invoicePackingExp`;
 export const URL_PL_INV_FREIGHT_EXP = `${BASE_URL}statement/invoiceFreightExp`;
 export const URL_PL_INV_OTHER_EXP = `${BASE_URL}statement/invoiceOtherExp`;
+export const URL_PL_DAILY_EXP = `${BASE_URL}statement/dailyExp`;
 export const URL_PL_INV_DISC = `${BASE_URL}statement/totalInvoiceDiscount`;
 export const URL_PL_OTHER_INCOME = `${BASE_URL}statement/otherIncome`;
 export const URL_PL_DISC_INC = `${BASE_URL}statement/totalDiscountIncome`;

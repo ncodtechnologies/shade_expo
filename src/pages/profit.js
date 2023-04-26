@@ -8,6 +8,7 @@ import {
   URL_PL_INV_PACK_EXP,
   URL_PL_INV_FREIGHT_EXP,
   URL_PL_INV_OTHER_EXP,
+  URL_PL_DAILY_EXP,
   URL_PL_INV_DISC,
   URL_PL_DISC_INC,
   URL_PL_DISC_EXP,
@@ -44,10 +45,11 @@ class ProfitLoss extends Component {
       income: [],
       expense: [],
       payroll: "",
-      inv_packing_exp: "",
+      inv_packing_exp: 0,
       inv_freight_exp: 0,
-      inv_other_exp: "",
-      other_income: "",
+      daily_exp: 0,
+      inv_other_exp: 0,
+      other_income: 0,
       dateFrom: new Date(),
       dateTo: new Date(),
     };
@@ -67,6 +69,7 @@ class ProfitLoss extends Component {
     this.loadInvPackingExp();
     //  this.loadInvFreightExp();
     this.loadInvOtherExp();
+    this.loadDailyExp();
     this.loadDiscountExp();
     this.loadInvoiceDiscount();
     this.loadOtherIncome();
@@ -167,6 +170,12 @@ class ProfitLoss extends Component {
       .then((data) => this.setState({ inv_other_exp: data[0].amount }));
   }
 
+  loadDailyExp() {
+    fetch(URL_PL_DAILY_EXP + `/'${this.state.fromDate}'/'${this.state.toDate}'`)
+      .then((response) => response.json())
+      .then((data) => this.setState({ daily_exp: data[0].daily_exp }));
+  }
+
   onDateFromChange = (dateFrom) => {
     this.setState({ fromDate: this.formatDate(dateFrom), dateFrom });
   };
@@ -208,14 +217,16 @@ class ProfitLoss extends Component {
       this.state.income.reduce((a, b) => +a + +b.amount, 0);
 
     const totalExp =
-      this.state.purchase_total +
-      this.state.discount_exp +
-      this.state.inv_discount +
-      this.state.expense.reduce((a, b) => +a + +b.amount, 0) +
-      this.state.payroll +
-      this.state.inv_packing_exp +
-      this.state.inv_freight_exp +
-      this.state.inv_other_exp;
+      parseInt(this.state.purchase_total) ||
+      0 + parseInt(this.state.discount_exp) ||
+      0 + parseInt(this.state.inv_discount) ||
+      0 + parseInt(this.state.expense.reduce((a, b) => +a + +b.amount, 0)) ||
+      0 + parseInt(this.state.payroll) ||
+      0 + parseInt(this.state.inv_packing_exp) ||
+      0 + parseInt(this.state.inv_freight_exp) ||
+      0 + parseInt(this.state.daily_exp) ||
+      0 + parseInt(this.state.inv_other_exp) ||
+      0;
 
     return (
       <div class="wrapper">
@@ -413,7 +424,7 @@ class ProfitLoss extends Component {
                         <tr>
                           <th style={{ width: "50%" }}>Payroll:</th>
                           <td align="right">
-                            {Math.round(this.state.payroll)}
+                            {Math.round(this.state.payroll) || 0}
                             <a
                               style={{ padding: 5 }}
                               href="javascript:void(0);"
@@ -435,19 +446,19 @@ class ProfitLoss extends Component {
                         <tr>
                           <th style={{ width: "50%" }}>Discount Expense:</th>
                           <td align="right">
-                            {Math.round(this.state.discount_exp)}
+                            {Math.round(this.state.discount_exp) || 0}
                           </td>
                         </tr>
                         <tr>
                           <th style={{ width: "50%" }}>Invoice Discount:</th>
                           <td align="right">
-                            {Math.round(this.state.inv_discount)}
+                            {Math.round(this.state.inv_discount) || 0}
                           </td>
                         </tr>
                         <tr>
                           <th>Invoice Packing Expenses</th>
                           <td align="right">
-                            {Math.round(this.state.inv_packing_exp)}
+                            {Math.round(this.state.inv_packing_exp) || 0}
                             <a
                               style={{ padding: 5 }}
                               href="javascript:void(0);"
@@ -491,6 +502,12 @@ class ProfitLoss extends Component {
                             >
                               <i class="fas fa-edit"></i>{" "}
                             </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Daily Expenses</th>
+                          <td align="right">
+                            {Math.round(this.state.daily_exp) || 0}
                           </td>
                         </tr>
                         <tr>
